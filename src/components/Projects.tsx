@@ -83,7 +83,7 @@ export default function Projects() {
   const p = projects[current]
 
   return (
-    <section id="projetos" style={{ backgroundColor: '#000', padding: '120px 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+    <section id="projetos" style={{ backgroundColor: '#09090B', padding: '120px 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}

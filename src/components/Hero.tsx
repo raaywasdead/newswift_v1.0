@@ -3,14 +3,14 @@ import { ArrowRight } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import Aurora from './Aurora'
 
-const WORDS    = ['VENDEM.', 'ATRAEM.', 'MARCAM.', 'LUCRAM.']
-const TYPE_MS  = 85
-const DEL_MS   = 40
+const WORDS = ['VENDEM.', 'ATRAEM.', 'MARCAM.', 'LUCRAM.']
+const TYPE_MS = 85
+const DEL_MS = 40
 const PAUSE_MS = 2000
 
 function useTypewriter() {
   const [display, setDisplay] = useState(WORDS[0])
-  const wordIdxRef  = useRef(0)
+  const wordIdxRef = useRef(0)
   const deletingRef = useRef(false)
 
   useEffect(() => {
@@ -39,7 +39,7 @@ function useTypewriter() {
         } else {
           // Finished deleting — move to next word
           deletingRef.current = false
-          wordIdxRef.current  = (wordIdxRef.current + 1) % WORDS.length
+          wordIdxRef.current = (wordIdxRef.current + 1) % WORDS.length
           setDisplay('')
           timer = setTimeout(tick, TYPE_MS)
         }
@@ -54,15 +54,15 @@ function useTypewriter() {
 }
 
 const icons = [
-  { src: '/icons/java.png',       alt: 'Java' },
-  { src: '/icons/css.png',        alt: 'CSS3' },
+  { src: '/icons/java.png', alt: 'Java' },
+  { src: '/icons/css.png', alt: 'CSS3' },
   { src: '/icons/javascript.png', alt: 'JavaScript' },
   { src: '/icons/typescript.png', alt: 'TypeScript' },
-  { src: '/icons/html.png',       alt: 'HTML5' },
-  { src: '/icons/figma.png',      alt: 'Figma' },
-  { src: '/icons/react.png',      alt: 'React' },
+  { src: '/icons/html.png', alt: 'HTML5' },
+  { src: '/icons/figma.png', alt: 'Figma' },
+  { src: '/icons/react.png', alt: 'React' },
   { src: '/icons/postgresql.png', alt: 'PostgreSQL' },
-  { src: '/icons/vscode.png',     alt: 'VS Code' },
+  { src: '/icons/vscode.png', alt: 'VS Code' },
 ]
 
 const ticker = [...icons, ...icons, ...icons, ...icons]
@@ -70,7 +70,7 @@ const ticker = [...icons, ...icons, ...icons, ...icons]
 const stats = [
   { value: '100%', label: 'Satisfação' },
   { value: '<15d', label: 'Entrega média' },
-  { value: '3',    label: 'Devs dedicados' },
+  { value: '3', label: 'Devs dedicados' },
 ]
 
 export default function Hero() {
@@ -149,7 +149,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.18 }}
-            style={{ fontSize: '15px', color: '#6b6b7b', lineHeight: 1.85, maxWidth: '440px', margin: 0 }}
+            style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, maxWidth: '440px', margin: 0 }}
           >
             Somos três desenvolvedores formados pelo IOS na PUC-RS. Transformamos ideias em presença digital com prazo real, código limpo e design que de fato converte.
           </motion.p>
@@ -189,7 +189,7 @@ export default function Hero() {
             {stats.map((s, i) => (
               <div key={s.label} style={{ paddingRight: '32px', marginRight: '32px', borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
                 <div style={{ fontSize: 'clamp(1.5rem, 2.8vw, 2.1rem)', fontWeight: 900, color: '#00FF88', letterSpacing: '-0.03em', lineHeight: 1, textShadow: '0 0 24px rgba(0,255,136,0.35)' }}>{s.value}</div>
-                <div style={{ fontSize: '10px', color: '#3a3a42', marginTop: '6px', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700 }}>{s.label}</div>
+                <div style={{ fontSize: '10px', color: '#777788', marginTop: '6px', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700 }}>{s.label}</div>
               </div>
             ))}
           </motion.div>

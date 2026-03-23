@@ -52,7 +52,7 @@ const linkStyle: React.CSSProperties = {
 
 export default function Footer() {
   return (
-    <footer style={{ backgroundColor: '#000', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+    <footer style={{ backgroundColor: '#09090B', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '72px 40px 0' }}>
 
         {/* ── 3-col grid ── */}
@@ -66,7 +66,7 @@ export default function Footer() {
                 New<span style={{ color: '#00FF88' }}>Swift</span>
               </span>
             </a>
-            <p style={{ fontSize: '13px', color: '#3a3a3a', lineHeight: 1.7, maxWidth: '220px' }}>
+            <p style={{ fontSize: '13px', color: '#8888a0', lineHeight: 1.7, maxWidth: '220px' }}>
               Três devs. Uma missão. Sites que de fato entregam resultado.
             </p>
           </div>
@@ -144,9 +144,9 @@ export default function Footer() {
 
         {/* ── Bottom bar ── */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.04)', padding: '20px 0', textAlign: 'center' }}>
-          <span style={{ fontSize: '12px', color: '#2a2a2a' }}>
+          <span style={{ fontSize: '12px', color: '#666677' }}>
             Todos os direitos reservados © {new Date().getFullYear()} | Desenvolvido por{' '}
-            <span style={{ color: '#3a3a3a', fontWeight: 700 }}>NewSwift</span>.
+            <span style={{ color: '#8888a0', fontWeight: 700 }}>NewSwift</span>.
           </span>
         </div>
       </div>

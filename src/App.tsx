@@ -31,7 +31,7 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
 
 function Landing() {
   return (
-    <main style={{ backgroundColor: '#000', minHeight: '100vh' }}>
+    <main style={{ backgroundColor: '#09090B', minHeight: '100vh' }}>
       <Header />
       <Hero />
       <About />

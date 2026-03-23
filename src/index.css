@@ -7,7 +7,9 @@
   inherits: false;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -24,11 +26,15 @@
   --border: rgba(255, 255, 255, 0.07);
   --border-green: rgba(0, 255, 136, 0.2);
   --text: #ffffff;
-  --text-muted: #4a4a55;
-  --text-secondary: #6b6b7b;
+  --text-muted: #888899;
+  --text-secondary: #9090a0;
+  --text-dim: #555566;
 }
 
-html { scroll-behavior: smooth; background-color: var(--bg); }
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+}
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -40,13 +46,29 @@ body {
 }
 
 
-::selection { background: rgba(0,255,136,0.2); color: #fff; }
+::selection {
+  background: rgba(0, 255, 136, 0.2);
+  color: #fff;
+}
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,255,136,0.2); border-radius: 2px; }
+::-webkit-scrollbar {
+  width: 4px;
+}
 
-.aurora-canvas canvas { width: 100% !important; height: 100% !important; display: block; }
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 136, 0.2);
+  border-radius: 2px;
+}
+
+.aurora-canvas canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
 
 /* ── Buttons ── */
 .btn-primary {
@@ -54,23 +76,26 @@ body {
   color: #000;
   font-weight: 700;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 20px rgba(0,255,136,0.25), inset 0 1px 0 rgba(255,255,255,0.18);
+  box-shadow: 0 4px 20px rgba(0, 255, 136, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
+
 .btn-primary:hover {
   background: #00e07a;
-  box-shadow: 0 8px 40px rgba(0,255,136,0.45), inset 0 1px 0 rgba(255,255,255,0.18);
+  box-shadow: 0 8px 40px rgba(0, 255, 136, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.18);
   transform: translateY(-2px);
 }
+
 .btn-outline {
   background: transparent;
   color: var(--text-secondary);
   border: 1px solid var(--border);
   transition: all 0.2s ease;
 }
+
 .btn-outline:hover {
-  border-color: rgba(0,255,136,0.3);
+  border-color: rgba(0, 255, 136, 0.3);
   color: #fff;
-  background: rgba(0,255,136,0.04);
+  background: rgba(0, 255, 136, 0.04);
 }
 
 /* ── Cards ── */
@@ -79,14 +104,18 @@ body {
   border: 1px solid var(--border);
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
+
 .card:hover {
-  border-color: rgba(0,255,136,0.22);
+  border-color: rgba(0, 255, 136, 0.22);
   transform: translateY(-3px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,255,136,0.06);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 255, 136, 0.06);
 }
 
 /* ── Typography utilities ── */
-.mono { font-family: 'SF Mono', 'Fira Code', ui-monospace, monospace; }
+.mono {
+  font-family: 'SF Mono', 'Fira Code', ui-monospace, monospace;
+}
+
 .section-label {
   font-size: 0.6875rem;
   font-weight: 600;
@@ -98,71 +127,117 @@ body {
 /* ── Dividers ── */
 .divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
 }
 
 /* ── Typewriter cursor blink ── */
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 /* ── Rotating gradient border (photo frame) ── */
 @keyframes spin-angle {
-  to { --angle: 360deg; }
+  to {
+    --angle: 360deg;
+  }
 }
+
 .rotating-border {
   --angle: 0deg;
   animation: spin-angle 5s linear infinite;
-  background: conic-gradient(
-    from var(--angle),
-    transparent 0%,
-    rgba(0, 255, 136, 0.0) 30%,
-    rgba(0, 255, 136, 0.7) 45%,
-    rgba(0, 255, 136, 0.9) 50%,
-    rgba(0, 255, 136, 0.7) 55%,
-    rgba(0, 255, 136, 0.0) 70%,
-    transparent 100%
-  );
+  background: conic-gradient(from var(--angle),
+      transparent 0%,
+      rgba(0, 255, 136, 0.0) 30%,
+      rgba(0, 255, 136, 0.7) 45%,
+      rgba(0, 255, 136, 0.9) 50%,
+      rgba(0, 255, 136, 0.7) 55%,
+      rgba(0, 255, 136, 0.0) 70%,
+      transparent 100%);
   border-radius: 14px;
 }
 
 /* ── Float animation for floating badges ── */
 @keyframes float-y {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
-.float-y { animation: float-y 4s ease-in-out infinite; }
+
+.float-y {
+  animation: float-y 4s ease-in-out infinite;
+}
 
 /* ── Glow breathe for accent elements ── */
 @keyframes glow-breathe {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.02); }
+
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
 }
-.glow-breathe { animation: glow-breathe 3s ease-in-out infinite; }
+
+.glow-breathe {
+  animation: glow-breathe 3s ease-in-out infinite;
+}
 
 /* ── Icon conveyor belt ── */
 @keyframes ticker {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
+
 .ticker-track {
   display: flex;
   width: max-content;
   animation: ticker 30s linear infinite;
 }
-.ticker-track:hover { animation-play-state: paused; }
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
 
 @keyframes icon-ticker {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-25%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-25%);
+  }
 }
+
 .icon-ticker-track {
   display: flex;
   width: max-content;
   animation: icon-ticker 28s linear infinite;
   will-change: transform;
 }
+
 .ticker-wrap {
   overflow: hidden;
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
@@ -171,9 +246,15 @@ body {
 
 /* ── Marquee belt (text between sections) ── */
 @keyframes marquee-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
+
 .marquee-belt {
   display: flex;
   width: max-content;
@@ -183,16 +264,44 @@ body {
 
 /* ── Pulse dot ── */
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--green); }
-  50%       { opacity: 0.5; box-shadow: 0 0 4px var(--green); }
+
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 8px var(--green);
+  }
+
+  50% {
+    opacity: 0.5;
+    box-shadow: 0 0 4px var(--green);
+  }
 }
-.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
 
 /* ── Blob drift ── */
 @keyframes blob-drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%  { transform: translate(24px, -20px) scale(1.04); }
-  66%  { transform: translate(-16px, 16px) scale(0.97); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(24px, -20px) scale(1.04);
+  }
+
+  66% {
+    transform: translate(-16px, 16px) scale(0.97);
+  }
 }
-.blob-drift { animation: blob-drift 12s ease-in-out infinite; }
-.blob-drift-r { animation: blob-drift 15s ease-in-out infinite reverse; }
+
+.blob-drift {
+  animation: blob-drift 12s ease-in-out infinite;
+}
+
+.blob-drift-r {
+  animation: blob-drift 15s ease-in-out infinite reverse;
+}

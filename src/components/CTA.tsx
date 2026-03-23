@@ -113,7 +113,7 @@ export default function CTA() {
           >
             VAMOS NESSA
           </Link>
-          <span style={{ fontSize: '11px', color: '#2a2a2a', fontWeight: 600 }}>Consultoria gratuita · Sem compromisso</span>
+          <span style={{ fontSize: '11px', color: '#8888a0', fontWeight: 600 }}>Consultoria gratuita · Sem compromisso</span>
         </motion.div>
 
         {/* Divider */}
@@ -124,7 +124,7 @@ export default function CTA() {
           style={{ display: 'flex', alignItems: 'center', gap: '16px', margin: '48px auto', maxWidth: '280px' }}
         >
           <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255,255,255,0.06)' }} />
-          <span style={{ fontSize: '10px', color: '#242424', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>ou nos encontre em</span>
+          <span style={{ fontSize: '10px', color: '#666677', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>ou nos encontre em</span>
           <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255,255,255,0.06)' }} />
         </motion.div>
 

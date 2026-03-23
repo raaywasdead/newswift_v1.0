@@ -193,7 +193,7 @@ export default function BeforeAfter() {
   }, [])
 
   return (
-    <section id="resultados" style={{ backgroundColor: '#000', padding: '96px 0' }} ref={sectionRef}>
+    <section id="resultados" style={{ backgroundColor: '#09090B', padding: '96px 0' }} ref={sectionRef}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}

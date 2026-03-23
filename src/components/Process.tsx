@@ -120,7 +120,7 @@ export default function Process() {
   }, [])
 
   return (
-    <section id="processo" ref={sectionRef} style={{ backgroundColor: '#000', padding: '140px 0 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+    <section id="processo" ref={sectionRef} style={{ backgroundColor: '#09090B', padding: '140px 0 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
 
         {/* Header */}
@@ -137,7 +137,7 @@ export default function Process() {
               Quatro etapas.<br />Zero surpresas.
             </h2>
           </div>
-          <p style={{ fontSize: '14px', color: '#444', maxWidth: '280px', lineHeight: 1.75 }}>
+          <p style={{ fontSize: '14px', color: '#8888a0', maxWidth: '280px', lineHeight: 1.75 }}>
             Você aprova cada etapa antes de avançar para a próxima.
           </p>
         </motion.div>
@@ -230,24 +230,24 @@ function StepCard({ s, i }: { s: typeof steps[number]; i: number }) {
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
         <span id={`step-num-${i}`} className="mono" style={{ fontSize: '11px', fontWeight: 700, color: '#1a1a1a', letterSpacing: '0.1em' }}>{s.n}</span>
-        <span style={{ fontSize: '9px', fontWeight: 700, color: '#252525', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{s.tag}</span>
+        <span style={{ fontSize: '9px', fontWeight: 700, color: '#777788', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{s.tag}</span>
       </div>
 
       <h4 style={{ fontSize: '17px', fontWeight: 800, color: '#fff', letterSpacing: '-0.025em', marginBottom: '10px', lineHeight: 1.15 }}>{s.title}</h4>
 
-      <p style={{ fontSize: '13px', color: '#444', lineHeight: 1.75, marginBottom: '18px' }}>{s.desc}</p>
+      <p style={{ fontSize: '13px', color: '#8888a0', lineHeight: 1.75, marginBottom: '18px' }}>{s.desc}</p>
 
       <div style={{ paddingTop: '14px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
-        <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', color: '#252525', textTransform: 'uppercase', marginBottom: '2px' }}>Você recebe</span>
+        <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', color: '#666677', textTransform: 'uppercase', marginBottom: '2px' }}>Você recebe</span>
         {s.receives.map(item => (
           <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'rgba(0,200,150,0.35)', flexShrink: 0 }} />
-            <span style={{ fontSize: '12px', color: '#3a3a3a' }}>{item}</span>
+            <div style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'rgba(0,200,150,0.6)', flexShrink: 0 }} />
+            <span style={{ fontSize: '12px', color: '#9090a8' }}>{item}</span>
           </div>
         ))}
       </div>
 
-      <span className="mono" style={{ fontSize: '10px', color: '#242424' }}>↳ {s.duration}</span>
+      <span className="mono" style={{ fontSize: '10px', color: '#666677' }}>→ {s.duration}</span>
     </>
   )
 }

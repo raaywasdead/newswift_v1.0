@@ -63,7 +63,7 @@ export default function Services() {
   const [expanded, setExpanded] = useState<string | null>('Criação de Sites')
 
   return (
-    <section id="servicos" style={{ backgroundColor: '#000', padding: '120px 0' }}>
+    <section id="servicos" style={{ backgroundColor: '#09090B', padding: '120px 0' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
 
         <motion.div
@@ -79,7 +79,7 @@ export default function Services() {
               <h2 style={{ fontSize: 'clamp(2.4rem, 5vw, 4.2rem)', fontWeight: 900, letterSpacing: '-0.045em', color: '#fff', marginTop: '12px', lineHeight: 0.95, marginBottom: '20px' }}>
                 Do design<br />ao lançamento.
               </h2>
-              <p style={{ fontSize: '14px', color: '#444', maxWidth: '420px', lineHeight: 1.8 }}>
+              <p style={{ fontSize: '14px', color: '#8888a0', maxWidth: '420px', lineHeight: 1.8 }}>
                 Prazo definido, escopo documentado, resultado mensurável. Clique em cada serviço para ver o que está incluso.
               </p>
             </div>
@@ -93,7 +93,7 @@ export default function Services() {
               ].map(p => (
                 <div key={p.label} style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '7px 14px', borderRadius: '100px', border: '1px solid rgba(0,255,136,0.12)', backgroundColor: 'rgba(0,255,136,0.03)' }}>
                   <div style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: '#00FF88', opacity: 0.6, flexShrink: 0 }} />
-                  <span style={{ fontSize: '11px', color: '#4a4a4a', fontWeight: 600, whiteSpace: 'nowrap' }}>{p.label}</span>
+                  <span style={{ fontSize: '11px', color: '#8888a0', fontWeight: 600, whiteSpace: 'nowrap' }}>{p.label}</span>
                 </div>
             ))}
             </div>
@@ -180,7 +180,7 @@ export default function Services() {
                           <p style={{ fontSize: '14px', lineHeight: 1.8, color: '#666', marginBottom: '20px' }}>{s.summary}</p>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
                             <div>
-                              <span style={{ fontSize: '11px', color: '#444' }}>Prazo estimado</span>
+                             <span style={{ fontSize: '11px', color: '#666677' }}>Prazo estimado</span>
                               <div style={{ fontSize: '14px', fontWeight: 700, color: '#fff', marginTop: '2px', fontVariantNumeric: 'tabular-nums' }}>{s.timeline}</div>
                             </div>
                             <a href="#contato" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '13px', fontWeight: 700, color: '#00C896', textDecoration: 'none' }}
@@ -199,7 +199,7 @@ export default function Services() {
                             {s.deliverables.map(d => (
                               <div key={d} style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
                                 <CheckCircle size={13} style={{ color: '#00C896', marginTop: '1px', flexShrink: 0, opacity: 0.7 }} />
-                                <span style={{ fontSize: '13px', color: '#666', lineHeight: 1.5 }}>{d}</span>
+                                <span style={{ fontSize: '12px', color: '#9090a8', lineHeight: 1.5 }}>{d}</span>
                               </div>
                             ))}
                           </div>

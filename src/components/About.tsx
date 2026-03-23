@@ -1,14 +1,17 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { GraduationCap, Globe, Cpu, Users2 } from 'lucide-react'
+import {
+  GraduationCap, Globe, Cpu, Users2,
+  Code2, Palette, BarChart2, ArrowRight,
+} from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { members } from './TeamModal'
 
 const stats = [
-  { value: '5+',   label: 'Projetos entregues' },
-  { value: '100%', label: 'Satisfação' },
-  { value: '<15d', label: 'Entrega média' },
-  { value: '3',    label: 'Devs dedicados' },
+  { value: '5+',   label: 'Projetos entregues', sub: 'Em produção' },
+  { value: '100%', label: 'Satisfação',          sub: 'Clientes' },
+  { value: '<15d', label: 'Entrega média',        sub: 'Prazo' },
+  { value: '3',    label: 'Devs dedicados',       sub: 'Em equipe' },
 ]
 
 const highlights = [
@@ -17,203 +20,403 @@ const highlights = [
   { icon: Users2, label: 'Sinergia',    sub: 'Equipe construída sobre confiança mútua e alinhamento técnico.' },
 ]
 
-// Arthur esquerda, João centro (lead), Brayan direita
+const roleIconMap: Record<string, typeof Code2> = {
+  joaovitor: Code2,
+  brayan: Palette,
+  arthur: BarChart2,
+}
+
 const teamOrder = ['arthur', 'joaovitor', 'brayan']
 
-export default function About() {
-  const ref     = useRef(null)
-  const statsRef = useRef(null)
-  const teamRef  = useRef(null)
+// Hover card for a team member
+function MemberCard({ member, index }: { member: typeof members[number]; index: number }) {
+  const [hovered, setHovered] = useState(false)
+  const Icon = roleIconMap[member.id] ?? Code2
+  const isLead = member.id === 'joaovitor'
 
-  const inView  = useInView(ref,      { once: true, margin: '-60px' })
-  const statsIn = useInView(statsRef, { once: true, margin: '-60px' })
-  const teamIn  = useInView(teamRef,  { once: true, margin: '-60px' })
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.55, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        position: 'relative',
+        borderRadius: '20px',
+        border: hovered
+          ? '1px solid rgba(0,200,150,0.4)'
+          : isLead
+            ? '1px solid rgba(0,200,150,0.18)'
+            : '1px solid rgba(255,255,255,0.07)',
+        backgroundColor: hovered ? 'rgba(0,200,150,0.04)' : 'rgba(255,255,255,0.018)',
+        overflow: 'hidden',
+        transition: 'border-color 0.3s, background-color 0.3s, box-shadow 0.3s',
+        boxShadow: hovered
+          ? '0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,200,150,0.08)'
+          : '0 4px 24px rgba(0,0,0,0.3)',
+        cursor: 'default',
+      }}
+    >
+      {/* Top accent bar for lead */}
+      {isLead && (
+        <div style={{
+          position: 'absolute', top: 0, left: 0, right: 0, height: '2px',
+          background: 'linear-gradient(90deg, transparent 0%, #00C896 40%, #00FF88 60%, transparent 100%)',
+          zIndex: 2,
+        }} />
+      )}
+
+      {/* Ambient glow on hover */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,200,150,0.07) 0%, transparent 65%)',
+        opacity: hovered ? 1 : 0,
+        transition: 'opacity 0.4s',
+        pointerEvents: 'none',
+        zIndex: 0,
+      }} />
+
+      {/* Photo */}
+      <div style={{
+        position: 'relative',
+        height: '260px',
+        overflow: 'hidden',
+        backgroundColor: '#0a0a0c',
+      }}>
+        <img
+          src={member.photo}
+          alt={member.name}
+          style={{
+            width: '100%',
+            height: '110%',
+            objectFit: 'cover',
+            objectPosition: 'center top',
+            display: 'block',
+            transition: 'transform 0.5s ease',
+            transform: hovered ? 'scale(1.04)' : 'scale(1)',
+            maskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
+          }}
+        />
+
+        {/* Lead badge */}
+        {isLead && (
+          <div style={{
+            position: 'absolute', top: '14px', right: '14px',
+            backgroundColor: 'rgba(0,200,150,0.15)',
+            border: '1px solid rgba(0,200,150,0.4)',
+            backdropFilter: 'blur(8px)',
+            borderRadius: '6px',
+            padding: '3px 9px',
+            zIndex: 3,
+          }}>
+            <span style={{ fontSize: '9px', fontWeight: 800, color: '#00C896', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+              LEAD DEV
+            </span>
+          </div>
+        )}
+
+        {/* Role icon badge */}
+        <div style={{
+          position: 'absolute', top: '14px', left: '14px',
+          width: '32px', height: '32px',
+          borderRadius: '9px',
+          backgroundColor: 'rgba(0,0,0,0.55)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 3,
+        }}>
+          <Icon size={14} style={{ color: '#00C896' }} />
+        </div>
+      </div>
+
+      {/* Info */}
+      <div style={{ padding: '20px 22px 24px', position: 'relative', zIndex: 1 }}>
+        <div style={{ marginBottom: '10px' }}>
+          <h3 style={{
+            fontSize: '18px', fontWeight: 900, color: '#fff',
+            letterSpacing: '-0.025em', lineHeight: 1, margin: '0 0 5px',
+          }}>
+            {member.name}
+          </h3>
+          <p style={{ fontSize: '11px', color: '#00C896', fontWeight: 600, margin: 0, opacity: 0.85 }}>
+            {member.role.split(' · ')[0]}
+          </p>
+        </div>
+
+        {/* Tagline */}
+        <p style={{
+          fontSize: '12px', color: '#8888a0', lineHeight: 1.6,
+          margin: '0 0 16px', fontStyle: 'italic',
+          borderLeft: '2px solid rgba(0,200,150,0.3)',
+          paddingLeft: '10px',
+        }}>
+          "{member.tagline}"
+        </p>
+
+        {/* Tags */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', marginBottom: '18px' }}>
+          {member.tags.slice(0, 4).map(t => (
+            <span key={t} style={{
+              fontSize: '9px', fontWeight: 700,
+              color: 'rgba(0,200,150,0.7)',
+              backgroundColor: 'rgba(0,200,150,0.07)',
+              border: '1px solid rgba(0,200,150,0.18)',
+              padding: '2px 7px', borderRadius: '4px',
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+            }}>{t}</span>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <Link
+          to={`/equipe/${member.id}`}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '6px',
+            fontSize: '11px', fontWeight: 700, color: hovered ? '#00C896' : '#666677',
+            textDecoration: 'none',
+            transition: 'color 0.2s',
+            letterSpacing: '0.04em',
+          }}
+        >
+          Ver perfil completo <ArrowRight size={11} />
+        </Link>
+      </div>
+    </motion.div>
+  )
+}
+
+export default function About() {
+  const headerRef = useRef(null)
+  const headerIn  = useInView(headerRef, { once: true, margin: '-60px' })
 
   const orderedMembers = teamOrder
     .map(id => members.find(m => m.id === id))
     .filter(Boolean) as typeof members
 
   return (
-    <section id="sobre" style={{ backgroundColor: '#000', padding: '120px 0' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
+    <section id="sobre" style={{ backgroundColor: '#09090B', padding: '140px 0 120px', position: 'relative', overflow: 'hidden' }}>
 
-        {/* ── Header ── */}
+      {/* Subtle dot grid background */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)',
+        backgroundSize: '32px 32px',
+        pointerEvents: 'none',
+        zIndex: 0,
+      }} />
+
+      {/* Ambient glow top-right */}
+      <div style={{
+        position: 'absolute', top: '-15%', right: '-8%',
+        width: '500px', height: '500px', borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(0,200,150,0.06) 0%, transparent 65%)',
+        pointerEvents: 'none', zIndex: 0,
+      }} />
+
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+
+        {/* ── SECTION HEADER ── */}
         <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          style={{ marginBottom: '56px' }}
+          ref={headerRef}
+          initial={{ opacity: 0, y: 24 }}
+          animate={headerIn ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.55 }}
+          style={{ marginBottom: '72px' }}
         >
           <span className="section-label mono">Quem Somos</span>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'start', marginTop: '18px' }}>
-            <h2 style={{ fontSize: 'clamp(1.6rem, 2.8vw, 2.4rem)', fontWeight: 800, letterSpacing: '-0.03em', color: '#fff', lineHeight: 1.18, margin: 0 }}>
-              Desenvolvimento web com comprometimento técnico{' '}
-              <span style={{ color: '#00C896' }}>e foco em resultado.</span>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '64px',
+            alignItems: 'end',
+            marginTop: '20px',
+          }}>
+            <h2 style={{
+              fontSize: 'clamp(2.4rem, 4.5vw, 3.8rem)',
+              fontWeight: 900,
+              letterSpacing: '-0.045em',
+              color: '#fff',
+              lineHeight: 0.95,
+              margin: 0,
+            }}>
+              Três devs.
+              <br />
+              <span style={{
+                background: 'linear-gradient(130deg, #00FF88 0%, #00C896 60%, #009E78 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                filter: 'drop-shadow(0 0 20px rgba(0,255,136,0.25))',
+              }}>Uma entrega.</span>
             </h2>
-            <p style={{ fontSize: '14px', color: '#484848', lineHeight: 1.9, margin: 0, paddingTop: '4px' }}>
-              João Vitor, Brayan e Arthur se formaram juntos no IOS — curso de Desenvolvimento Web da PUC-RS, patrocinado pela Dell e TOTVS. Da formação à prática, construíram uma parceria técnica sólida e hoje entregam produtos digitais que competem de igual com qualquer agência do mercado.
-            </p>
+
+            <div>
+              <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: '0 0 24px' }}>
+                João Vitor, Brayan e Arthur se formaram juntos no{' '}
+                <span style={{ color: '#c0c0d0', fontWeight: 600 }}>IOS na PUC-RS</span>{' '}
+                — patrocinado pela Dell e TOTVS. Hoje entregam produtos digitais que competem
+                de igual com qualquer agência do mercado.
+              </p>
+
+              {/* IOS Credential inline */}
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: '10px',
+                padding: '10px 16px',
+                borderRadius: '10px',
+                border: '1px solid rgba(0,200,150,0.15)',
+                backgroundColor: 'rgba(0,200,150,0.03)',
+              }}>
+                <div style={{
+                  width: '30px', height: '30px', borderRadius: '8px',
+                  backgroundColor: 'rgba(0,200,150,0.08)',
+                  border: '1px solid rgba(0,200,150,0.15)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                }}>
+                  <GraduationCap size={14} style={{ color: '#00C896' }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: '12px', fontWeight: 700, color: '#c0c0d0' }}>Instituto da Oportunidade Social</div>
+                  <div style={{ fontSize: '10px', color: '#777788' }}>PUC-RS · Dell & TOTVS</div>
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
 
-        {/* ── Stats bar ── */}
+        {/* ── STATS BAR ── */}
         <motion.div
-          ref={statsRef}
-          initial={{ opacity: 0, y: 14 }}
-          animate={statsIn ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.45 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5 }}
           style={{
-            display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
-            borderRadius: '14px', border: '1px solid rgba(255,255,255,0.06)',
-            backgroundColor: 'rgba(255,255,255,0.012)', overflow: 'hidden',
-            marginBottom: '56px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            borderRadius: '16px',
+            border: '1px solid rgba(255,255,255,0.06)',
+            backgroundColor: 'rgba(255,255,255,0.016)',
+            overflow: 'hidden',
+            marginBottom: '80px',
           }}
         >
           {stats.map((s, i) => (
-            <div key={s.label} style={{ padding: '26px 22px', borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
-              <span style={{ fontSize: 'clamp(1.6rem, 2.6vw, 2.2rem)', fontWeight: 800, color: '#e0e0e0', letterSpacing: '-0.04em', lineHeight: 1, display: 'block' }}>{s.value}</span>
-              <span style={{ fontSize: '10px', color: '#2e2e2e', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, display: 'block', marginTop: '7px' }}>{s.label}</span>
+            <div key={s.label} style={{
+              padding: '28px 24px',
+              borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+              position: 'relative',
+            }}>
+              <div style={{
+                fontSize: 'clamp(1.8rem, 3vw, 2.6rem)',
+                fontWeight: 900,
+                color: '#00FF88',
+                letterSpacing: '-0.045em',
+                lineHeight: 1,
+                textShadow: '0 0 24px rgba(0,255,136,0.3)',
+                marginBottom: '6px',
+              }}>{s.value}</div>
+              <div style={{ fontSize: '12px', fontWeight: 700, color: '#e0e0e0', marginBottom: '2px' }}>{s.label}</div>
+              <div style={{ fontSize: '10px', color: '#666677', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{s.sub}</div>
             </div>
           ))}
         </motion.div>
 
-        {/* ── Highlights + Badge ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '72px' }}>
-
-          {/* IOS badge */}
+        {/* ── TEAM CARDS ── */}
+        <div>
           <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={statsIn ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.45, delay: 0.05 }}
-            style={{ padding: '28px 30px', borderRadius: '14px', border: '1px solid rgba(0,200,150,0.1)', backgroundColor: 'rgba(0,200,150,0.015)', display: 'flex', flexDirection: 'column', gap: '18px' }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.4 }}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '32px',
+              paddingBottom: '20px',
+              borderBottom: '1px solid rgba(255,255,255,0.06)',
+            }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '11px', backgroundColor: 'rgba(0,200,150,0.07)', border: '1px solid rgba(0,200,150,0.13)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <GraduationCap size={18} style={{ color: '#00C896' }} />
-              </div>
-              <div>
-                <div style={{ fontSize: '13px', fontWeight: 700, color: '#d0d0d0' }}>Instituto da Oportunidade Social</div>
-                <div style={{ fontSize: '11px', color: '#2a2a2a', marginTop: '3px' }}>PUC-RS · Patrocinado por Dell e TOTVS</div>
-              </div>
-            </div>
-            <p style={{ fontSize: '13px', color: '#363636', lineHeight: 1.75, margin: 0, borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: '16px' }}>
-              Formação técnica de alto nível com metodologia voltada ao mercado real — base da qualidade que entregamos hoje.
-            </p>
-          </motion.div>
-
-          {/* Highlights */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={statsIn ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.45, delay: 0.1 }}
-            style={{ borderRadius: '14px', border: '1px solid rgba(255,255,255,0.05)', overflow: 'hidden' }}
-          >
-            {highlights.map((h, i) => {
-              const Icon = h.icon
-              return (
-                <div key={h.label} style={{ display: 'flex', alignItems: 'flex-start', gap: '14px', padding: '20px 22px', borderBottom: i < highlights.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none', backgroundColor: 'rgba(255,255,255,0.012)' }}>
-                  <div style={{ width: '34px', height: '34px', borderRadius: '9px', backgroundColor: 'rgba(0,200,150,0.05)', border: '1px solid rgba(0,200,150,0.09)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
-                    <Icon size={14} style={{ color: '#00C896' }} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '13px', fontWeight: 700, color: '#c0c0c0', marginBottom: '3px' }}>{h.label}</div>
-                    <div style={{ fontSize: '12px', color: '#363636', lineHeight: 1.6 }}>{h.sub}</div>
-                  </div>
-                </div>
-              )
-            })}
-          </motion.div>
-        </div>
-
-        {/* ── Team ── */}
-        <motion.div
-          ref={teamRef}
-          initial={{ opacity: 0, y: 20 }}
-          animate={teamIn ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-        >
-          {/* Header row */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.05)', flexWrap: 'wrap', gap: '12px' }}>
             <div>
-              <span style={{ fontSize: '10px', fontWeight: 700, color: '#1e1e1e', letterSpacing: '0.14em', textTransform: 'uppercase' }}>A Equipe</span>
-              <h3 style={{ fontSize: 'clamp(1.4rem, 2.2vw, 1.9rem)', fontWeight: 800, letterSpacing: '-0.03em', color: '#fff', marginTop: '7px', lineHeight: 1.1 }}>
-                Três profissionais. Uma entrega.
+              <span style={{ fontSize: '10px', fontWeight: 700, color: '#777788', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+                A Equipe
+              </span>
+              <h3 style={{
+                fontSize: 'clamp(1.4rem, 2vw, 1.8rem)',
+                fontWeight: 800,
+                color: '#fff',
+                letterSpacing: '-0.03em',
+                margin: '8px 0 0',
+              }}>
+                Conheça quem vai construir seu projeto.
               </h3>
             </div>
-            <p style={{ fontSize: '12px', color: '#282828', maxWidth: '200px', lineHeight: 1.7 }}>
-              Clique em um membro para ver o perfil completo.
+            <p style={{ fontSize: '13px', color: '#8888a0', maxWidth: '200px', lineHeight: 1.6, textAlign: 'right' }}>
+              Clique em qualquer membro para ver o perfil completo.
             </p>
+          </motion.div>
+
+          {/* 3-column card grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '20px',
+          }}>
+            {orderedMembers.map((member, i) => (
+              <MemberCard key={member.id} member={member} index={i} />
+            ))}
           </div>
+        </div>
 
-          {/* Fotos livres — posicionamento absoluto para controle preciso */}
-          <div style={{ position: 'relative', width: '100%', height: '520px' }}>
-
-            {/* Arthur — esquerda, colado no João */}
-            <div style={{ position: 'absolute', bottom: '48px', left: '50%', marginLeft: '-33%', width: '34%', height: '88%', zIndex: 1 }}>
-              <img
-                src="/Arthur.webp" alt="Arthur"
-                style={{
-                  width: '100%', height: '100%',
-                  objectFit: 'contain', objectPosition: 'bottom center',
-                  WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 75%, transparent 100%), linear-gradient(to right, transparent 0%, black 18%, black 100%)',
-                  WebkitMaskComposite: 'source-in',
-                  maskImage: 'linear-gradient(to bottom, transparent 0%, black 14%, black 75%, transparent 100%), linear-gradient(to right, transparent 0%, black 18%, black 100%)',
-                  maskComposite: 'intersect',
-                }}
-              />
-            </div>
-
-            {/* João — centro */}
-            <div style={{ position: 'absolute', bottom: '48px', left: '50%', transform: 'translateX(-50%)', width: '34%', height: '100%', zIndex: 2 }}>
-              <img
-                src="/João.webp" alt="João Vitor"
-                style={{
-                  width: '100%', height: '100%',
-                  objectFit: 'contain', objectPosition: 'bottom center',
-                  WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 80%, transparent 100%)',
-                  maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 80%, transparent 100%)',
-                }}
-              />
-            </div>
-
-            {/* Brayan — direita, colado no João, escalado para mesma altura */}
-            <div style={{ position: 'absolute', bottom: '48px', left: '50%', marginLeft: '-1%', width: '34%', height: '88%', zIndex: 1 }}>
-              <img
-                src="/brayan.webp" alt="Brayan"
-                style={{
-                  width: '100%', height: '100%',
-                  objectFit: 'contain', objectPosition: 'bottom center',
-                  transform: 'scale(1.35) translateY(-8%)',
-                  transformOrigin: 'bottom center',
-                  WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 75%, transparent 100%), linear-gradient(to left, transparent 0%, black 18%, black 100%)',
-                  WebkitMaskComposite: 'source-in',
-                  maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 75%, transparent 100%), linear-gradient(to left, transparent 0%, black 18%, black 100%)',
-                  maskComposite: 'intersect',
-                }}
-              />
-            </div>
-
-            {/* Names na base */}
-            <div style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', zIndex: 6 }}>
-              {orderedMembers.map((member) => {
-                const isLead = member.id === 'joaovitor'
-                return (
-                  <Link
-                    key={member.id}
-                    to={`/equipe/${member.id}`}
-                    style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', textDecoration: 'none', padding: '8px', transition: 'opacity 0.2s' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.65' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
-                  >
-                    <span style={{ fontSize: '13px', fontWeight: 800, color: isLead ? '#00C896' : '#aaa', letterSpacing: '-0.01em' }}>{member.name}</span>
-                    <span style={{ fontSize: '10px', color: '#3a3a3a', textAlign: 'center' }}>{member.role.split(' · ')[0]}</span>
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
+        {/* ── DIFFERENTIALS STRIP ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '1px',
+            marginTop: '40px',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            border: '1px solid rgba(255,255,255,0.06)',
+            backgroundColor: 'rgba(255,255,255,0.06)',
+          }}
+        >
+          {highlights.map((h) => {
+            const Icon = h.icon
+            return (
+              <div key={h.label} style={{
+                padding: '24px 26px',
+                backgroundColor: '#09090B',
+                display: 'flex',
+                gap: '14px',
+                alignItems: 'flex-start',
+              }}>
+                <div style={{
+                  width: '36px', height: '36px',
+                  borderRadius: '10px',
+                  backgroundColor: 'rgba(0,200,150,0.06)',
+                  border: '1px solid rgba(0,200,150,0.12)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0, marginTop: '2px',
+                }}>
+                  <Icon size={15} style={{ color: '#00C896' }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#e0e0e0', marginBottom: '4px' }}>{h.label}</div>
+                  <div style={{ fontSize: '12px', color: '#8888a0', lineHeight: 1.6 }}>{h.sub}</div>
+                </div>
+              </div>
+            )
+          })}
         </motion.div>
 
       </div>

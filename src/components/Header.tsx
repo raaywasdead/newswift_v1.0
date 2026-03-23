@@ -3,18 +3,18 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 
 const links = [
-  { label: 'Sobre',    href: '#sobre',    id: 'sobre' },
+  { label: 'Sobre', href: '#sobre', id: 'sobre' },
   { label: 'Serviços', href: '#servicos', id: 'servicos' },
   { label: 'Processo', href: '#processo', id: 'processo' },
   { label: 'Projetos', href: '#projetos', id: 'projetos' },
-  { label: 'Contato',  href: '#contato',  id: 'contato' },
+  { label: 'Contato', href: '#contato', id: 'contato' },
 ]
 
 export default function Header() {
-  const [scrolled, setScrolled]           = useState(false)
-  const [open, setOpen]                   = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [open, setOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('')
-  const [isMobile, setIsMobile]           = useState(window.innerWidth < 768)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
