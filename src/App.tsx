@@ -35,8 +35,8 @@ function Landing() {
       <Header />
       <Hero />
       <About />
-      <BeforeAfter />
       <Services />
+      <BeforeAfter />
       <Process />
       <Projects />
       <CTA />

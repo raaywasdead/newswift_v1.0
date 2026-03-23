@@ -48,99 +48,71 @@ export default function Process() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const roadmapEl = document.getElementById('process-roadmap')
+      if (!roadmapEl) return
 
-      // Spine fill — scrubs with scroll (reversible by design, it's a scroll tracker)
-      gsap.fromTo('#process-spine-fill',
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '#process-roadmap',
-            start: 'top 65%',
-            end: 'bottom 60%',
-            scrub: 1,
-          },
-        }
-      )
+      // Set all initial states
+      steps.forEach((s, i) => {
+        gsap.set(`#step-card-${i}`,       { opacity: 0, x: s.side === 'left' ? -40 : 40 })
+        gsap.set(`#step-node-${i}`,       { borderColor: 'rgba(255,255,255,0.08)', boxShadow: 'none', backgroundColor: '#000' })
+        gsap.set(`#step-icon-svg-${i}`,   { color: '#242424' })
+        gsap.set(`#step-num-${i}`,        { color: '#1a1a1a' })
+        gsap.set(`#step-card-border-${i}`,{ borderColor: 'rgba(255,255,255,0.05)' })
+      })
 
-      // Each step — plays on scroll down, reverses on scroll back up
-      steps.forEach((_, i) => {
+      // Measure each node's center Y as a fraction of roadmap height
+      // getBoundingClientRect difference is scroll-invariant (relative positions stay constant)
+      let fractions: number[] = []
+      const measure = () => {
+        const roadmapRect = roadmapEl.getBoundingClientRect()
+        fractions = steps.map((_, i) => {
+          const node = document.getElementById(`step-node-${i}`)
+          if (!node) return i / steps.length
+          const nr = node.getBoundingClientRect()
+          return (nr.top + nr.height / 2 - roadmapRect.top) / roadmapRect.height
+        })
+      }
+      requestAnimationFrame(measure)
+
+      const active = new Array(steps.length).fill(false)
+
+      const show = (i: number) => {
+        active[i] = true
+        gsap.to(`#step-card-${i}`,        { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out' })
+        gsap.to(`#step-node-${i}`,        { borderColor: '#00FF88', boxShadow: '0 0 22px rgba(0,255,136,0.28)', backgroundColor: 'rgba(0,255,136,0.1)', duration: 0.35, ease: 'power2.out' })
+        gsap.to(`#step-icon-svg-${i}`,    { color: '#00FF88', duration: 0.35 })
+        gsap.to(`#step-num-${i}`,         { color: 'rgba(0,255,136,0.45)', duration: 0.35 })
+        gsap.to(`#step-card-border-${i}`, { borderColor: 'rgba(0,255,136,0.2)', duration: 0.35 })
+      }
+
+      const hide = (i: number) => {
+        active[i] = false
         const isLeft = steps[i].side === 'left'
+        gsap.to(`#step-card-${i}`,        { opacity: 0, x: isLeft ? -40 : 40, duration: 0.4, ease: 'power3.in' })
+        gsap.to(`#step-node-${i}`,        { borderColor: 'rgba(255,255,255,0.08)', boxShadow: 'none', backgroundColor: '#000', duration: 0.3 })
+        gsap.to(`#step-icon-svg-${i}`,    { color: '#242424', duration: 0.3 })
+        gsap.to(`#step-num-${i}`,         { color: '#1a1a1a', duration: 0.3 })
+        gsap.to(`#step-card-border-${i}`, { borderColor: 'rgba(255,255,255,0.05)', duration: 0.3 })
+      }
 
-        // Card slide in
-        gsap.fromTo(`#step-card-${i}`,
-          { opacity: 0, x: isLeft ? -40 : 40 },
-          {
-            opacity: 1, x: 0,
-            duration: 0.7,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: `#step-row-${i}`,
-              start: 'top 72%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        )
-
-        // Node lights up
-        gsap.fromTo(`#step-node-${i}`,
-          { borderColor: 'rgba(255,255,255,0.08)', boxShadow: 'none', backgroundColor: '#000' },
-          {
-            borderColor: '#00FF88',
-            boxShadow: '0 0 22px rgba(0,255,136,0.28)',
-            backgroundColor: 'rgba(0,255,136,0.1)',
-            duration: 0.4,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: `#step-row-${i}`,
-              start: 'top 65%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        )
-
-        // Icon color
-        gsap.fromTo(`#step-icon-svg-${i}`,
-          { color: '#242424' },
-          {
-            color: '#00FF88',
-            duration: 0.4,
-            scrollTrigger: {
-              trigger: `#step-row-${i}`,
-              start: 'top 65%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        )
-
-        // Number highlight
-        gsap.fromTo(`#step-num-${i}`,
-          { color: '#1a1a1a' },
-          {
-            color: 'rgba(0,255,136,0.45)',
-            duration: 0.4,
-            scrollTrigger: {
-              trigger: `#step-row-${i}`,
-              start: 'top 65%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        )
-
-        // Card border color
-        gsap.fromTo(`#step-card-border-${i}`,
-          { borderColor: 'rgba(255,255,255,0.05)' },
-          {
-            borderColor: 'rgba(0,255,136,0.2)',
-            duration: 0.4,
-            scrollTrigger: {
-              trigger: `#step-row-${i}`,
-              start: 'top 65%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        )
+      // Spine fill — progress drives all step animations via onUpdate
+      gsap.fromTo('#process-spine-fill', { height: '0%' }, {
+        height: '100%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#process-roadmap',
+          start: 'top 65%',
+          end: 'bottom 60%',
+          scrub: 0.3,
+          onUpdate(self) {
+            if (!fractions.length) measure()
+            steps.forEach((_, i) => {
+              const threshold = fractions[i] ?? (i / steps.length)
+              if (self.progress >= threshold && !active[i]) show(i)
+              else if (self.progress < threshold && active[i]) hide(i)
+            })
+          },
+        },
       })
     }, sectionRef)
 
@@ -177,7 +149,7 @@ export default function Process() {
           <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: '1px', transform: 'translateX(-50%)', backgroundColor: 'rgba(255,255,255,0.06)', zIndex: 0 }}>
             <div
               id="process-spine-fill"
-              style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100%', backgroundColor: '#00FF88', transformOrigin: 'top', transform: 'scaleY(0)', boxShadow: '0 0 10px rgba(0,255,136,0.4)' }}
+              style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '0%', backgroundColor: '#00FF88', boxShadow: '0 0 6px rgba(0,255,136,0.5)' }}
             />
           </div>
 

@@ -21,7 +21,7 @@ export const members: TeamMember[] = [
     id: 'joaovitor',
     name: 'Joao Vitor',
     role: 'Full Stack Developer · Lead · Co-fundador',
-    photo: '/joaovitor.jpg',
+    photo: '/João.webp',
     color: '#00C896',
     tagline: 'Da arquitetura ao deploy — cada camada pensada, cada detalhe entregue.',
     bio: [
@@ -51,7 +51,7 @@ export const members: TeamMember[] = [
     id: 'brayan',
     name: 'Brayan',
     role: 'UI/UX Designer & Frontend Developer',
-    photo: '/brayan.jpg',
+    photo: '/brayan.webp',
     color: '#00C896',
     tagline: 'Interfaces que parecem fáceis porque foram difíceis de fazer.',
     bio: [
@@ -80,7 +80,7 @@ export const members: TeamMember[] = [
     id: 'arthur',
     name: 'Arthur',
     role: 'Analista Técnico & Developer',
-    photo: '/arthur.jpg',
+    photo: '/Arthur.webp',
     color: '#00C896',
     tagline: 'Onde os outros veem código, ele vê padrões.',
     bio: [

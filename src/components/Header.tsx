@@ -5,39 +5,41 @@ import { Menu, X } from 'lucide-react'
 const links = [
   { label: 'Sobre',    href: '#sobre',    id: 'sobre' },
   { label: 'Serviços', href: '#servicos', id: 'servicos' },
-  { label: 'Projetos', href: '#projetos', id: 'projetos' },
   { label: 'Processo', href: '#processo', id: 'processo' },
+  { label: 'Projetos', href: '#projetos', id: 'projetos' },
+  { label: 'Contato',  href: '#contato',  id: 'contato' },
 ]
 
 export default function Header() {
-  const [scrolled, setScrolled]         = useState(false)
-  const [open, setOpen]                 = useState(false)
+  const [scrolled, setScrolled]           = useState(false)
+  const [open, setOpen]                   = useState(false)
   const [activeSection, setActiveSection] = useState('')
+  const [isMobile, setIsMobile]           = useState(window.innerWidth < 768)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
+    const onResize = () => setIsMobile(window.innerWidth < 768)
     window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
+    window.addEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onResize)
+    }
   }, [])
 
   useEffect(() => {
-    const observers: IntersectionObserver[] = []
-
-    links.forEach(({ id }) => {
-      const el = document.getElementById(id)
-      if (!el) return
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActiveSection(id)
-        },
-        { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
-      )
-      observer.observe(el)
-      observers.push(observer)
-    })
-
-    return () => observers.forEach(o => o.disconnect())
+    const detect = () => {
+      const midpoint = window.scrollY + window.innerHeight * 0.38
+      let current = ''
+      for (const { id } of links) {
+        const el = document.getElementById(id)
+        if (el && el.offsetTop <= midpoint) current = id
+      }
+      setActiveSection(current)
+    }
+    detect()
+    window.addEventListener('scroll', detect, { passive: true })
+    return () => window.removeEventListener('scroll', detect)
   }, [])
 
   return (
@@ -52,7 +54,7 @@ export default function Header() {
         borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
         backgroundColor: scrolled ? 'rgba(9,9,11,0.88)' : 'transparent',
         backdropFilter: scrolled ? 'blur(20px) saturate(1.8)' : 'none',
-        transition: 'all 0.3s ease',
+        transition: 'background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
         boxShadow: scrolled ? '0 1px 0 rgba(255,255,255,0.04), 0 4px 24px rgba(0,0,0,0.4)' : 'none',
       }}
     >
@@ -68,68 +70,74 @@ export default function Header() {
           </a>
 
           {/* Desktop nav */}
-          <nav style={{ display: 'flex', gap: '32px' }} className="hidden md:flex">
-            {links.map(l => {
-              const isActive = activeSection === l.id
-              return (
-                <a
-                  key={l.label}
-                  href={l.href}
-                  style={{
-                    fontSize: '13px',
-                    color: isActive ? '#00FF88' : '#666',
-                    textDecoration: 'none',
-                    transition: 'color 0.2s',
-                    position: 'relative',
-                  }}
-                  onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = '#fff' }}
-                  onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = '#666' }}
-                >
-                  {l.label}
-                  {isActive && (
-                    <motion.span
-                      layoutId="nav-indicator"
-                      style={{
-                        position: 'absolute',
-                        bottom: '-4px',
-                        left: 0,
-                        right: 0,
-                        height: '1px',
-                        backgroundColor: '#00FF88',
-                        boxShadow: '0 0 6px rgba(0,255,136,0.6)',
-                        borderRadius: '1px',
-                      }}
-                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                    />
-                  )}
-                </a>
-              )
-            })}
-          </nav>
+          {!isMobile && (
+            <nav style={{ display: 'flex', gap: '32px' }}>
+              {links.map(l => {
+                const isActive = activeSection === l.id
+                return (
+                  <a
+                    key={l.label}
+                    href={l.href}
+                    style={{
+                      fontSize: '13px',
+                      color: isActive ? '#00FF88' : '#666',
+                      textDecoration: 'none',
+                      transition: 'color 0.2s',
+                      position: 'relative',
+                      paddingBottom: '4px',
+                    }}
+                    onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = '#fff' }}
+                    onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = '#666' }}
+                  >
+                    {l.label}
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-indicator"
+                        style={{
+                          position: 'absolute',
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          height: '1px',
+                          backgroundColor: '#00FF88',
+                          boxShadow: '0 0 6px rgba(0,255,136,0.6)',
+                          borderRadius: '1px',
+                        }}
+                        transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                      />
+                    )}
+                  </a>
+                )
+              })}
+            </nav>
+          )}
 
-          {/* CTA */}
-          <a
-            href="#contato"
-            className="btn-primary hidden md:inline-flex"
-            style={{ padding: '8px 18px', borderRadius: '8px', fontSize: '13px', textDecoration: 'none' }}
-          >
-            Agendar Consultoria
-          </a>
+          {/* Desktop CTA */}
+          {!isMobile && (
+            <a
+              href="#contato"
+              className="btn-primary"
+              style={{ padding: '8px 18px', borderRadius: '8px', fontSize: '13px', textDecoration: 'none' }}
+            >
+              Agendar Consultoria
+            </a>
+          )}
 
           {/* Mobile toggle */}
-          <button
-            className="md:hidden"
-            style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', padding: '4px' }}
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          {isMobile && (
+            <button
+              style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer', padding: '4px' }}
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          )}
         </div>
       </div>
 
       {/* Mobile menu */}
       <AnimatePresence>
-        {open && (
+        {open && isMobile && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
@@ -137,7 +145,7 @@ export default function Header() {
             transition={{ duration: 0.2 }}
             style={{
               overflow: 'hidden',
-              backgroundColor: 'rgba(0,0,0,0.95)',
+              backgroundColor: 'rgba(0,0,0,0.97)',
               borderBottom: '1px solid rgba(255,255,255,0.05)',
             }}
           >

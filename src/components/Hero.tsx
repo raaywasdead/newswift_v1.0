@@ -96,12 +96,6 @@ export default function Hero() {
       {/* Left edge accent line */}
       <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '1px', background: 'linear-gradient(to bottom, transparent, rgba(0,255,136,0.12) 30%, rgba(0,255,136,0.12) 70%, transparent)', zIndex: 1 }} />
 
-      {/* Vertical SCROLL label */}
-      <div style={{ position: 'absolute', bottom: '200px', left: '22px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', zIndex: 2 }}>
-        <div style={{ width: '1px', height: '52px', background: 'linear-gradient(to bottom, transparent, rgba(0,255,136,0.35))' }} />
-        <span style={{ fontSize: '8px', color: '#2a2a2f', letterSpacing: '0.22em', textTransform: 'uppercase', writingMode: 'vertical-rl', fontWeight: 700 }}>SCROLL</span>
-      </div>
-
       {/* ── Main two-column ── */}
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', maxWidth: '1280px', width: '100%', margin: '0 auto', padding: '100px 48px 40px', gap: '72px', position: 'relative', zIndex: 1 }}>
 
