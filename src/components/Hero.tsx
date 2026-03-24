@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
-import Aurora from './Aurora'
+import PixelBlast from './PixelBlast'
 
 const WORDS = ['VENDEM.', 'ATRAEM.', 'MARCAM.', 'LUCRAM.']
 const TYPE_MS = 85
@@ -76,12 +76,27 @@ const stats = [
 export default function Hero() {
   const typed = useTypewriter()
 
+  const isFirstLoad = typeof window !== 'undefined' ? !sessionStorage.getItem('ns_preloader_done') : false;
+  const baseDelay = isFirstLoad ? 3.4 : 0.1;
+
   return (
     <section id="hero" style={{ position: 'relative', minHeight: '100vh', backgroundColor: '#09090B', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
 
-      {/* Aurora */}
+      {/* PixelBlast */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-        <Aurora colorStops={['#001408', '#00FF88', '#001408']} amplitude={1.0} blend={0.5} speed={0.8} />
+        <PixelBlast
+          color="#00FF88"
+          variant="circle"
+          pixelSize={4}
+          patternScale={3}
+          patternDensity={0.6}
+          speed={0.3}
+          edgeFade={0.35}
+          enableRipples={true}
+          rippleIntensityScale={0.8}
+          liquid={false}
+          transparent={true}
+        />
       </div>
 
       {/* Dot grid */}
@@ -106,7 +121,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.9, delay: baseDelay, ease: [0.16, 1, 0.3, 1] as any }}
             style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px 6px 9px', borderRadius: '100px', border: '1px solid rgba(0,255,136,0.28)', backgroundColor: 'rgba(0,255,136,0.07)', width: 'fit-content' }}
           >
             <span className="pulse-dot" style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#00FF88', display: 'inline-block' }} />
@@ -117,7 +132,7 @@ export default function Hero() {
           <motion.h1
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.08 }}
+            transition={{ duration: 0.6, delay: baseDelay + 0.08 }}
             style={{ fontSize: 'clamp(3.6rem, 7.5vw, 6.5rem)', fontWeight: 900, lineHeight: 0.9, letterSpacing: '-0.045em', margin: 0 }}
           >
             <span style={{ color: '#fff', display: 'block' }}>CRIAMOS</span>
@@ -148,7 +163,7 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.18 }}
+            transition={{ duration: 0.5, delay: baseDelay + 0.3 }}
             style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, maxWidth: '440px', margin: 0 }}
           >
             Somos três desenvolvedores formados pelo IOS na PUC-RS. Transformamos ideias em presença digital com prazo real, código limpo e design que de fato converte.
@@ -158,7 +173,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.26 }}
+            transition={{ duration: 0.45, delay: baseDelay + 0.4 }}
             style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}
           >
             <a
@@ -183,7 +198,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.5, delay: baseDelay + 0.5 }}
             style={{ display: 'flex', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.06)', width: 'fit-content', marginTop: '4px' }}
           >
             {stats.map((s, i) => (
@@ -199,7 +214,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.65, delay: 0.1 }}
+          transition={{ duration: 0.65, delay: baseDelay + 0.2 }}
           style={{ flex: '1 1 440px', position: 'relative', maxWidth: '540px' }}
         >
           {/* Deep ambient glow */}

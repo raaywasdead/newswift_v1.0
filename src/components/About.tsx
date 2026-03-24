@@ -237,24 +237,26 @@ export default function About() {
             alignItems: 'end',
             marginTop: '20px',
           }}>
-            <h2 style={{
-              fontSize: 'clamp(2.4rem, 4.5vw, 3.8rem)',
-              fontWeight: 900,
-              letterSpacing: '-0.045em',
-              color: '#fff',
-              lineHeight: 0.95,
-              margin: 0,
-            }}>
-              Três devs.
-              <br />
-              <span style={{
-                background: 'linear-gradient(130deg, #00FF88 0%, #00C896 60%, #009E78 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                filter: 'drop-shadow(0 0 20px rgba(0,255,136,0.25))',
-              }}>Uma entrega.</span>
-            </h2>
+            <div>
+              <h2 style={{
+                fontSize: 'clamp(2.4rem, 4.5vw, 3.8rem)',
+                fontWeight: 900,
+                letterSpacing: '-0.045em',
+                color: '#fff',
+                lineHeight: 0.95,
+                margin: '0 0 24px',
+              }}>
+                Três devs.
+                <br />
+                <span style={{
+                  background: 'linear-gradient(130deg, #00FF88 0%, #00C896 60%, #009E78 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  filter: 'drop-shadow(0 0 20px rgba(0,255,136,0.25))',
+                }}>Uma entrega.</span>
+              </h2>
+            </div>
 
             <div>
               <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: '0 0 24px' }}>
@@ -263,21 +265,8 @@ export default function About() {
                 — patrocinado pela Dell e TOTVS. Hoje entregam produtos digitais que competem
                 de igual com qualquer agência do mercado.
               </p>
-
-              {/* IOS Credential inline */}
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', gap: '10px',
-                padding: '10px 16px',
-                borderRadius: '10px',
-                border: '1px solid rgba(0,200,150,0.15)',
-                backgroundColor: 'rgba(0,200,150,0.03)',
-              }}>
-                <div style={{
-                  width: '30px', height: '30px', borderRadius: '8px',
-                  backgroundColor: 'rgba(0,200,150,0.08)',
-                  border: '1px solid rgba(0,200,150,0.15)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '10px 16px', borderRadius: '10px', border: '1px solid rgba(0,200,150,0.15)', backgroundColor: 'rgba(0,200,150,0.03)' }}>
+                <div style={{ width: '30px', height: '30px', borderRadius: '8px', backgroundColor: 'rgba(0,200,150,0.08)', border: '1px solid rgba(0,200,150,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <GraduationCap size={14} style={{ color: '#00C896' }} />
                 </div>
                 <div>
@@ -287,43 +276,6 @@ export default function About() {
               </div>
             </div>
           </div>
-        </motion.div>
-
-        {/* ── STATS BAR ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.5 }}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            borderRadius: '16px',
-            border: '1px solid rgba(255,255,255,0.06)',
-            backgroundColor: 'rgba(255,255,255,0.016)',
-            overflow: 'hidden',
-            marginBottom: '80px',
-          }}
-        >
-          {stats.map((s, i) => (
-            <div key={s.label} style={{
-              padding: '28px 24px',
-              borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
-              position: 'relative',
-            }}>
-              <div style={{
-                fontSize: 'clamp(1.8rem, 3vw, 2.6rem)',
-                fontWeight: 900,
-                color: '#00FF88',
-                letterSpacing: '-0.045em',
-                lineHeight: 1,
-                textShadow: '0 0 24px rgba(0,255,136,0.3)',
-                marginBottom: '6px',
-              }}>{s.value}</div>
-              <div style={{ fontSize: '12px', fontWeight: 700, color: '#e0e0e0', marginBottom: '2px' }}>{s.label}</div>
-              <div style={{ fontSize: '10px', color: '#666677', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{s.sub}</div>
-            </div>
-          ))}
         </motion.div>
 
         {/* ── TEAM CARDS ── */}

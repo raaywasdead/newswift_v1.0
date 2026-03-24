@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
+import { ReactLenis } from 'lenis/react'
+import Preloader from './components/Preloader'
 import ScrollToTop from './components/ScrollToTop'
 import ScrollToTopButton from './components/ScrollToTopButton'
 import Header from './components/Header'
@@ -63,10 +65,13 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <ScrollToTopButton />
-      <AnimatedRoutes />
-    </BrowserRouter>
+    <ReactLenis root>
+      <BrowserRouter>
+        <Preloader onComplete={() => {}} />
+        <ScrollToTop />
+        <ScrollToTopButton />
+        <AnimatedRoutes />
+      </BrowserRouter>
+    </ReactLenis>
   )
 }

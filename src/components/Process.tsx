@@ -95,15 +95,15 @@ export default function Process() {
         gsap.to(`#step-card-border-${i}`, { borderColor: 'rgba(255,255,255,0.05)', duration: 0.3 })
       }
 
-      // Spine fill — progress drives all step animations via onUpdate
-      gsap.fromTo('#process-spine-fill', { height: '0%' }, {
-        height: '100%',
+      // Spine fill — scaleY from top, scrub syncs perfectly with scroll
+      gsap.fromTo('#process-spine-fill', { scaleY: 0 }, {
+        scaleY: 1,
         ease: 'none',
         scrollTrigger: {
           trigger: '#process-roadmap',
-          start: 'top 65%',
-          end: 'bottom 60%',
-          scrub: 0.3,
+          start: 'top 60%',
+          end: 'bottom 55%',
+          scrub: 0.5,
           onUpdate(self) {
             if (!fractions.length) measure()
             steps.forEach((_, i) => {
@@ -149,7 +149,7 @@ export default function Process() {
           <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: '1px', transform: 'translateX(-50%)', backgroundColor: 'rgba(255,255,255,0.06)', zIndex: 0 }}>
             <div
               id="process-spine-fill"
-              style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '0%', backgroundColor: '#00FF88', boxShadow: '0 0 6px rgba(0,255,136,0.5)' }}
+              style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100%', backgroundColor: '#00FF88', boxShadow: '0 0 6px rgba(0,255,136,0.5)', transformOrigin: 'top center', transform: 'scaleY(0)' }}
             />
           </div>
 
@@ -188,15 +188,17 @@ export default function Process() {
                     transform: 'translateY(-50%)',
                     zIndex: 2,
                   }}>
-                    <div
-                      id={`step-node-${i}`}
-                      style={{ width: '52px', height: '52px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.08)', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                    >
-                      <Icon
-                        id={`step-icon-svg-${i}`}
-                        size={18}
-                        style={{ color: '#242424' }}
-                      />
+                    <div style={{ position: 'relative' }}>
+                      <div
+                        id={`step-node-${i}`}
+                        style={{ width: '52px', height: '52px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.08)', backgroundColor: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 1 }}
+                      >
+                        <Icon
+                          id={`step-icon-svg-${i}`}
+                          size={18}
+                          style={{ color: '#242424' }}
+                        />
+                      </div>
                     </div>
                   </div>
 

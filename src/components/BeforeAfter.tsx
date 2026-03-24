@@ -55,122 +55,139 @@ function BeforeMockup() {
 }
 
 function AfterMockup() {
-  const orange = '#FF5025'
-  const bg     = '#0B0A08'
-  const surf   = '#151310'
-  const surf2  = '#1C1916'
+  const ac  = '#FF5C28'
+  const bg  = '#080706'
 
   return (
     <div style={{ width: '100%', height: '100%', backgroundColor: bg, fontFamily: 'Inter, system-ui, sans-serif', overflow: 'hidden', position: 'relative' }}>
 
-      {/* Background: diagonal split — left dark, right slightly lighter */}
-      <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(115deg, ${bg} 0%, ${bg} 52%, #0F0D0B 52%, #0F0D0B 100%)`, zIndex: 0 }} />
+      {/* Ambient glows */}
+      <div style={{ position: 'absolute', top: '-15%', right: '-5%', width: '260px', height: '260px', borderRadius: '50%', background: `radial-gradient(circle, ${ac}1a 0%, transparent 65%)`, filter: 'blur(18px)', zIndex: 0 }} />
+      <div style={{ position: 'absolute', bottom: '0', left: '-8%', width: '180px', height: '180px', borderRadius: '50%', background: `radial-gradient(circle, ${ac}0d 0%, transparent 65%)`, filter: 'blur(14px)', zIndex: 0 }} />
 
-      {/* Orange glow top-left */}
-      <div style={{ position: 'absolute', top: '-30%', left: '-10%', width: '220px', height: '220px', borderRadius: '50%', background: `radial-gradient(circle, ${orange}22 0%, transparent 65%)`, pointerEvents: 'none', zIndex: 0 }} />
-
-      {/* Nav — minimal, asymmetric */}
-      <div style={{ position: 'relative', zIndex: 2, padding: '10px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '5px' }}>
-          <span style={{ fontWeight: 900, fontSize: '15px', letterSpacing: '-0.04em', color: '#fff', textTransform: 'uppercase', lineHeight: 1 }}>KOVAC</span>
-          <span style={{ fontSize: '7px', color: orange, fontWeight: 700, letterSpacing: '0.1em' }}>TRAINING</span>
-        </div>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          {['Método', 'Resultados', 'Planos'].map(l => (
-            <span key={l} style={{ color: '#333', fontSize: '8.5px', fontWeight: 500 }}>{l}</span>
-          ))}
-          <div style={{ backgroundColor: orange, color: '#fff', fontSize: '7.5px', fontWeight: 800, padding: '5px 11px', borderRadius: '5px', letterSpacing: '0.04em' }}>COMEÇAR</div>
-        </div>
-      </div>
-
-      {/* Main layout — asymmetric editorial */}
-      <div style={{ position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: '1.25fr 0.75fr', height: 'calc(100% - 36px)' }}>
-
-        {/* LEFT — editorial copy block */}
-        <div style={{ padding: '18px 20px 12px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-
-          {/* Top */}
+      {/* Nav */}
+      <nav style={{ position: 'relative', zIndex: 3, padding: '11px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+          <div style={{ width: '22px', height: '22px', borderRadius: '7px', background: `linear-gradient(135deg, ${ac}, #FF8C5A)`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 10px ${ac}40` }}>
+            <span style={{ fontSize: '11px', fontWeight: 900, color: '#fff', letterSpacing: '-0.03em' }}>K</span>
+          </div>
           <div>
-            {/* Eyebrow — rotated accent stripe */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-              <div style={{ width: '18px', height: '2px', backgroundColor: orange }} />
-              <span style={{ fontSize: '7px', fontWeight: 700, letterSpacing: '0.14em', color: orange, textTransform: 'uppercase' }}>Personal Trainer · Porto Alegre</span>
+            <span style={{ fontSize: '11px', fontWeight: 900, color: '#fff', letterSpacing: '-0.03em' }}>KOVAC</span>
+            <span style={{ fontSize: '6.5px', color: ac, fontWeight: 700, letterSpacing: '0.1em', marginLeft: '5px' }}>TRAINING</span>
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+          {['Método', 'Resultados', 'Planos'].map(l => (
+            <span key={l} style={{ color: '#4a4a4a', fontSize: '8px', fontWeight: 500 }}>{l}</span>
+          ))}
+        </div>
+        <div style={{ background: `linear-gradient(90deg, ${ac}, #FF7A45)`, color: '#fff', fontSize: '7.5px', fontWeight: 800, padding: '6px 13px', borderRadius: '20px', letterSpacing: '0.04em', boxShadow: `0 4px 14px ${ac}45` }}>
+          COMEÇAR
+        </div>
+      </nav>
+
+      {/* Body */}
+      <div style={{ position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: '1.15fr 0.85fr', height: 'calc(100% - 44px)' }}>
+
+        {/* LEFT */}
+        <div style={{ padding: '18px 20px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div>
+            {/* Eyebrow pill */}
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '3px 9px 3px 5px', borderRadius: '20px', border: `1px solid ${ac}28`, backgroundColor: `${ac}0c`, marginBottom: '13px' }}>
+              <div style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: ac, boxShadow: `0 0 6px ${ac}` }} />
+              <span style={{ fontSize: '6.5px', fontWeight: 700, color: ac, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Personal · Porto Alegre</span>
             </div>
 
-            {/* Big editorial headline */}
-            <h1 style={{ fontSize: '30px', fontWeight: 900, lineHeight: 0.9, letterSpacing: '-0.05em', color: '#fff', marginBottom: '10px' }}>
-              MENOS<br />
-              <span style={{ WebkitTextStroke: `1px ${orange}`, color: 'transparent', display: 'block', lineHeight: 0.88 }}>DESCULPA,</span>
-              <span style={{ color: orange }}>MAIS</span><br />
-              TREINO.
-            </h1>
+            {/* Headline — mix of solid + outline */}
+            <div style={{ marginBottom: '12px' }}>
+              <div style={{ fontSize: '32px', fontWeight: 900, lineHeight: 0.88, letterSpacing: '-0.05em', color: '#fff' }}>CORPO</div>
+              <div style={{ fontSize: '32px', fontWeight: 900, lineHeight: 0.88, letterSpacing: '-0.05em', color: 'transparent', WebkitTextStroke: `1.5px ${ac}` }}>QUE VENDE.</div>
+              <div style={{ fontSize: '20px', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.03em', color: '#2a2a2a', marginTop: '6px' }}>Sem enrolação.</div>
+            </div>
 
-            <p style={{ fontSize: '8px', color: '#444', lineHeight: 1.6, maxWidth: '190px', marginBottom: '14px' }}>
-              Protocolo personalizado. Sem enrolação. Você treina com quem sabe o que faz, e os resultados aparecem em 90 dias.
+            <p style={{ fontSize: '7.5px', color: '#3e3e3e', lineHeight: 1.7, maxWidth: '185px', marginBottom: '14px' }}>
+              Protocolo 100% personalizado. Acompanhamento direto e resultado em 90 dias — ou devolvemos o investimento.
             </p>
 
-            {/* CTA row */}
-            <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-              <div style={{ backgroundColor: orange, color: '#fff', fontSize: '8px', fontWeight: 800, padding: '7px 14px', borderRadius: '6px', letterSpacing: '0.04em', boxShadow: `0 4px 18px ${orange}50` }}>QUERO COMEÇAR</div>
-              <div style={{ fontSize: '7.5px', color: '#333', fontWeight: 500 }}>Avaliação grátis</div>
+            {/* CTA + social proof */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ background: `linear-gradient(90deg, ${ac}, #FF7A45)`, color: '#fff', fontSize: '7.5px', fontWeight: 800, padding: '8px 14px', borderRadius: '8px', letterSpacing: '0.04em', boxShadow: `0 6px 20px ${ac}45` }}>
+                AGENDAR AVALIAÇÃO
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <div style={{ display: 'flex' }}>
+                  {['#2a2520', '#221e1a', '#1e1a16'].map((c, i) => (
+                    <div key={i} style={{ width: '15px', height: '15px', borderRadius: '50%', backgroundColor: c, border: `1.5px solid ${bg}`, marginLeft: i > 0 ? '-5px' : '0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ fontSize: '7px', color: '#888' }}>●</span>
+                    </div>
+                  ))}
+                </div>
+                <span style={{ fontSize: '6px', color: '#383838' }}>+340</span>
+              </div>
             </div>
           </div>
 
-          {/* Bottom row — metrics bento */}
+          {/* Metrics row */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '5px' }}>
-            {/* 90-day guarantee */}
-            <div style={{ backgroundColor: surf, border: `1px solid ${orange}30`, borderRadius: '9px', padding: '9px 10px', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', backgroundColor: orange, opacity: 0.6 }} />
-              <div style={{ fontSize: '20px', fontWeight: 900, color: orange, lineHeight: 1, letterSpacing: '-0.04em' }}>90</div>
-              <div style={{ fontSize: '6.5px', color: '#3a3a3a', marginTop: '2px', fontWeight: 600, lineHeight: 1.3 }}>DIAS<br />GARANTIDO</div>
-            </div>
-            {/* Clients */}
-            <div style={{ backgroundColor: surf, border: '1px solid rgba(255,255,255,0.04)', borderRadius: '9px', padding: '9px 10px' }}>
-              <div style={{ fontSize: '20px', fontWeight: 900, color: '#fff', lineHeight: 1, letterSpacing: '-0.04em' }}>340+</div>
-              <div style={{ fontSize: '6.5px', color: '#333', marginTop: '2px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Alunos</div>
-            </div>
-            {/* Rating */}
-            <div style={{ backgroundColor: surf, border: '1px solid rgba(255,255,255,0.04)', borderRadius: '9px', padding: '9px 10px' }}>
-              <div style={{ fontSize: '20px', fontWeight: 900, color: '#fff', lineHeight: 1, letterSpacing: '-0.04em' }}>4.9</div>
-              <div style={{ fontSize: '6.5px', color: '#333', marginTop: '2px', fontWeight: 600, letterSpacing: '0.04em' }}>★ Google</div>
-            </div>
+            {[
+              { val: '90d',  sub: 'Garantia',  hi: true  },
+              { val: '4.9★', sub: 'Google',    hi: false },
+              { val: '340+', sub: 'Alunos',    hi: false },
+            ].map(m => (
+              <div key={m.val} style={{
+                backgroundColor: m.hi ? `${ac}12` : 'rgba(255,255,255,0.025)',
+                border: m.hi ? `1px solid ${ac}28` : '1px solid rgba(255,255,255,0.04)',
+                borderRadius: '9px', padding: '8px 10px',
+                position: 'relative', overflow: 'hidden',
+              }}>
+                {m.hi && <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(90deg, ${ac}, #FF8C5A)` }} />}
+                <div style={{ fontSize: '18px', fontWeight: 900, color: m.hi ? ac : '#fff', lineHeight: 1, letterSpacing: '-0.04em' }}>{m.val}</div>
+                <div style={{ fontSize: '6px', color: '#2e2e2e', marginTop: '2px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{m.sub}</div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* RIGHT — visual + widgets */}
-        <div style={{ padding: '10px 14px 10px 10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+        {/* RIGHT */}
+        <div style={{ padding: '10px 14px 10px 0', display: 'flex', flexDirection: 'column', gap: '6px' }}>
 
-          {/* Photo placeholder — editorial treatment */}
-          <div style={{ flex: 1, backgroundColor: '#1A1612', borderRadius: '12px', border: `1px solid ${orange}15`, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'flex-end' }}>
-            {/* Diagonal accent */}
-            <div style={{ position: 'absolute', top: 0, right: 0, width: '60%', height: '100%', background: `linear-gradient(160deg, ${orange}10 0%, transparent 60%)`, pointerEvents: 'none' }} />
-            {/* Large monogram */}
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '56px', fontWeight: 900, color: `${orange}12`, letterSpacing: '-0.06em', lineHeight: 1, userSelect: 'none' }}>KV</div>
-            {/* Bottom overlay with quote */}
-            <div style={{ position: 'relative', zIndex: 2, width: '100%', padding: '10px 12px', background: `linear-gradient(to top, rgba(11,10,8,0.97) 0%, transparent 100%)` }}>
-              <div style={{ fontSize: '7px', fontStyle: 'italic', color: '#444', lineHeight: 1.4 }}>"Resultado não é sorte. É método."</div>
-              <div style={{ fontSize: '6.5px', color: orange, fontWeight: 700, marginTop: '3px', letterSpacing: '0.06em' }}>KOVAC · Head Coach</div>
+          {/* Photo card */}
+          <div style={{ flex: 1, borderRadius: '14px', border: `1px solid ${ac}18`, position: 'relative', overflow: 'hidden', background: 'linear-gradient(160deg, #141210 0%, #0d0b09 100%)' }}>
+            {/* Diagonal streak */}
+            <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(155deg, ${ac}16 0%, transparent 55%)` }} />
+            {/* Grid lines */}
+            <div style={{ position: 'absolute', inset: 0, backgroundImage: `linear-gradient(${ac}06 1px, transparent 1px), linear-gradient(90deg, ${ac}06 1px, transparent 1px)`, backgroundSize: '20px 20px' }} />
+            {/* Monogram */}
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -52%)', fontSize: '52px', fontWeight: 900, color: `${ac}14`, letterSpacing: '-0.06em', lineHeight: 1, userSelect: 'none' }}>KV</div>
+            {/* Corner badge */}
+            <div style={{ position: 'absolute', top: '10px', right: '10px', backgroundColor: `${ac}1a`, border: `1px solid ${ac}35`, borderRadius: '5px', padding: '3px 7px' }}>
+              <span style={{ fontSize: '6px', fontWeight: 700, color: ac, letterSpacing: '0.08em' }}>CREF ATIVO</span>
+            </div>
+            {/* Caption */}
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '28px 12px 10px', background: 'linear-gradient(to top, rgba(8,7,6,0.98) 0%, transparent 100%)' }}>
+              <div style={{ fontSize: '6.5px', fontStyle: 'italic', color: '#3a3a3a', lineHeight: 1.5 }}>"Resultado não é sorte.<br />É método."</div>
+              <div style={{ fontSize: '6.5px', color: ac, fontWeight: 700, marginTop: '3px', letterSpacing: '0.06em' }}>KOVAC · Head Coach</div>
             </div>
           </div>
 
-          {/* Vacancy widget */}
-          <div style={{ backgroundColor: surf2, borderRadius: '9px', border: '1px solid rgba(255,255,255,0.04)', padding: '9px 11px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+          {/* Booking widget */}
+          <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)', padding: '9px 11px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
               <span style={{ fontSize: '7.5px', fontWeight: 700, color: '#ccc' }}>Vagas — Mar 2026</span>
-              <span style={{ fontSize: '6.5px', color: orange, fontWeight: 700 }}>2 restantes</span>
+              <span style={{ fontSize: '6.5px', color: ac, fontWeight: 800 }}>2 restam</span>
             </div>
-            <div style={{ display: 'flex', gap: '3px' }}>
+            <div style={{ display: 'flex', gap: '2.5px' }}>
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} style={{ flex: 1, height: '6px', borderRadius: '2px', backgroundColor: i < 6 ? orange : 'rgba(255,255,255,0.06)', opacity: i < 6 ? (i < 5 ? 0.25 : 0.7) : 1 }} />
+                <div key={i} style={{ flex: 1, height: '5px', borderRadius: '2px', backgroundColor: i < 6 ? (i < 5 ? `${ac}30` : ac) : 'rgba(255,255,255,0.05)' }} />
               ))}
             </div>
+            <div style={{ fontSize: '6px', color: '#2a2a2a', marginTop: '4px' }}>Online & Presencial · Porto Alegre</div>
           </div>
 
-          {/* NewSwift stamp */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '4px', padding: '4px 6px', borderRadius: '6px', backgroundColor: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.04)' }}>
-            <span style={{ fontSize: '6.5px', color: '#282828', fontWeight: 600 }}>feito por</span>
+          {/* NewSwift badge */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '4px', padding: '4px 8px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.03)', backgroundColor: 'rgba(0,0,0,0.4)' }}>
+            <span style={{ fontSize: '6px', color: '#202020' }}>feito por</span>
             <span style={{ fontSize: '6.5px', fontWeight: 800, color: '#00FF88' }}>NewSwift</span>
-            <span style={{ fontSize: '6.5px', color: '#1e1e1e', fontWeight: 500 }}>· 2026</span>
           </div>
         </div>
       </div>

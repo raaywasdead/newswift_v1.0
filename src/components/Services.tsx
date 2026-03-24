@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
-import { Globe, Palette, Gauge, CheckCircle, ChevronDown, ArrowUpRight } from 'lucide-react'
+import { Globe, Palette, Gauge, CheckCircle, ChevronDown, ArrowUpRight, LayoutTemplate } from 'lucide-react'
 
 const services = [
   {
@@ -55,12 +55,28 @@ const services = [
     tags: ['PageSpeed', 'Web Vitals', 'SEO'],
     featured: false,
   },
+  {
+    icon: LayoutTemplate,
+    title: 'Templates Premium',
+    subtitle: 'Estruturas prontas para seu próximo projeto',
+    summary: 'Projetos completos e sofisticados em React e Next.js com foco em animação. Ideais para startups, agências e desenvolvedores que buscam agilizar o processo sem abrir mão de um visual profissional.',
+    deliverables: [
+      'Código limpo com React, TypeScript e Tailwind',
+      'Animações modernas já implementadas',
+      'Acessibilidade e responsividade vitais',
+      'Download instantâneo do repositório',
+      'Suporte básico inicial de 30 dias',
+    ],
+    timeline: 'Download Imediato',
+    tags: ['Templates', 'React', 'Next.js'],
+    featured: false,
+  },
 ]
 
 export default function Services() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-60px' })
-  const [expanded, setExpanded] = useState<string | null>('Criação de Sites')
+  const [expanded, setExpanded] = useState<string | null>(null)
 
   return (
     <section id="servicos" style={{ backgroundColor: '#09090B', padding: '120px 0' }}>
