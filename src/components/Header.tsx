@@ -28,18 +28,28 @@ export default function Header() {
   }, [])
 
   useEffect(() => {
-    const detect = () => {
-      const midpoint = window.scrollY + window.innerHeight * 0.38
-      let current = ''
-      for (const { id } of links) {
-        const el = document.getElementById(id)
-        if (el && el.offsetTop <= midpoint) current = id
-      }
-      setActiveSection(current)
+    const observerOptions = {
+      root: null,
+      rootMargin: '-40% 0px -40% 0px', // Trigger when section is in the middle of the screen
+      threshold: 0
     }
-    detect()
-    window.addEventListener('scroll', detect, { passive: true })
-    return () => window.removeEventListener('scroll', detect)
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+    
+    links.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
   }, [])
 
   return (

@@ -1,53 +1,30 @@
-import { useState, useRef, useCallback } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useState, useRef, useCallback, useEffect } from 'react'
 
 function BeforeMockup() {
   return (
-    <div style={{ width: '100%', height: '100%', backgroundColor: '#f2f2f0', fontFamily: 'Arial, sans-serif', overflow: 'hidden' }}>
-      {/* Nav */}
-      <div style={{ backgroundColor: '#1a3f7a', padding: '10px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ color: '#fff', fontWeight: 900, fontSize: '13px', letterSpacing: '0.05em' }}>EMPRESA LTDA.</span>
+    <div style={{ width: '100%', height: '100%', backgroundColor: '#fff', fontFamily: 'Arial, sans-serif', overflow: 'hidden', position: 'relative', color: '#1a1a1a' }}>
+      {/* Generic Logistics Site */}
+      <div style={{ backgroundColor: '#1e3a8a', padding: '14px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ color: '#fff', fontWeight: 900, fontSize: '13px', letterSpacing: '0.05em' }}>GLOBAL LOGS</span>
         <div style={{ display: 'flex', gap: '14px' }}>
-          {['Início', 'Sobre', 'Serviços', 'Contato'].map(l => (
-            <span key={l} style={{ color: '#aac', fontSize: '10px' }}>{l}</span>
+          {['HOME', 'ABOUT', 'CONTACT'].map(l => (
+            <span key={l} style={{ color: '#aaa', fontSize: '9px', fontWeight: 700 }}>{l}</span>
           ))}
         </div>
       </div>
-
-      {/* Ticker */}
-      <div style={{ backgroundColor: '#cc2200', padding: '3px 12px' }}>
-        <span style={{ fontSize: '9px', color: '#fff', fontWeight: 700 }}>🔥 PROMOÇÃO IMPERDÍVEL!! LIGUE AGORA: (51) 9 9999-9999 ★ MELHOR PREÇO GARANTIDO ★</span>
+      
+      <div style={{ padding: '60px 40px', textAlign: 'center', backgroundColor: '#f8fafc' }}>
+        <h1 style={{ fontSize: '32px', fontWeight: 900, color: '#1e3a8a', lineHeight: 1.1, marginBottom: '16px' }}>WE DELIVER<br />ANYTHING.</h1>
+        <p style={{ fontSize: '13px', color: '#666', marginBottom: '24px', maxWidth: '300px', margin: '0 auto 24px' }}>Our logistics network covers 190 countries with 24/7 support.</p>
+        <button style={{ backgroundColor: '#1e3a8a', color: '#fff', padding: '12px 28px', border: 'none', borderRadius: '4px', fontWeight: 700 }}>GET QUOTE</button>
       </div>
 
-      {/* Hero */}
-      <div style={{ backgroundColor: '#dde4ef', padding: '24px 18px', textAlign: 'center', borderBottom: '3px solid #1a3f7a' }}>
-        <div style={{ fontSize: '7px', backgroundColor: '#ffcc00', display: 'inline-block', padding: '2px 8px', borderRadius: '2px', marginBottom: '6px', fontWeight: 700, color: '#333' }}>NOVIDADES 2024</div>
-        <h1 style={{ fontSize: '18px', color: '#1a3f7a', fontWeight: 900, textTransform: 'uppercase', marginBottom: '6px', fontFamily: 'Impact, Arial Black, sans-serif', lineHeight: 1.1 }}>BEM-VINDO AO<br />NOSSO SITE!</h1>
-        <p style={{ fontSize: '9px', color: '#555', lineHeight: 1.4, marginBottom: '10px', maxWidth: '200px', margin: '0 auto 10px' }}>Somos a melhor empresa do segmento com os melhores serviços e os melhores preços. Qualidade garantida!</p>
-        <button style={{ background: 'linear-gradient(to bottom, #5599ff, #1144bb)', border: '2px solid #003399', borderRadius: '4px', color: '#fff', padding: '6px 16px', fontSize: '10px', fontWeight: 700, cursor: 'default', boxShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}>CLIQUE AQUI!</button>
-      </div>
-
-      {/* 3 columns */}
-      <div style={{ padding: '14px 14px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
-        {[
-          { title: 'Nossos Serviços', color: '#1a3f7a' },
-          { title: 'Quem Somos', color: '#2a6033' },
-          { title: 'Fale Conosco', color: '#8a3300' },
-        ].map(b => (
-          <div key={b.title} style={{ backgroundColor: '#fff', border: `2px solid ${b.color}`, padding: '10px 8px', textAlign: 'center', borderRadius: '3px' }}>
-            <div style={{ width: '28px', height: '28px', backgroundColor: b.color, borderRadius: '50%', margin: '0 auto 6px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontSize: '12px' }}>★</span>
-            </div>
-            <div style={{ fontSize: '9px', fontWeight: 900, color: b.color, marginBottom: '4px', textTransform: 'uppercase' }}>{b.title}</div>
-            <div style={{ fontSize: '7.5px', color: '#888', lineHeight: 1.3 }}>Lorem ipsum dolor sit amet consectetur adipiscing elit.</div>
+      <div style={{ padding: '32px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+        {[1, 2, 3].map(i => (
+          <div key={i} style={{ padding: '20px', backgroundColor: '#fff', border: '1px solid #ddd', textAlign: 'center' }}>
+            <div style={{ width: '32px', height: '32px', backgroundColor: '#eee', borderRadius: '50%', margin: '0 auto 10px' }} />
+            <div style={{ height: '8px', width: '60%', backgroundColor: '#eee', margin: '0 auto' }} />
           </div>
-        ))}
-      </div>
-
-      {/* Counter row */}
-      <div style={{ backgroundColor: '#1a3f7a', padding: '8px 14px', display: 'flex', justifyContent: 'space-around' }}>
-        {['1000+ Clientes', '20 Anos', '100% Qualidade'].map(t => (
-          <span key={t} style={{ fontSize: '8px', color: '#fff', fontWeight: 700, textAlign: 'center' }}>{t}</span>
         ))}
       </div>
     </div>
@@ -55,201 +32,102 @@ function BeforeMockup() {
 }
 
 function AfterMockup() {
-  const ac  = '#FF5C28'
-  const bg  = '#080706'
+  const ac = '#8B5CF6'
+  const bg = '#060608'
 
   return (
-    <div style={{ width: '100%', height: '100%', backgroundColor: bg, fontFamily: 'Inter, system-ui, sans-serif', overflow: 'hidden', position: 'relative' }}>
-
-      {/* Ambient glows */}
-      <div style={{ position: 'absolute', top: '-15%', right: '-5%', width: '260px', height: '260px', borderRadius: '50%', background: `radial-gradient(circle, ${ac}1a 0%, transparent 65%)`, filter: 'blur(18px)', zIndex: 0 }} />
-      <div style={{ position: 'absolute', bottom: '0', left: '-8%', width: '180px', height: '180px', borderRadius: '50%', background: `radial-gradient(circle, ${ac}0d 0%, transparent 65%)`, filter: 'blur(14px)', zIndex: 0 }} />
-
-      {/* Nav */}
-      <nav style={{ position: 'relative', zIndex: 3, padding: '11px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-          <div style={{ width: '22px', height: '22px', borderRadius: '7px', background: `linear-gradient(135deg, ${ac}, #FF8C5A)`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 10px ${ac}40` }}>
-            <span style={{ fontSize: '11px', fontWeight: 900, color: '#fff', letterSpacing: '-0.03em' }}>K</span>
-          </div>
-          <div>
-            <span style={{ fontSize: '11px', fontWeight: 900, color: '#fff', letterSpacing: '-0.03em' }}>KOVAC</span>
-            <span style={{ fontSize: '6.5px', color: ac, fontWeight: 700, letterSpacing: '0.1em', marginLeft: '5px' }}>TRAINING</span>
-          </div>
+    <div style={{ width: '100%', height: '100%', backgroundColor: bg, fontFamily: 'Inter, sans-serif', overflow: 'hidden', position: 'relative' }}>
+      {/* AETHER Luxe Hero */}
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: `radial-gradient(circle at 70% 30%, ${ac}15 0%, transparent 60%)` }} />
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200")', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.15 }} />
+      
+      <nav style={{ padding: '24px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div className="syne" style={{ fontSize: '18px', fontWeight: 900, color: '#fff', letterSpacing: '0.2em' }}>AETHER</div>
         </div>
-        <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
-          {['Método', 'Resultados', 'Planos'].map(l => (
-            <span key={l} style={{ color: '#4a4a4a', fontSize: '8px', fontWeight: 500 }}>{l}</span>
-          ))}
-        </div>
-        <div style={{ background: `linear-gradient(90deg, ${ac}, #FF7A45)`, color: '#fff', fontSize: '7.5px', fontWeight: 800, padding: '6px 13px', borderRadius: '20px', letterSpacing: '0.04em', boxShadow: `0 4px 14px ${ac}45` }}>
-          COMEÇAR
+        <div style={{ display: 'flex', gap: '32px' }}>
+           {['STUDIO', 'EDITIONS', 'LABS'].map(l => (
+             <span key={l} style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>{l}</span>
+           ))}
         </div>
       </nav>
 
-      {/* Body */}
-      <div style={{ position: 'relative', zIndex: 1, display: 'grid', gridTemplateColumns: '1.15fr 0.85fr', height: 'calc(100% - 44px)' }}>
+      <div style={{ padding: '100px 48px', position: 'relative', zIndex: 1 }}>
 
-        {/* LEFT */}
-        <div style={{ padding: '18px 20px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          <div>
-            {/* Eyebrow pill */}
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '3px 9px 3px 5px', borderRadius: '20px', border: `1px solid ${ac}28`, backgroundColor: `${ac}0c`, marginBottom: '13px' }}>
-              <div style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: ac, boxShadow: `0 0 6px ${ac}` }} />
-              <span style={{ fontSize: '6.5px', fontWeight: 700, color: ac, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Personal · Porto Alegre</span>
-            </div>
+        <h2 className="syne" style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', fontWeight: 900, color: '#fff', lineHeight: 0.85, letterSpacing: '-0.06em', marginBottom: '32px' }}>
+          The Evolution of<br /><span style={{ color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.8)' }}>Atmosphere.</span>
+        </h2>
+        
+        <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.4)', lineHeight: 1.8, maxWidth: '340px', marginBottom: '48px' }}>
+          Crafting digital ecosystems that command attention through silence and technical superiority.
+        </p>
 
-            {/* Headline — mix of solid + outline */}
-            <div style={{ marginBottom: '12px' }}>
-              <div style={{ fontSize: '32px', fontWeight: 900, lineHeight: 0.88, letterSpacing: '-0.05em', color: '#fff' }}>CORPO</div>
-              <div style={{ fontSize: '32px', fontWeight: 900, lineHeight: 0.88, letterSpacing: '-0.05em', color: 'transparent', WebkitTextStroke: `1.5px ${ac}` }}>QUE VENDE.</div>
-              <div style={{ fontSize: '20px', fontWeight: 700, lineHeight: 1.1, letterSpacing: '-0.03em', color: '#2a2a2a', marginTop: '6px' }}>Sem enrolação.</div>
-            </div>
-
-            <p style={{ fontSize: '7.5px', color: '#3e3e3e', lineHeight: 1.7, maxWidth: '185px', marginBottom: '14px' }}>
-              Protocolo 100% personalizado. Acompanhamento direto e resultado em 90 dias — ou devolvemos o investimento.
-            </p>
-
-            {/* CTA + social proof */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{ background: `linear-gradient(90deg, ${ac}, #FF7A45)`, color: '#fff', fontSize: '7.5px', fontWeight: 800, padding: '8px 14px', borderRadius: '8px', letterSpacing: '0.04em', boxShadow: `0 6px 20px ${ac}45` }}>
-                AGENDAR AVALIAÇÃO
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <div style={{ display: 'flex' }}>
-                  {['#2a2520', '#221e1a', '#1e1a16'].map((c, i) => (
-                    <div key={i} style={{ width: '15px', height: '15px', borderRadius: '50%', backgroundColor: c, border: `1.5px solid ${bg}`, marginLeft: i > 0 ? '-5px' : '0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ fontSize: '7px', color: '#888' }}>●</span>
-                    </div>
-                  ))}
-                </div>
-                <span style={{ fontSize: '6px', color: '#383838' }}>+340</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Metrics row */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '5px' }}>
-            {[
-              { val: '90d',  sub: 'Garantia',  hi: true  },
-              { val: '4.9★', sub: 'Google',    hi: false },
-              { val: '340+', sub: 'Alunos',    hi: false },
-            ].map(m => (
-              <div key={m.val} style={{
-                backgroundColor: m.hi ? `${ac}12` : 'rgba(255,255,255,0.025)',
-                border: m.hi ? `1px solid ${ac}28` : '1px solid rgba(255,255,255,0.04)',
-                borderRadius: '9px', padding: '8px 10px',
-                position: 'relative', overflow: 'hidden',
-              }}>
-                {m.hi && <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(90deg, ${ac}, #FF8C5A)` }} />}
-                <div style={{ fontSize: '18px', fontWeight: 900, color: m.hi ? ac : '#fff', lineHeight: 1, letterSpacing: '-0.04em' }}>{m.val}</div>
-                <div style={{ fontSize: '6px', color: '#2e2e2e', marginTop: '2px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{m.sub}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* RIGHT */}
-        <div style={{ padding: '10px 14px 10px 0', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-
-          {/* Photo card */}
-          <div style={{ flex: 1, borderRadius: '14px', border: `1px solid ${ac}18`, position: 'relative', overflow: 'hidden', background: 'linear-gradient(160deg, #141210 0%, #0d0b09 100%)' }}>
-            {/* Diagonal streak */}
-            <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(155deg, ${ac}16 0%, transparent 55%)` }} />
-            {/* Grid lines */}
-            <div style={{ position: 'absolute', inset: 0, backgroundImage: `linear-gradient(${ac}06 1px, transparent 1px), linear-gradient(90deg, ${ac}06 1px, transparent 1px)`, backgroundSize: '20px 20px' }} />
-            {/* Monogram */}
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -52%)', fontSize: '52px', fontWeight: 900, color: `${ac}14`, letterSpacing: '-0.06em', lineHeight: 1, userSelect: 'none' }}>KV</div>
-            {/* Corner badge */}
-            <div style={{ position: 'absolute', top: '10px', right: '10px', backgroundColor: `${ac}1a`, border: `1px solid ${ac}35`, borderRadius: '5px', padding: '3px 7px' }}>
-              <span style={{ fontSize: '6px', fontWeight: 700, color: ac, letterSpacing: '0.08em' }}>CREF ATIVO</span>
-            </div>
-            {/* Caption */}
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '28px 12px 10px', background: 'linear-gradient(to top, rgba(8,7,6,0.98) 0%, transparent 100%)' }}>
-              <div style={{ fontSize: '6.5px', fontStyle: 'italic', color: '#3a3a3a', lineHeight: 1.5 }}>"Resultado não é sorte.<br />É método."</div>
-              <div style={{ fontSize: '6.5px', color: ac, fontWeight: 700, marginTop: '3px', letterSpacing: '0.06em' }}>KOVAC · Head Coach</div>
-            </div>
-          </div>
-
-          {/* Booking widget */}
-          <div style={{ backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)', padding: '9px 11px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
-              <span style={{ fontSize: '7.5px', fontWeight: 700, color: '#ccc' }}>Vagas — Mar 2026</span>
-              <span style={{ fontSize: '6.5px', color: ac, fontWeight: 800 }}>2 restam</span>
-            </div>
-            <div style={{ display: 'flex', gap: '2.5px' }}>
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} style={{ flex: 1, height: '5px', borderRadius: '2px', backgroundColor: i < 6 ? (i < 5 ? `${ac}30` : ac) : 'rgba(255,255,255,0.05)' }} />
-              ))}
-            </div>
-            <div style={{ fontSize: '6px', color: '#2a2a2a', marginTop: '4px' }}>Online & Presencial · Porto Alegre</div>
-          </div>
-
-          {/* NewSwift badge */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '4px', padding: '4px 8px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.03)', backgroundColor: 'rgba(0,0,0,0.4)' }}>
-            <span style={{ fontSize: '6px', color: '#202020' }}>feito por</span>
-            <span style={{ fontSize: '6.5px', fontWeight: 800, color: '#00FF88' }}>NewSwift</span>
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+           <div style={{ padding: '18px 40px', borderRadius: '2px', backgroundColor: '#fff', color: '#000', fontSize: '11px', fontWeight: 900, letterSpacing: '0.2em' }}>GET ACCESS</div>
+           <div style={{ fontSize: '11px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '4px' }}>VIEW MANIFESTO</div>
         </div>
       </div>
+
     </div>
   )
 }
 
 export default function BeforeAfter() {
-  const sectionRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const inView = useInView(sectionRef, { once: true, margin: '-60px' })
-  const [position, setPosition] = useState(48)
+  const [position, setPosition] = useState(50)
   const isDragging = useRef(false)
 
   const updatePosition = useCallback((clientX: number) => {
     if (!containerRef.current) return
     const rect = containerRef.current.getBoundingClientRect()
-    const x = Math.max(2, Math.min(clientX - rect.left, rect.width - 2))
+    const x = Math.max(0, Math.min(clientX - rect.left, rect.width))
     setPosition((x / rect.width) * 100)
   }, [])
 
-  return (
-    <section id="resultados" style={{ backgroundColor: '#09090B', padding: '96px 0' }} ref={sectionRef}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
+  // Prevent accidental jumps on load
+  useEffect(() => {
+    setPosition(50)
+  }, [])
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          style={{ textAlign: 'center', marginBottom: '52px' }}
+  return (
+    <section id="resultados" style={{ backgroundColor: '#09090B', padding: '160px 0', position: 'relative', overflow: 'hidden' }}>
+      
+      {/* Ambient background glow */}
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80%', height: '80%', background: 'radial-gradient(circle, rgba(0, 255, 136, 0.03) 0%, transparent 100%)', zIndex: 0, filter: 'blur(120px)' }} />
+
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
+
+        {/* Header - Editorial Style */}
+        <div
+          className="reveal-up"
+          style={{ textAlign: 'center', marginBottom: '80px' }}
         >
           <span className="section-label mono">Antes & Depois</span>
-          <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 4rem)', fontWeight: 900, letterSpacing: '-0.045em', color: '#fff', marginTop: '12px', lineHeight: 0.95, marginBottom: '20px' }}>
+          <h2 className="syne" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.8rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '16px', lineHeight: 0.9 }}>
             O antes é genérico.<br />O depois é seu.
           </h2>
-          <p style={{ fontSize: '15px', color: '#444', lineHeight: 1.75, maxWidth: '420px', margin: '0 auto' }}>
-            Arraste o divisor. De um lado, o que a maioria entrega. Do outro, o que a NewSwift constrói.
+          <p style={{ fontSize: '15px', color: '#666', lineHeight: 1.8, maxWidth: '480px', margin: '32px auto 0' }}>
+            Deslize o divisor para comparar a mediocridade do mercado com a engenharia de precisão da NewSwift.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Comparison slider */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.55, delay: 0.1 }}
-          style={{ borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)', boxShadow: '0 32px 80px rgba(0,0,0,0.6)' }}
+        {/* Comparison Stage - Theatrical Container */}
+        <div
+          className="reveal-up"
+          style={{ 
+            position: 'relative',
+            borderRadius: '24px', 
+            overflow: 'hidden', 
+            border: '1px solid rgba(255,255,255,0.06)', 
+            boxShadow: '0 64px 120px -30px rgba(0,0,0,0.8)',
+            backgroundColor: '#000', // Solid black base to prevent leakage
+            height: '640px'
+          }}
         >
-          {/* Labels */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', backgroundColor: '#0a0a0a', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-            <div style={{ padding: '10px 18px', borderRight: '1px solid rgba(255,255,255,0.05)' }}>
-              <span style={{ fontSize: '10px', fontWeight: 700, color: '#3a3a3a', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Antes</span>
-            </div>
-            <div style={{ padding: '10px 18px' }}>
-              <span style={{ fontSize: '10px', fontWeight: 700, color: '#00FF88', letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.8 }}>Com a NewSwift</span>
-            </div>
-          </div>
-
-          {/* Slider area — Pointer Events API (works on mouse + touch) */}
+          {/* Interaction Area */}
           <div
             ref={containerRef}
-            style={{ position: 'relative', height: '420px', cursor: 'col-resize', userSelect: 'none', overflow: 'hidden', touchAction: 'none' }}
+            style={{ position: 'relative', width: '100%', height: '100%', cursor: 'col-resize', userSelect: 'none', overflow: 'hidden', touchAction: 'none' }}
             onPointerDown={e => {
               isDragging.current = true
               ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
@@ -259,29 +137,52 @@ export default function BeforeAfter() {
             onPointerUp={() => { isDragging.current = false }}
             onPointerCancel={() => { isDragging.current = false }}
           >
-            {/* BEFORE — left side, clipped to left of divider */}
-            <div style={{ position: 'absolute', inset: 0, clipPath: `inset(0 ${100 - position}% 0 0)` }}>
+            {/* BEFORE LAYER */}
+            <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
               <BeforeMockup />
             </div>
 
-            {/* AFTER — right side, clipped to right of divider */}
-            <div style={{ position: 'absolute', inset: 0, clipPath: `inset(0 0 0 ${position}%)` }}>
+            {/* AFTER LAYER - This one clips the Before layer */}
+            <div style={{ 
+              position: 'absolute', 
+              inset: 0, 
+              zIndex: 2, 
+              clipPath: `polygon(${position}% 0, 100% 0, 100% 100%, ${position}% 100%)`, 
+              backgroundColor: '#000'
+            }}>
               <AfterMockup />
             </div>
 
-            {/* Divider line */}
-            <div
-              style={{ position: 'absolute', top: 0, bottom: 0, left: `${position}%`, width: '2px', backgroundColor: '#00FF88', transform: 'translateX(-50%)', zIndex: 10, boxShadow: '0 0 12px rgba(0,255,136,0.5)', pointerEvents: 'none' }}
-            />
+            {/* HUD Status Label - Bottom Right */}
+            <div style={{ position: 'absolute', bottom: '24px', right: '24px', zIndex: 30, pointerEvents: 'none' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '8px 18px', borderRadius: '100px', backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(16px)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00FF88', boxShadow: '0 0 10px rgba(0,255,136,0.6)' }} />
+                <span className="mono" style={{ fontSize: '10px', color: '#fff', fontWeight: 800, letterSpacing: '0.12em' }}>NSWIFT_ENGINEERING</span>
+              </div>
+            </div>
 
-            {/* Handle */}
-            <div style={{ position: 'absolute', top: '50%', left: `${position}%`, transform: 'translate(-50%, -50%)', zIndex: 11, display: 'flex', flexDirection: 'column', alignItems: 'center', pointerEvents: 'none' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: '#00FF88', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 0 5px rgba(0,255,136,0.18), 0 8px 28px rgba(0,0,0,0.7)' }}>
-                <span style={{ fontSize: '14px', color: '#000', fontWeight: 900, letterSpacing: '-0.05em', userSelect: 'none' }}>⇔</span>
+            {/* Refined Divider */}
+            <div
+              style={{ position: 'absolute', top: 0, bottom: 0, left: `${position}%`, width: '1px', backgroundColor: 'rgba(255,255,255,0.2)', transform: 'translateX(-50%)', zIndex: 20, pointerEvents: 'none' }}
+            >
+              <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: '100%', background: 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent)' }} />
+            </div>
+
+            {/* Tactile Handle */}
+            <div style={{ position: 'absolute', top: '50%', left: `${position}%`, transform: 'translate(-50%, -50%)', zIndex: 21, pointerEvents: 'none' }}>
+              <div style={{ 
+                width: '48px', height: '48px', borderRadius: '50%', 
+                backgroundColor: '#fff', 
+                display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                boxShadow: '0 12px 32px rgba(0,0,0,0.5)' 
+              }}>
+                <div style={{ display: 'flex', gap: '3px' }}>
+                   {[1, 2].map(i => <div key={i} style={{ width: '2px', height: '14px', backgroundColor: '#000', borderRadius: '10px' }} />)}
+                </div>
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
       </div>
     </section>

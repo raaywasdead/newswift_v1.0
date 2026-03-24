@@ -1,18 +1,10 @@
-import { useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useState } from 'react'
 import {
   GraduationCap, Globe, Cpu, Users2,
   Code2, Palette, BarChart2, ArrowRight,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { members } from './TeamModal'
-
-const stats = [
-  { value: '5+',   label: 'Projetos entregues', sub: 'Em produção' },
-  { value: '100%', label: 'Satisfação',          sub: 'Clientes' },
-  { value: '<15d', label: 'Entrega média',        sub: 'Prazo' },
-  { value: '3',    label: 'Devs dedicados',       sub: 'Em equipe' },
-]
 
 const highlights = [
   { icon: Globe,  label: 'Inglês B2',   sub: 'Ferramentas internacionais e comunicação direta com qualquer stack.' },
@@ -29,17 +21,13 @@ const roleIconMap: Record<string, typeof Code2> = {
 const teamOrder = ['arthur', 'joaovitor', 'brayan']
 
 // Hover card for a team member
-function MemberCard({ member, index }: { member: typeof members[number]; index: number }) {
+function MemberCard({ member }: { member: typeof members[number] }) {
   const [hovered, setHovered] = useState(false)
   const Icon = roleIconMap[member.id] ?? Code2
   const isLead = member.id === 'joaovitor'
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.55, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+    <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -186,14 +174,11 @@ function MemberCard({ member, index }: { member: typeof members[number]; index: 
           Ver perfil completo <ArrowRight size={11} />
         </Link>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
 export default function About() {
-  const headerRef = useRef(null)
-  const headerIn  = useInView(headerRef, { once: true, margin: '-60px' })
-
   const orderedMembers = teamOrder
     .map(id => members.find(m => m.id === id))
     .filter(Boolean) as typeof members
@@ -221,11 +206,8 @@ export default function About() {
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
 
         {/* ── SECTION HEADER ── */}
-        <motion.div
-          ref={headerRef}
-          initial={{ opacity: 0, y: 24 }}
-          animate={headerIn ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.55 }}
+        <div
+          className="reveal-up"
           style={{ marginBottom: '72px' }}
         >
           <span className="section-label mono">Quem Somos</span>
@@ -276,15 +258,12 @@ export default function About() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* ── TEAM CARDS ── */}
         <div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.4 }}
+          <div
+            className="reveal-up"
             style={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -311,26 +290,25 @@ export default function About() {
             <p style={{ fontSize: '13px', color: '#8888a0', maxWidth: '200px', lineHeight: 1.6, textAlign: 'right' }}>
               Clique em qualquer membro para ver o perfil completo.
             </p>
-          </motion.div>
+          </div>
 
           {/* 3-column card grid */}
-          <div style={{
+          <div 
+            className="reveal-stagger"
+            style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '20px',
           }}>
-            {orderedMembers.map((member, i) => (
-              <MemberCard key={member.id} member={member} index={i} />
+            {orderedMembers.map((member) => (
+              <MemberCard key={member.id} member={member} />
             ))}
           </div>
         </div>
 
         {/* ── DIFFERENTIALS STRIP ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+        <div
+          className="reveal-stagger"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
@@ -369,7 +347,7 @@ export default function About() {
               </div>
             )
           })}
-        </motion.div>
+        </div>
 
       </div>
     </section>

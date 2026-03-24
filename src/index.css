@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800;900&display=swap');
 
 /* ── CSS Custom Property for animated rotating gradient ── */
 @property --angle {
@@ -114,6 +115,10 @@ body {
 /* ── Typography utilities ── */
 .mono {
   font-family: 'SF Mono', 'Fira Code', ui-monospace, monospace;
+}
+
+.syne {
+  font-family: 'Syne', sans-serif;
 }
 
 .section-label {

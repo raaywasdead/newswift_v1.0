@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import PixelBlast from './PixelBlast'
@@ -76,13 +75,11 @@ const stats = [
 export default function Hero() {
   const typed = useTypewriter()
 
-  const isFirstLoad = typeof window !== 'undefined' ? !sessionStorage.getItem('ns_preloader_done') : false;
-  const baseDelay = isFirstLoad ? 3.4 : 0.1;
 
   return (
-    <section id="hero" style={{ position: 'relative', minHeight: '100vh', backgroundColor: '#09090B', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+    <section id="hero" className="hero-section" style={{ position: 'relative', minHeight: '100vh', backgroundColor: '#09090B', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
 
-      {/* PixelBlast */}
+      {/* PixelBlast Background */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         <PixelBlast
           color="#00FF88"
@@ -118,22 +115,18 @@ export default function Hero() {
         <div style={{ flex: '1 1 520px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
 
           {/* Availability badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: baseDelay, ease: [0.16, 1, 0.3, 1] as any }}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px 6px 9px', borderRadius: '100px', border: '1px solid rgba(0,255,136,0.28)', backgroundColor: 'rgba(0,255,136,0.07)', width: 'fit-content' }}
+          <div
+            className="hero-badge"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px 6px 9px', borderRadius: '100px', border: '1px solid rgba(0,255,136,0.28)', backgroundColor: 'rgba(0,255,136,0.07)', width: 'fit-content', opacity: 0, visibility: 'hidden' }}
           >
             <span className="pulse-dot" style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#00FF88', display: 'inline-block' }} />
             <span style={{ fontSize: '11px', color: '#00FF88', fontWeight: 600, letterSpacing: '0.07em' }}>Disponível para novos projetos</span>
-          </motion.div>
+          </div>
 
           {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: baseDelay + 0.08 }}
-            style={{ fontSize: 'clamp(3.6rem, 7.5vw, 6.5rem)', fontWeight: 900, lineHeight: 0.9, letterSpacing: '-0.045em', margin: 0 }}
+          <h1
+            className="hero-title"
+            style={{ fontSize: 'clamp(3.6rem, 7.5vw, 6.5rem)', fontWeight: 900, lineHeight: 0.9, letterSpacing: '-0.045em', margin: 0, opacity: 0, visibility: 'hidden' }}
           >
             <span style={{ color: '#fff', display: 'block' }}>CRIAMOS</span>
             <span style={{
@@ -157,24 +150,20 @@ export default function Hero() {
                 animation: 'blink 1s step-end infinite',
               }} />
             </span>
-          </motion.h1>
+          </h1>
 
           {/* Subline */}
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: baseDelay + 0.3 }}
-            style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, maxWidth: '440px', margin: 0 }}
+          <p
+            className="hero-subline"
+            style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, maxWidth: '440px', margin: 0, opacity: 0, visibility: 'hidden' }}
           >
             Somos três desenvolvedores formados pelo IOS na PUC-RS. Transformamos ideias em presença digital com prazo real, código limpo e design que de fato converte.
-          </motion.p>
+          </p>
 
           {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: baseDelay + 0.4 }}
-            style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}
+          <div
+            className="hero-ctas"
+            style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', opacity: 0, visibility: 'hidden' }}
           >
             <a
               href="#contato"
@@ -192,14 +181,12 @@ export default function Hero() {
             >
               VER PROJETOS
             </a>
-          </motion.div>
+          </div>
 
           {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: baseDelay + 0.5 }}
-            style={{ display: 'flex', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.06)', width: 'fit-content', marginTop: '4px' }}
+          <div
+            className="hero-stats"
+            style={{ display: 'flex', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.06)', width: 'fit-content', marginTop: '4px', opacity: 0, visibility: 'hidden' }}
           >
             {stats.map((s, i) => (
               <div key={s.label} style={{ paddingRight: '32px', marginRight: '32px', borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
@@ -207,15 +194,13 @@ export default function Hero() {
                 <div style={{ fontSize: '10px', color: '#777788', marginTop: '6px', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700 }}>{s.label}</div>
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* RIGHT: photo with rotating gradient border */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.65, delay: baseDelay + 0.2 }}
-          style={{ flex: '1 1 440px', position: 'relative', maxWidth: '540px' }}
+        <div
+          className="hero-photo"
+          style={{ flex: '1 1 440px', position: 'relative', maxWidth: '540px', opacity: 0, visibility: 'hidden' }}
         >
           {/* Deep ambient glow */}
           <div style={{ position: 'absolute', inset: '-24%', background: 'radial-gradient(ellipse 70% 70% at 50% 62%, rgba(0,255,136,0.1) 0%, transparent 65%)', zIndex: 0, filter: 'blur(24px)', borderRadius: '50%' }} />
@@ -257,7 +242,7 @@ export default function Hero() {
             }} />
           ))}
 
-        </motion.div>
+        </div>
       </div>
 
       {/* ── Icon conveyor belt ── */}

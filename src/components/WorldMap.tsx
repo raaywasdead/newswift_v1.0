@@ -18,7 +18,7 @@ function mercator(lon: number, lat: number, W: number, H: number): [number, numb
 
 export default function WorldMap() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const frameRef = useRef<number>()
+  const frameRef = useRef<number>(0)
 
   useEffect(() => {
     const canvas = canvasRef.current

@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react'
-import { motion, AnimatePresence, useInView } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const projects = [
@@ -66,12 +66,18 @@ const projects = [
 ]
 
 export default function Projects() {
-  const ref      = useRef(null)
-  const inView   = useInView(ref, { once: true, margin: '-60px' })
   const [current, setCurrent] = useState(0)
-  const [dir, setDir]         = useState(1)
+  const [isChanging, setIsChanging] = useState(false)
 
-  const go   = (next: number) => { setDir(next > current ? 1 : -1); setCurrent(next) }
+  const go = (next: number) => { 
+    if(isChanging) return
+    setIsChanging(true)
+    setTimeout(() => {
+      setCurrent(next)
+      setIsChanging(false)
+    }, 450)
+  }
+
   const prev = () => go((current - 1 + projects.length) % projects.length)
   const next = () => go((current + 1) % projects.length)
 
@@ -80,238 +86,197 @@ export default function Projects() {
   return (
     <section
       id="projetos"
-      style={{ backgroundColor: '#09090B', padding: '120px 0 140px', borderTop: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}
+      style={{ backgroundColor: '#09090B', padding: '100px 0', borderTop: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}
     >
-      {/* Glow ambient circle removed per request, keeping only the card glow */}
-
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
 
         {/* ── Header ── */}
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '52px', flexWrap: 'wrap', gap: '20px' }}
+        <div
+          className="reveal-up"
+          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '32px' }}
         >
           <div>
             <span className="section-label mono">Portfólio</span>
-            <h2 style={{ fontSize: 'clamp(2.4rem, 5vw, 4rem)', fontWeight: 900, letterSpacing: '-0.045em', color: '#fff', marginTop: '12px', lineHeight: 0.95 }}>
-              O que a gente<br />já construiu.
+            <h2 style={{ fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '8px', lineHeight: 0.9 }}>
+              O que nós já<br />construímos.
             </h2>
           </div>
-          <p style={{ fontSize: '13px', color: '#555', maxWidth: '280px', lineHeight: 1.75, paddingBottom: '4px' }}>
-            Projetos autorais que mostram o que a equipe é capaz de entregar — design, código e produto.
+          <p style={{ fontSize: '14px', color: '#666', maxWidth: '340px', lineHeight: 1.8, marginBottom: '8px' }}>
+            Cada projeto é um novo desafio. Combinamos design editorial com engenharia de software para entregar produtos que marcam presença.
           </p>
-        </motion.div>
+        </div>
 
-        {/* ── Carousel card ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.12 }}
-          style={{ position: 'relative' }}
-        >
-          {/* Intense background glow for carousel */}
-          <div style={{
-            position: 'absolute', top: '5%', left: '5%', right: '5%', bottom: '5%', zIndex: -1,
-            background: p.accent,
-            filter: 'blur(100px)',
-            opacity: 0.15,
-            transition: 'background 0.5s ease',
-            pointerEvents: 'none'
-          }} />
-
-          <div style={{
-            position: 'relative',
-            borderRadius: '20px',
-            overflow: 'hidden',
-            border: `1px solid ${p.accent}28`,
-            boxShadow: `0 0 0 1px ${p.accent}08 inset, 0 32px 80px rgba(0,0,0,0.7), 0 0 60px ${p.accent}15`,
-            transition: 'border-color 0.5s, box-shadow 0.5s',
-          }}>
-            {/* Top accent line */}
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: `linear-gradient(90deg, transparent 0%, ${p.accent}88 40%, ${p.accent}88 60%, transparent 100%)`, zIndex: 5, pointerEvents: 'none', transition: 'background 0.5s' }} />
-
-            <AnimatePresence mode="wait" initial={false} custom={dir}>
-              <motion.div
-                key={p.id}
-                custom={dir}
-                variants={{
-                  enter:  (d: number) => ({ x: d * 48, opacity: 0 }),
-                  center: { x: 0, opacity: 1 },
-                  exit:   (d: number) => ({ x: d * -48, opacity: 0 }),
-                }}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-                style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', minHeight: '460px' }}
-              >
-                {/* ── LEFT: mockup ── */}
-                <div style={{
-                  position: 'relative',
-                  background: p.mockupBg,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  padding: '48px 40px',
-                  overflow: 'hidden',
-                }}>
-                  {/* Dot grid */}
-                  <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px)', backgroundSize: '24px 24px', pointerEvents: 'none' }} />
-                  {/* Accent glow */}
-                  <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse 55% 45% at 50% 50%, ${p.accent}18 0%, transparent 65%)`, pointerEvents: 'none' }} />
-
-                  {/* Browser frame */}
-                  <div style={{
-                    position: 'relative', width: '100%', maxWidth: '500px',
-                    borderRadius: '10px', overflow: 'hidden',
-                    border: `1px solid ${p.accent}22`,
-                    boxShadow: `0 28px 72px rgba(0,0,0,0.7), 0 0 0 1px ${p.accent}0c inset`,
-                  }}>
-                    {/* Titlebar */}
-                    <div style={{
-                      backgroundColor: '#0c0c0c',
-                      padding: '10px 14px',
-                      display: 'flex', alignItems: 'center', gap: '6px',
-                      borderBottom: `1px solid ${p.accent}12`,
-                    }}>
-                      {['#ff5f57', '#febc2e', '#28c840'].map((c, i) => (
-                        <div key={i} style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: c, opacity: 0.5 }} />
-                      ))}
-                      <div style={{ flex: 1, height: '14px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '4px', marginLeft: '10px' }} />
-                    </div>
-
-                    {/* Screenshot */}
-                    <div style={{ position: 'relative', height: '260px', overflow: 'hidden', background: p.mockupBg }}>
-                      <img
-                        src={p.screenshot}
-                        alt={p.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: p.screenshotPos, display: 'block' }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Category badge */}
-                  <div style={{
-                    position: 'absolute', top: '20px', left: '20px',
-                    backgroundColor: `${p.accent}14`,
-                    border: `1px solid ${p.accent}30`,
-                    borderRadius: '6px', padding: '4px 10px',
-                    backdropFilter: 'blur(6px)',
-                  }}>
-                    <span style={{ fontSize: '9px', fontWeight: 700, color: p.accent, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{p.category}</span>
-                  </div>
-
-                </div>
-
-                {/* ── RIGHT: info ── */}
-                <div style={{
-                  backgroundColor: '#030303',
-                  borderLeft: `1px solid ${p.accent}14`,
-                  padding: '52px 44px',
-                  display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                  gap: '24px', position: 'relative', overflow: 'hidden',
-                  transition: 'border-color 0.5s',
-                }}>
-                  {/* Subtle ambient */}
-                  <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse 80% 55% at 50% 0%, ${p.accent}09 0%, transparent 60%)`, pointerEvents: 'none' }} />
-
-                  {/* Title block */}
-                  <div style={{ position: 'relative', zIndex: 1 }}>
-                    <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: p.accent, opacity: 0.65 }}>{p.category}</span>
-                    <h3 style={{ fontSize: 'clamp(1.6rem, 2.8vw, 2.2rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.035em', lineHeight: 1.05, margin: '6px 0 0' }}>{p.name}</h3>
-                  </div>
-
-                  <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.35)', lineHeight: 1.85, position: 'relative', zIndex: 1 }}>{p.desc}</p>
-
-                  {/* Tags */}
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', position: 'relative', zIndex: 1 }}>
-                    {p.tags.map(t => (
-                      <span key={t} style={{
-                        fontSize: '9px', fontWeight: 700,
-                        color: `${p.accent}bb`,
-                        backgroundColor: `${p.accent}10`,
-                        border: `1px solid ${p.accent}22`,
-                        padding: '3px 9px', borderRadius: '4px',
-                        letterSpacing: '0.05em', textTransform: 'uppercase',
-                      }}>{t}</span>
-                    ))}
-                  </div>
-
-                  {/* CTA */}
-                  <a
-                    href={p.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '7px',
-                      fontSize: '11px', fontWeight: 800, letterSpacing: '0.07em',
-                      textTransform: 'uppercase', textDecoration: 'none',
-                      color: '#000',
-                      backgroundColor: p.accent,
-                      padding: '10px 20px', borderRadius: '8px',
-                      width: 'fit-content',
-                      transition: 'opacity 0.18s, transform 0.18s',
-                      position: 'relative', zIndex: 1,
-                    }}
-                    onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.opacity = '0.85'; el.style.transform = 'translateY(-1px)' }}
-                    onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.opacity = '1'; el.style.transform = 'translateY(0)' }}
-                  >
-                    Ver Projeto <ArrowUpRight size={13} strokeWidth={2.5} />
-                  </a>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* ── Navigation bar ── */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '20px', paddingInline: '4px' }}>
-
-            {/* Prev / Next */}
-            <div style={{ display: 'flex', gap: '8px' }}>
-              {[{ fn: prev, Icon: ChevronLeft }, { fn: next, Icon: ChevronRight }].map(({ fn, Icon }, i) => (
-                <button
-                  key={i}
-                  onClick={fn}
+        {/* ── Projects 2.0 Theatrical Stage ── */}
+        <div style={{ position: 'relative', minHeight: '440px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={p.id}
+              initial={{ opacity: 0, scale: 0.95, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 1.05, y: -20, filter: 'blur(10px)' }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              style={{ width: '100%', position: 'relative', zIndex: 2, display: 'grid', gridTemplateColumns: '1fr', alignItems: 'center' }}
+            >
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                
+                {/* Dynamic Background Glow - Attached to Card */}
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 0.18, scale: 1 }}
+                  transition={{ duration: 0.8 }}
                   style={{
-                    width: '40px', height: '40px', borderRadius: '50%',
-                    border: `1px solid ${p.accent}25`,
-                    backgroundColor: `${p.accent}08`,
-                    color: p.accent, cursor: 'pointer',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    transition: 'background-color 0.18s, border-color 0.18s',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = `${p.accent}18`; e.currentTarget.style.borderColor = `${p.accent}55` }}
-                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = `${p.accent}08`; e.currentTarget.style.borderColor = `${p.accent}25` }}
-                >
-                  <Icon size={16} />
-                </button>
-              ))}
-            </div>
-
-            {/* Dot progress */}
-            <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-              {projects.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => go(i)}
-                  style={{
-                    width: current === i ? '24px' : '6px',
-                    height: '6px', borderRadius: '3px',
-                    backgroundColor: current === i ? p.accent : 'rgba(255,255,255,0.08)',
-                    border: 'none', cursor: 'pointer', padding: 0,
-                    transition: 'all 0.28s ease',
-                  }}
+                    position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                    width: '120%', height: '120%',
+                    background: `radial-gradient(circle, ${p.accent} 0%, transparent 70%)`,
+                    zIndex: -1, pointerEvents: 'none',
+                    filter: 'blur(100px)'
+                  }} 
                 />
-              ))}
-            </div>
+                
+                {/* 1. Large Mockup Center */}
+                <div style={{
+                  position: 'relative', 
+                  width: '100%', maxWidth: '620px',
+                  aspectRatio: '16/10',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  background: p.mockupBg,
+                  boxShadow: `0 50px 100px -20px rgba(0,0,0,0.8), 0 30px 60px -30px ${p.accent}40`,
+                  border: `1px solid rgba(255,255,255,0.05)`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  padding: '2vw'
+                }}>
+                   {/* Screenshot in custom frame */}
+                   <div style={{ 
+                     width: '100%', height: '100%', borderRadius: '12px', overflow: 'hidden', 
+                     boxShadow: '0 4px 64px rgba(0,0,0,0.5)',
+                     border: '1px solid rgba(255,255,255,0.06)'
+                   }}>
+                      <img 
+                        src={p.screenshot} 
+                        alt={p.name} 
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: p.screenshotPos }}
+                      />
+                   </div>
+                </div>
 
-            {/* Counter */}
-            <span className="mono" style={{ fontSize: '11px', color: '#333', letterSpacing: '0.1em' }}>
-              {String(current + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
-            </span>
+                {/* 2. Floating Info HUD (Editorial Overlay) */}
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  pointerEvents: 'none',
+                  display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+                  padding: '40px'
+                }}>
+                  {/* Top Header Label */}
+                  <motion.div 
+                    initial={{ x: -20, opacity: 0 }} 
+                    animate={{ x: 0, opacity: 1 }} 
+                    transition={{ delay: 0.3 }}
+                    style={{ position: 'absolute', top: '-10%', left: '0', zIndex: 10 }}
+                  >
+                    <span className="mono" style={{ fontSize: '11px', fontWeight: 800, color: p.accent, letterSpacing: '0.2em', textTransform: 'uppercase', backgroundColor: '#09090B', padding: '6px 14px', border: `1px solid ${p.accent}40` }}>{p.category}</span>
+                  </motion.div>
+
+                  {/* Main Title & Description (Bottom Floating) */}
+                  <div style={{ position: 'absolute', bottom: '-15%', left: '0', maxWidth: '440px', pointerEvents: 'auto' }}>
+                    <motion.h3 
+                      initial={{ y: 30, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                      className="syne"
+                      style={{ fontSize: 'clamp(1.5rem, 2.8vw, 2.4rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.04em', lineHeight: 0.9, marginBottom: '20px' }}
+                    >
+                      {p.name}
+                    </motion.h3>
+                    
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.5 }}
+                      style={{ padding: '20px', backgroundColor: 'rgba(9,9,11,0.7)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px' }}
+                    >
+                      <p style={{ fontSize: '13px', color: '#8888a0', lineHeight: 1.7, marginBottom: '20px' }}>{p.desc}</p>
+                      
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '32px' }}>
+                        {p.tags.map(t => (
+                          <span key={t} style={{ fontSize: '9px', fontWeight: 700, color: '#fff', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '4px 10px', borderRadius: '4px', letterSpacing: '0.05em' }}>{t}</span>
+                        ))}
+                      </div>
+
+                      <a
+                        href={p.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '10px',
+                          fontSize: '11px', fontWeight: 900, color: '#000', backgroundColor: p.accent,
+                          padding: '14px 28px', borderRadius: '100px', textDecoration: 'none', letterSpacing: '0.08em',
+                          transition: 'all 0.2s', boxShadow: `0 10px 30px ${p.accent}30`
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)'; e.currentTarget.style.boxShadow = `0 15px 40px ${p.accent}50` }}
+                        onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.boxShadow = `0 10px 30px ${p.accent}30` }}
+                      >
+                        VER PROJETO <ArrowUpRight size={14} strokeWidth={3} />
+                      </a>
+                    </motion.div>
+                  </div>
+
+                  {/* Visual Counter (Right Floating) */}
+                  <div style={{ position: 'absolute', top: '50%', right: '-10%', transform: 'translateY(-50%) rotate(90deg)', transformOrigin: 'center' }}>
+                    <span className="mono" style={{ fontSize: '100px', fontWeight: 900, color: 'rgba(255,255,255,0.02)', letterSpacing: '-0.05em' }}>
+                      {String(current + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* ── Custom Navigation HUD ── */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '32px', marginTop: '60px' }}>
+          
+          <button 
+            onClick={prev}
+            style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'transparent', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = p.accent; e.currentTarget.style.backgroundColor = `${p.accent}10` }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.backgroundColor = 'transparent' }}
+          >
+            <ChevronLeft size={24} />
+          </button>
+
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            {projects.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => go(i)}
+                style={{
+                  width: current === i ? '40px' : '8px',
+                  height: '8px', borderRadius: '4px',
+                  backgroundColor: current === i ? p.accent : 'rgba(255,255,255,0.1)',
+                  padding: 0, border: 'none', cursor: 'pointer', transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)'
+                }}
+              />
+            ))}
           </div>
-        </motion.div>
+
+          <button 
+            onClick={next}
+            style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'transparent', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = p.accent; e.currentTarget.style.backgroundColor = `${p.accent}10` }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.backgroundColor = 'transparent' }}
+          >
+            <ChevronRight size={24} />
+          </button>
+
+        </div>
+
+        {/* Cinematic Number Label */}
+        <div style={{ position: 'absolute', bottom: '40px', right: '40px', opacity: 0.1 }}>
+           <span className="mono" style={{ fontSize: '13px', color: '#fff', letterSpacing: '0.4em' }}>PROJECT_{String(current + 1).padStart(2, '0')}</span>
+        </div>
 
       </div>
     </section>

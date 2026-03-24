@@ -1,5 +1,3 @@
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
 function GitHubIcon() {
@@ -35,13 +33,10 @@ const socials = [
 ]
 
 export default function CTA() {
-  const ref    = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
     <section
       id="contato"
-      ref={ref}
       style={{ position: 'relative', backgroundColor: '#09090B', overflow: 'hidden', padding: '140px 24px' }}
     >
       {/* Dot grid */}
@@ -60,33 +55,27 @@ export default function CTA() {
       <div style={{ position: 'relative', zIndex: 2, maxWidth: '720px', margin: '0 auto', textAlign: 'center' }}>
 
         {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -12 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4 }}
+        <div
+          className="reveal-up reveal-sooner"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px 6px 9px', borderRadius: '100px', border: '1px solid rgba(0,255,136,0.28)', backgroundColor: 'rgba(0,255,136,0.07)', marginBottom: '40px' }}
         >
           <span className="pulse-dot" style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#00FF88', display: 'inline-block' }} />
           <span style={{ fontSize: '11px', color: '#00FF88', fontWeight: 600, letterSpacing: '0.07em' }}>Disponível para novos projetos</span>
-        </motion.div>
+        </div>
 
         {/* Headline */}
-        <motion.h2
-          initial={{ opacity: 0, y: 28 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.55, delay: 0.08 }}
+        <h2
+          className="reveal-up reveal-sooner"
           style={{ fontSize: 'clamp(3.2rem, 8vw, 6.5rem)', fontWeight: 900, lineHeight: 0.9, letterSpacing: '-0.05em', margin: '0 0 48px' }}
         >
           <span style={{ color: '#fff', display: 'block' }}>SEU PRÓXIMO</span>
           <span style={{ display: 'block', background: 'linear-gradient(130deg, #00FF88 0%, #00D4A0 55%, #009E78 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', filter: 'drop-shadow(0 0 28px rgba(0,255,136,0.35))' }}>SITE COMEÇA</span>
           <span style={{ color: '#fff', display: 'block' }}>AQUI.</span>
-        </motion.h2>
+        </h2>
 
         {/* Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.45, delay: 0.2 }}
+        <div
+          className="reveal-up reveal-sooner"
           style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px' }}
         >
           <Link
@@ -114,25 +103,21 @@ export default function CTA() {
             VAMOS NESSA
           </Link>
           <span style={{ fontSize: '11px', color: '#8888a0', fontWeight: 600 }}>Consultoria gratuita · Sem compromisso</span>
-        </motion.div>
+        </div>
 
         {/* Divider */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.4, delay: 0.35 }}
+        <div
+          className="reveal-up reveal-sooner"
           style={{ display: 'flex', alignItems: 'center', gap: '16px', margin: '48px auto', maxWidth: '280px' }}
         >
           <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255,255,255,0.06)' }} />
           <span style={{ fontSize: '10px', color: '#666677', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>ou nos encontre em</span>
           <div style={{ flex: 1, height: '1px', backgroundColor: 'rgba(255,255,255,0.06)' }} />
-        </motion.div>
+        </div>
 
         {/* Social icons */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4, delay: 0.42 }}
+        <div
+          className="reveal-up reveal-sooner"
           style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}
         >
           {socials.map(({ label, href, Icon }) => (
@@ -167,7 +152,7 @@ export default function CTA() {
               <Icon />
             </a>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )
