@@ -68,7 +68,7 @@ const ticker = [...icons, ...icons, ...icons, ...icons]
 
 const stats = [
   { value: '100%', label: 'Satisfação' },
-  { value: '<15d', label: 'Entrega média' },
+  { value: '<10d', label: 'Entrega média' },
   { value: '3', label: 'Devs dedicados' },
 ]
 

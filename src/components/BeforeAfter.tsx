@@ -52,13 +52,13 @@ function AfterMockup() {
         </div>
       </nav>
 
-      <div style={{ padding: '100px 48px', position: 'relative', zIndex: 1 }}>
+      <div style={{ padding: '60px 40px', position: 'relative', zIndex: 1 }}>
 
-        <h2 className="syne" style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', fontWeight: 900, color: '#fff', lineHeight: 0.85, letterSpacing: '-0.06em', marginBottom: '32px' }}>
+        <h2 className="syne" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)', fontWeight: 900, color: '#fff', lineHeight: 0.85, letterSpacing: '-0.06em', marginBottom: '24px' }}>
           The Evolution of<br /><span style={{ color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.8)' }}>Atmosphere.</span>
         </h2>
         
-        <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.4)', lineHeight: 1.8, maxWidth: '340px', marginBottom: '48px' }}>
+        <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.4)', lineHeight: 1.7, maxWidth: '300px', marginBottom: '32px' }}>
           Crafting digital ecosystems that command attention through silence and technical superiority.
         </p>
 
@@ -90,23 +90,23 @@ export default function BeforeAfter() {
   }, [])
 
   return (
-    <section id="resultados" style={{ backgroundColor: '#09090B', padding: '160px 0', position: 'relative', overflow: 'hidden' }}>
+    <section id="resultados" style={{ backgroundColor: '#09090B', padding: '100px 0', position: 'relative', overflow: 'hidden' }}>
       
       {/* Ambient background glow */}
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80%', height: '80%', background: 'radial-gradient(circle, rgba(0, 255, 136, 0.03) 0%, transparent 100%)', zIndex: 0, filter: 'blur(120px)' }} />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
 
         {/* Header - Editorial Style */}
         <div
           className="reveal-up"
-          style={{ textAlign: 'center', marginBottom: '80px' }}
+          style={{ textAlign: 'center', marginBottom: '48px' }}
         >
           <span className="section-label mono">Antes & Depois</span>
-          <h2 className="syne" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.8rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '16px', lineHeight: 0.9 }}>
+          <h2 className="syne" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '12px', lineHeight: 0.9 }}>
             O antes é genérico.<br />O depois é seu.
           </h2>
-          <p style={{ fontSize: '15px', color: '#666', lineHeight: 1.8, maxWidth: '480px', margin: '32px auto 0' }}>
+          <p style={{ fontSize: '14px', color: '#666', lineHeight: 1.7, maxWidth: '440px', margin: '24px auto 0' }}>
             Deslize o divisor para comparar a mediocridade do mercado com a engenharia de precisão da NewSwift.
           </p>
         </div>
@@ -121,7 +121,7 @@ export default function BeforeAfter() {
             border: '1px solid rgba(255,255,255,0.06)', 
             boxShadow: '0 64px 120px -30px rgba(0,0,0,0.8)',
             backgroundColor: '#000', // Solid black base to prevent leakage
-            height: '640px'
+            height: '520px'
           }}
         >
           {/* Interaction Area */}

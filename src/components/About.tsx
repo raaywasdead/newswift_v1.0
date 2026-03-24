@@ -184,7 +184,7 @@ export default function About() {
     .filter(Boolean) as typeof members
 
   return (
-    <section id="sobre" style={{ backgroundColor: '#09090B', padding: '140px 0 120px', position: 'relative', overflow: 'hidden' }}>
+    <section id="sobre" style={{ backgroundColor: '#09090B', padding: '100px 0', overflow: 'hidden', position: 'relative' }}>
 
       {/* Subtle dot grid background */}
       <div style={{
@@ -220,23 +220,8 @@ export default function About() {
             marginTop: '20px',
           }}>
             <div>
-              <h2 style={{
-                fontSize: 'clamp(2.4rem, 4.5vw, 3.8rem)',
-                fontWeight: 900,
-                letterSpacing: '-0.045em',
-                color: '#fff',
-                lineHeight: 0.95,
-                margin: '0 0 24px',
-              }}>
-                Três devs.
-                <br />
-                <span style={{
-                  background: 'linear-gradient(130deg, #00FF88 0%, #00C896 60%, #009E78 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  filter: 'drop-shadow(0 0 20px rgba(0,255,136,0.25))',
-                }}>Uma entrega.</span>
+              <h2 className="syne" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', lineHeight: 0.9 }}>
+                Três devs.<br />Uma missão.
               </h2>
             </div>
 

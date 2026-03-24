@@ -82,7 +82,7 @@ function ServiceCard({ s, i }: { s: typeof services[number]; i: number }) {
         borderRadius: '24px',
         backgroundColor: 'rgba(255,255,255,0.02)',
         border: hovered ? `1px solid ${s.accent}40` : '1px solid rgba(255,255,255,0.06)',
-        padding: '40px',
+        padding: '40px 32px',
         overflow: 'hidden',
         transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
         display: 'flex',
@@ -160,7 +160,7 @@ export default function Services() {
   
 
   return (
-    <section id="servicos" style={{ backgroundColor: '#09090B', padding: '160px 0', position: 'relative', overflow: 'hidden' }}>
+    <section id="sobre" style={{ backgroundColor: '#09090B', padding: '100px 0', position: 'relative', overflow: 'hidden' }}>
       
       {/* Ambient static background elements */}
       <div style={{ position: 'absolute', top: '10%', left: '5%', opacity: 0.03, pointerEvents: 'none' }}>
@@ -174,9 +174,9 @@ export default function Services() {
           style={{ marginBottom: '100px', textAlign: 'center' }}
         >
           <span className="section-label mono" style={{ margin: '0 auto' }}>O Que Fazemos</span>
-          <h2 className="syne" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '20px', lineHeight: 0.9 }}>
-            Soluções digitais<br />sem fricção.
-          </h2>
+            <h2 className="syne" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', lineHeight: 0.9 }}>
+              Nossas<br />especialidades.
+            </h2>
           <p style={{ fontSize: '15px', color: '#666', maxWidth: '480px', margin: '32px auto 0', lineHeight: 1.8 }}>
             Unimos design editorial com engenharia de precisão para entregar produtos que não apenas funcionam, mas respiram autoridade.
           </p>
