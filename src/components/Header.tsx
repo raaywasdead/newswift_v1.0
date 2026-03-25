@@ -30,7 +30,7 @@ export default function Header() {
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: '-40% 0px -40% 0px', // Trigger when section is in the middle of the screen
+      rootMargin: '-15% 0px -60% 0px',
       threshold: 0
     }
 
@@ -109,9 +109,8 @@ export default function Header() {
                         style={{
                           position: 'absolute',
                           bottom: '2px',
-                          left: '50%',
-                          transform: 'translateX(-50%)',
-                          width: '16px',
+                          left: '0',
+                          right: '0',
                           height: '2px',
                           borderRadius: '1px',
                           backgroundColor: '#00C896',

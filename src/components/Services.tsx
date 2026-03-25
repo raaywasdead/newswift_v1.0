@@ -14,7 +14,7 @@ const services = [
       'SEO técnico on-page incluso',
       'Responsividade Multi-device',
     ],
-    timeline: '10–21 dias',
+    timeline: '7–10 dias',
     tags: ['React', 'Next.js', 'Vercel'],
     accent: '#00FF88',
     featured: true,
@@ -30,7 +30,7 @@ const services = [
       'Design system escalável',
       'Guia de uso para equipes',
     ],
-    timeline: '7–14 dias',
+    timeline: '5–7 dias',
     tags: ['Figma', 'System', 'Prototyping'],
     accent: '#8B5CF6',
     featured: false,
@@ -46,7 +46,7 @@ const services = [
       'Lazy load & Image compression',
       'Relatório Antes/Depois',
     ],
-    timeline: '5–10 dias',
+    timeline: '1–3 dias',
     tags: ['PageSpeed', 'Web Vitals', 'SEO'],
     accent: '#00C896',
     featured: false,
@@ -80,8 +80,8 @@ function ServiceCard({ s, i }: { s: typeof services[number]; i: number }) {
       style={{
         position: 'relative',
         borderRadius: '24px',
-        backgroundColor: 'rgba(255,255,255,0.02)',
-        border: hovered ? `1px solid ${s.accent}40` : '1px solid rgba(255,255,255,0.06)',
+        backgroundColor: 'rgba(255,255,255,0.025)',
+        border: hovered ? `1px solid ${s.accent}50` : '1px solid rgba(255,255,255,0.12)',
         padding: '40px 32px',
         overflow: 'hidden',
         transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
@@ -109,7 +109,7 @@ function ServiceCard({ s, i }: { s: typeof services[number]; i: number }) {
           boxShadow: hovered ? `0 0 20px ${s.accent}20` : 'none',
           transition: 'all 0.4s'
         }}>
-          <Icon size={24} style={{ color: hovered ? s.accent : '#fff', transition: 'color 0.4s' }} />
+          <Icon size={24} strokeWidth={2.5} style={{ color: hovered ? s.accent : '#fff', transition: 'color 0.4s' }} />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
            <span className="mono" style={{ fontSize: '9px', fontWeight: 800, color: '#444', letterSpacing: '0.15em' }}>SVC_ID_{i + 1}</span>
@@ -122,14 +122,14 @@ function ServiceCard({ s, i }: { s: typeof services[number]; i: number }) {
       <div style={{ flex: 1, position: 'relative', zIndex: 1 }}>
         <span className="mono" style={{ fontSize: '10px', color: s.accent, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '8px', display: 'block' }}>{s.subtitle}</span>
         <h3 className="syne" style={{ fontSize: '32px', fontWeight: 900, color: '#fff', letterSpacing: '-0.04em', lineHeight: 1.1, marginBottom: '20px' }}>{s.title}</h3>
-        <p style={{ fontSize: '14px', color: '#8888a0', lineHeight: 1.7, marginBottom: '32px' }}>{s.summary}</p>
+        <p style={{ fontSize: '14.5px', color: '#a0a0b8', fontWeight: 500, lineHeight: 1.7, marginBottom: '32px' }}>{s.summary}</p>
 
         {/* Deliverables Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '12px', marginBottom: '40px' }}>
            {s.deliverables.map(d => (
              <div key={d} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-               <CheckCircle size={14} style={{ color: s.accent, opacity: 0.6 }} />
-               <span style={{ fontSize: '12px', color: '#c0c0d0', letterSpacing: '-0.01em' }}>{d}</span>
+               <CheckCircle size={15} strokeWidth={2.5} style={{ color: s.accent, opacity: 0.8 }} />
+               <span style={{ fontSize: '13px', color: '#d0d0e0', fontWeight: 500, letterSpacing: '-0.01em' }}>{d}</span>
              </div>
            ))}
         </div>
@@ -137,7 +137,7 @@ function ServiceCard({ s, i }: { s: typeof services[number]; i: number }) {
 
       {/* Footer HUD */}
       <div style={{ 
-        paddingTop: '32px', borderTop: '1px solid rgba(255,255,255,0.06)', 
+        paddingTop: '32px', borderTop: '1px solid rgba(255,255,255,0.12)', 
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         position: 'relative', zIndex: 1
       }}>
@@ -160,7 +160,7 @@ export default function Services() {
   
 
   return (
-    <section id="sobre" style={{ backgroundColor: '#09090B', padding: '100px 0', position: 'relative', overflow: 'hidden' }}>
+    <section id="servicos" style={{ backgroundColor: '#09090B', padding: '140px 0 120px', position: 'relative', overflow: 'hidden' }}>
       
       {/* Ambient static background elements */}
       <div style={{ position: 'absolute', top: '10%', left: '5%', opacity: 0.03, pointerEvents: 'none' }}>
@@ -174,10 +174,10 @@ export default function Services() {
           style={{ marginBottom: '100px', textAlign: 'center' }}
         >
           <span className="section-label mono" style={{ margin: '0 auto' }}>O Que Fazemos</span>
-            <h2 className="syne" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', lineHeight: 0.9 }}>
-              Nossas<br />especialidades.
-            </h2>
-          <p style={{ fontSize: '15px', color: '#666', maxWidth: '480px', margin: '32px auto 0', lineHeight: 1.8 }}>
+              <h2 className="syne" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '16px', lineHeight: 0.9 }}>
+                Três devs.<br />Uma missão.
+              </h2>
+          <p style={{ fontSize: '15.5px', color: '#8c8c9e', fontWeight: 500, maxWidth: '480px', margin: '32px auto 0', lineHeight: 1.8 }}>
             Unimos design editorial com engenharia de precisão para entregar produtos que não apenas funcionam, mas respiram autoridade.
           </p>
         </div>
@@ -186,9 +186,9 @@ export default function Services() {
         <div 
           className="reveal-stagger"
           style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
-          gap: '32px' 
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '12px'
         }}>
           {services.map((s, i) => (
             <ServiceCard key={s.title} s={s} i={i} />

@@ -24,42 +24,32 @@ const teamOrder = ['arthur', 'joaovitor', 'brayan']
 function MemberCard({ member }: { member: typeof members[number] }) {
   const [hovered, setHovered] = useState(false)
   const Icon = roleIconMap[member.id] ?? Code2
-  const isLead = member.id === 'joaovitor'
-
   return (
-    <div
+    <Link
+      to={`/equipe/${member.id}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         position: 'relative',
         borderRadius: '20px',
         border: hovered
-          ? '1px solid rgba(0,200,150,0.4)'
-          : isLead
-            ? '1px solid rgba(0,200,150,0.18)'
-            : '1px solid rgba(255,255,255,0.07)',
-        backgroundColor: hovered ? 'rgba(0,200,150,0.04)' : 'rgba(255,255,255,0.018)',
+          ? '1px solid rgba(0,255,136,0.4)'
+          : '1px solid rgba(255,255,255,0.07)',
+        backgroundColor: hovered ? 'rgba(0,255,136,0.04)' : 'rgba(255,255,255,0.018)',
         overflow: 'hidden',
-        transition: 'border-color 0.3s, background-color 0.3s, box-shadow 0.3s',
+        transition: 'all 0.3s',
         boxShadow: hovered
-          ? '0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,200,150,0.08)'
+          ? '0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,255,136,0.08)'
           : '0 4px 24px rgba(0,0,0,0.3)',
-        cursor: 'default',
+        cursor: 'pointer',
+        display: 'block',
+        textDecoration: 'none'
       }}
     >
-      {/* Top accent bar for lead */}
-      {isLead && (
-        <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, height: '2px',
-          background: 'linear-gradient(90deg, transparent 0%, #00C896 40%, #00FF88 60%, transparent 100%)',
-          zIndex: 2,
-        }} />
-      )}
-
       {/* Ambient glow on hover */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,200,150,0.07) 0%, transparent 65%)',
+        background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,255,136,0.07) 0%, transparent 65%)',
         opacity: hovered ? 1 : 0,
         transition: 'opacity 0.4s',
         pointerEvents: 'none',
@@ -89,22 +79,6 @@ function MemberCard({ member }: { member: typeof members[number] }) {
           }}
         />
 
-        {/* Lead badge */}
-        {isLead && (
-          <div style={{
-            position: 'absolute', top: '14px', right: '14px',
-            backgroundColor: 'rgba(0,200,150,0.15)',
-            border: '1px solid rgba(0,200,150,0.4)',
-            backdropFilter: 'blur(8px)',
-            borderRadius: '6px',
-            padding: '3px 9px',
-            zIndex: 3,
-          }}>
-            <span style={{ fontSize: '9px', fontWeight: 800, color: '#00C896', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-              LEAD DEV
-            </span>
-          </div>
-        )}
 
         {/* Role icon badge */}
         <div style={{
@@ -117,7 +91,7 @@ function MemberCard({ member }: { member: typeof members[number] }) {
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           zIndex: 3,
         }}>
-          <Icon size={14} style={{ color: '#00C896' }} />
+          <Icon size={14} style={{ color: '#00FF88' }} />
         </div>
       </div>
 
@@ -130,7 +104,7 @@ function MemberCard({ member }: { member: typeof members[number] }) {
           }}>
             {member.name}
           </h3>
-          <p style={{ fontSize: '11px', color: '#00C896', fontWeight: 600, margin: 0, opacity: 0.85 }}>
+          <p style={{ fontSize: '11px', color: '#00FF88', fontWeight: 600, margin: 0, opacity: 0.85 }}>
             {member.role.split(' · ')[0]}
           </p>
         </div>
@@ -139,7 +113,7 @@ function MemberCard({ member }: { member: typeof members[number] }) {
         <p style={{
           fontSize: '12px', color: '#8888a0', lineHeight: 1.6,
           margin: '0 0 16px', fontStyle: 'italic',
-          borderLeft: '2px solid rgba(0,200,150,0.3)',
+          borderLeft: '2px solid rgba(0,255,136,0.3)',
           paddingLeft: '10px',
         }}>
           "{member.tagline}"
@@ -150,9 +124,9 @@ function MemberCard({ member }: { member: typeof members[number] }) {
           {member.tags.slice(0, 4).map(t => (
             <span key={t} style={{
               fontSize: '9px', fontWeight: 700,
-              color: 'rgba(0,200,150,0.7)',
-              backgroundColor: 'rgba(0,200,150,0.07)',
-              border: '1px solid rgba(0,200,150,0.18)',
+              color: 'rgba(0,255,136,0.7)',
+              backgroundColor: 'rgba(0,255,136,0.07)',
+              border: '1px solid rgba(0,255,136,0.18)',
               padding: '2px 7px', borderRadius: '4px',
               letterSpacing: '0.04em',
               textTransform: 'uppercase',
@@ -160,21 +134,19 @@ function MemberCard({ member }: { member: typeof members[number] }) {
           ))}
         </div>
 
-        {/* CTA */}
-        <Link
-          to={`/equipe/${member.id}`}
+        {/* Info Label */}
+        <div
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
-            fontSize: '11px', fontWeight: 700, color: hovered ? '#00C896' : '#666677',
-            textDecoration: 'none',
+            fontSize: '11px', fontWeight: 700, color: hovered ? '#00FF88' : '#666677',
             transition: 'color 0.2s',
             letterSpacing: '0.04em',
           }}
         >
           Ver perfil completo <ArrowRight size={11} />
-        </Link>
+        </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
@@ -184,7 +156,7 @@ export default function About() {
     .filter(Boolean) as typeof members
 
   return (
-    <section id="sobre" style={{ backgroundColor: '#09090B', padding: '100px 0', overflow: 'hidden', position: 'relative' }}>
+    <section id="sobre" style={{ backgroundColor: '#09090B', padding: '140px 0 120px', position: 'relative', overflow: 'hidden' }}>
 
       {/* Subtle dot grid background */}
       <div style={{
@@ -206,33 +178,34 @@ export default function About() {
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
 
         {/* ── SECTION HEADER ── */}
-        <div
-          className="reveal-up"
-          style={{ marginBottom: '72px' }}
-        >
+        <div className="reveal-up" style={{ marginBottom: '72px' }}>
           <span className="section-label mono">Quem Somos</span>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '64px',
-            alignItems: 'end',
-            marginTop: '20px',
-          }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'start', marginTop: '20px' }}>
             <div>
-              <h2 className="syne" style={{ fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', lineHeight: 0.9 }}>
+              <h2 className="syne" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '20px', lineHeight: 0.9 }}>
                 Três devs.<br />Uma missão.
               </h2>
             </div>
 
-            <div>
-              <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: '0 0 24px' }}>
-                João Vitor, Brayan e Arthur se formaram juntos no{' '}
-                <span style={{ color: '#c0c0d0', fontWeight: 600 }}>IOS na PUC-RS</span>{' '}
-                — patrocinado pela Dell e TOTVS. Hoje entregam produtos digitais que competem
-                de igual com qualquer agência do mercado.
+            <div style={{ paddingTop: '20px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: 0 }}>
+                Somos três desenvolvedores formados pelo{' '}
+                <span style={{ color: '#c0c0d0', fontWeight: 600 }}>Instituto de Oportunidade Social na PUC-RS</span>
+                {' '}— patrocinado pela Dell e TOTVS. O que começou como uma equipe de projeto virou uma agência.
               </p>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '10px 16px', borderRadius: '10px', border: '1px solid rgba(0,200,150,0.15)', backgroundColor: 'rgba(0,200,150,0.03)' }}>
+
+              <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: 0 }}>
+                <span style={{ color: '#c0c0d0', fontWeight: 600 }}>João Vitor</span> cuida da arquitetura e do stack técnico.{' '}
+                <span style={{ color: '#c0c0d0', fontWeight: 600 }}>Brayan</span> constrói a identidade visual de cada produto.{' '}
+                <span style={{ color: '#c0c0d0', fontWeight: 600 }}>Arthur</span> garante que os dados e a lógica estejam sempre no lugar certo.
+              </p>
+
+              <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: 0 }}>
+                Não terceirizamos, não usamos templates prontos e não entregamos menos do que o combinado. Cada projeto é construído do zero — com código limpo, design pensado e prazo real.
+              </p>
+
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '10px 16px', borderRadius: '10px', border: '1px solid rgba(0,200,150,0.15)', backgroundColor: 'rgba(0,200,150,0.03)', alignSelf: 'flex-start' }}>
                 <div style={{ width: '30px', height: '30px', borderRadius: '8px', backgroundColor: 'rgba(0,200,150,0.08)', border: '1px solid rgba(0,200,150,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <GraduationCap size={14} style={{ color: '#00C896' }} />
                 </div>

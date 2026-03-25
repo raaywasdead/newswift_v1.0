@@ -69,13 +69,13 @@ export default function Projects() {
   const [current, setCurrent] = useState(0)
   const [isChanging, setIsChanging] = useState(false)
 
-  const go = (next: number) => { 
-    if(isChanging) return
+  const go = (next: number) => {
+    if (isChanging) return
     setIsChanging(true)
     setTimeout(() => {
       setCurrent(next)
       setIsChanging(false)
-    }, 450)
+    }, 400)
   }
 
   const prev = () => go((current - 1 + projects.length) % projects.length)
@@ -86,29 +86,28 @@ export default function Projects() {
   return (
     <section
       id="projetos"
-      style={{ backgroundColor: '#09090B', padding: '100px 0', borderTop: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden' }}
+      style={{ backgroundColor: '#09090B', padding: '160px 0', position: 'relative', overflow: 'hidden' }}
     >
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
 
-        {/* ── Header ── */}
+        {/* Header */}
         <div
           className="reveal-up"
-          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '32px' }}
+          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '56px', flexWrap: 'wrap', gap: '24px' }}
         >
           <div>
-            <span className="section-label mono">Portfólio</span>
-            <h2 style={{ fontSize: 'clamp(2rem, 4.5vw, 3.2rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '8px', lineHeight: 0.9 }}>
+            <span className="section-label mono">Projetos</span>
+            <h2 className="syne" style={{ fontSize: 'clamp(2.5rem, 6vw, 4.8rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '8px', lineHeight: 0.9 }}>
               O que nós já<br />construímos.
             </h2>
           </div>
-          <p style={{ fontSize: '14px', color: '#666', maxWidth: '340px', lineHeight: 1.8, marginBottom: '8px' }}>
+          <p style={{ fontSize: '14px', color: '#555', maxWidth: '320px', lineHeight: 1.8, marginBottom: '8px' }}>
             Cada projeto é um novo desafio. Combinamos design editorial com engenharia de software para entregar produtos que marcam presença.
           </p>
         </div>
 
-        {/* ── Projects 2.0 Theatrical Stage ── */}
-        <div style={{ position: 'relative', minHeight: '440px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          
+        {/* Showcase */}
+        <div style={{ position: 'relative', minHeight: '520px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={p.id}
@@ -116,12 +115,12 @@ export default function Projects() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 1.05, y: -20, filter: 'blur(10px)' }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              style={{ width: '100%', position: 'relative', zIndex: 2, display: 'grid', gridTemplateColumns: '1fr', alignItems: 'center' }}
+              style={{ width: '100%', position: 'relative', zIndex: 2 }}
             >
               <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                
-                {/* Dynamic Background Glow - Attached to Card */}
-                <motion.div 
+
+                {/* Background glow */}
+                <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 0.18, scale: 1 }}
                   transition={{ duration: 0.8 }}
@@ -129,59 +128,55 @@ export default function Projects() {
                     position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
                     width: '120%', height: '120%',
                     background: `radial-gradient(circle, ${p.accent} 0%, transparent 70%)`,
-                    zIndex: -1, pointerEvents: 'none',
-                    filter: 'blur(100px)'
-                  }} 
+                    zIndex: -1, pointerEvents: 'none', filter: 'blur(100px)'
+                  }}
                 />
-                
-                {/* 1. Large Mockup Center */}
-                <div style={{
-                  position: 'relative', 
-                  width: '100%', maxWidth: '620px',
+
+                {/* Mockup card */}
+                <a href={p.href} target="_blank" rel="noopener noreferrer" style={{
+                  position: 'relative',
+                  width: '100%', maxWidth: '800px',
                   aspectRatio: '16/10',
                   borderRadius: '24px',
                   overflow: 'hidden',
                   background: p.mockupBg,
                   boxShadow: `0 50px 100px -20px rgba(0,0,0,0.8), 0 30px 60px -30px ${p.accent}40`,
-                  border: `1px solid rgba(255,255,255,0.05)`,
+                  border: '1px solid rgba(255,255,255,0.05)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  padding: '2vw'
-                }}>
-                   {/* Screenshot in custom frame */}
-                   <div style={{ 
-                     width: '100%', height: '100%', borderRadius: '12px', overflow: 'hidden', 
-                     boxShadow: '0 4px 64px rgba(0,0,0,0.5)',
-                     border: '1px solid rgba(255,255,255,0.06)'
-                   }}>
-                      <img 
-                        src={p.screenshot} 
-                        alt={p.name} 
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: p.screenshotPos }}
-                      />
-                   </div>
-                </div>
+                  padding: '2vw',
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                  transition: 'transform 0.3s, box-shadow 0.3s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.01)'; e.currentTarget.style.boxShadow = `0 60px 120px -20px rgba(0,0,0,0.9), 0 40px 80px -30px ${p.accent}60` }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = `0 50px 100px -20px rgba(0,0,0,0.8), 0 30px 60px -30px ${p.accent}40` }}
+                >
+                  <div style={{
+                    width: '100%', height: '100%', borderRadius: '12px', overflow: 'hidden',
+                    boxShadow: '0 4px 64px rgba(0,0,0,0.5)',
+                    border: '1px solid rgba(255,255,255,0.06)'
+                  }}>
+                    <img
+                      src={p.screenshot}
+                      alt={p.name}
+                      loading="lazy"
+                      decoding="async"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: p.screenshotPos }}
+                    />
+                  </div>
+                </a>
 
-                {/* 2. Floating Info HUD (Editorial Overlay) */}
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  pointerEvents: 'none',
-                  display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                  padding: '40px'
-                }}>
-                  {/* Top Header Label */}
-                  <motion.div 
-                    initial={{ x: -20, opacity: 0 }} 
-                    animate={{ x: 0, opacity: 1 }} 
-                    transition={{ delay: 0.3 }}
-                    style={{ position: 'absolute', top: '-10%', left: '0', zIndex: 10 }}
-                  >
+                {/* Floating HUD */}
+                <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '40px' }}>
+
+                  {/* Category tag */}
+                  <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.3 }} style={{ position: 'absolute', top: '-10%', left: '0', zIndex: 10 }}>
                     <span className="mono" style={{ fontSize: '11px', fontWeight: 800, color: p.accent, letterSpacing: '0.2em', textTransform: 'uppercase', backgroundColor: '#09090B', padding: '6px 14px', border: `1px solid ${p.accent}40` }}>{p.category}</span>
                   </motion.div>
 
-                  {/* Main Title & Description (Bottom Floating) */}
+                  {/* Info block bottom-left */}
                   <div style={{ position: 'absolute', bottom: '-15%', left: '0', maxWidth: '440px', pointerEvents: 'auto' }}>
-                    <motion.h3 
+                    <motion.h3
                       initial={{ y: 30, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.4 }}
@@ -190,7 +185,7 @@ export default function Projects() {
                     >
                       {p.name}
                     </motion.h3>
-                    
+
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -198,23 +193,16 @@ export default function Projects() {
                       style={{ padding: '20px', backgroundColor: 'rgba(9,9,11,0.7)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px' }}
                     >
                       <p style={{ fontSize: '13px', color: '#8888a0', lineHeight: 1.7, marginBottom: '20px' }}>{p.desc}</p>
-                      
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '32px' }}>
                         {p.tags.map(t => (
                           <span key={t} style={{ fontSize: '9px', fontWeight: 700, color: '#fff', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '4px 10px', borderRadius: '4px', letterSpacing: '0.05em' }}>{t}</span>
                         ))}
                       </div>
-
                       <a
                         href={p.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{
-                          display: 'inline-flex', alignItems: 'center', gap: '10px',
-                          fontSize: '11px', fontWeight: 900, color: '#000', backgroundColor: p.accent,
-                          padding: '14px 28px', borderRadius: '100px', textDecoration: 'none', letterSpacing: '0.08em',
-                          transition: 'all 0.2s', boxShadow: `0 10px 30px ${p.accent}30`
-                        }}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', fontSize: '11px', fontWeight: 900, color: '#000', backgroundColor: p.accent, padding: '14px 28px', borderRadius: '100px', textDecoration: 'none', letterSpacing: '0.08em', transition: 'all 0.2s', boxShadow: `0 10px 30px ${p.accent}30` }}
                         onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)'; e.currentTarget.style.boxShadow = `0 15px 40px ${p.accent}50` }}
                         onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.boxShadow = `0 10px 30px ${p.accent}30` }}
                       >
@@ -223,7 +211,7 @@ export default function Projects() {
                     </motion.div>
                   </div>
 
-                  {/* Visual Counter (Right Floating) */}
+                  {/* Counter right */}
                   <div style={{ position: 'absolute', top: '50%', right: '-10%', transform: 'translateY(-50%) rotate(90deg)', transformOrigin: 'center' }}>
                     <span className="mono" style={{ fontSize: '100px', fontWeight: 900, color: 'rgba(255,255,255,0.02)', letterSpacing: '-0.05em' }}>
                       {String(current + 1).padStart(2, '0')}
@@ -235,47 +223,41 @@ export default function Projects() {
           </AnimatePresence>
         </div>
 
-        {/* ── Custom Navigation HUD ── */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '32px', marginTop: '60px' }}>
-          
-          <button 
+        {/* Navigation */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '28px', marginTop: '28px' }}>
+          <button
             onClick={prev}
-            style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'transparent', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s' }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = p.accent; e.currentTarget.style.backgroundColor = `${p.accent}10` }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.backgroundColor = 'transparent' }}
+            style={{ width: '44px', height: '44px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'transparent', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.25s' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = p.accent; e.currentTarget.style.color = p.accent }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff' }}
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={20} />
           </button>
 
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             {projects.map((_, i) => (
               <button
                 key={i}
                 onClick={() => go(i)}
                 style={{
-                  width: current === i ? '40px' : '8px',
-                  height: '8px', borderRadius: '4px',
-                  backgroundColor: current === i ? p.accent : 'rgba(255,255,255,0.1)',
-                  padding: 0, border: 'none', cursor: 'pointer', transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)'
+                  width: current === i ? '36px' : '6px',
+                  height: '6px', borderRadius: '3px',
+                  backgroundColor: current === i ? p.accent : 'rgba(255,255,255,0.12)',
+                  padding: 0, border: 'none', cursor: 'pointer',
+                  transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
                 }}
               />
             ))}
           </div>
 
-          <button 
+          <button
             onClick={next}
-            style={{ width: '48px', height: '48px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'transparent', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.3s' }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = p.accent; e.currentTarget.style.backgroundColor = `${p.accent}10` }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.backgroundColor = 'transparent' }}
+            style={{ width: '44px', height: '44px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'transparent', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.25s' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = p.accent; e.currentTarget.style.color = p.accent }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff' }}
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={20} />
           </button>
-
-        </div>
-
-        {/* Cinematic Number Label */}
-        <div style={{ position: 'absolute', bottom: '40px', right: '40px', opacity: 0.1 }}>
-           <span className="mono" style={{ fontSize: '13px', color: '#fff', letterSpacing: '0.4em' }}>PROJECT_{String(current + 1).padStart(2, '0')}</span>
         </div>
 
       </div>

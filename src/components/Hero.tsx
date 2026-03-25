@@ -174,7 +174,7 @@ export default function Hero() {
               ENTRE EM CONTATO <ArrowRight size={14} strokeWidth={2.5} />
             </a>
             <a
-              href="#sobre"
+              href="#projetos"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '14px 24px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.1)', color: '#888', fontSize: '13px', fontWeight: 600, letterSpacing: '0.05em', textDecoration: 'none', textTransform: 'uppercase', backgroundColor: 'transparent', transition: 'all 0.22s' }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(0,255,136,0.35)'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.backgroundColor = 'rgba(0,255,136,0.04)' }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = '#888'; e.currentTarget.style.backgroundColor = 'transparent' }}
@@ -216,6 +216,8 @@ export default function Hero() {
             <img
               src="/equipe-ns.png"
               alt="Equipe NewSwift"
+              fetchPriority="high"
+              decoding="async"
               style={{ width: '100%', display: 'block', objectFit: 'cover', objectPosition: 'center top' }}
             />
             {/* Bottom gradient fade */}
@@ -255,7 +257,7 @@ export default function Hero() {
           {ticker.map((icon, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '78px', flexShrink: 0, padding: '0 6px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '64px', height: '64px', borderRadius: '14px', backgroundColor: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)', transition: 'all 0.2s ease' }}>
-                <img src={icon.src} alt={icon.alt} style={{ width: '36px', height: '36px', objectFit: 'contain', opacity: 0.75 }} />
+                <img src={icon.src} alt={icon.alt} loading="lazy" decoding="async" width={36} height={36} style={{ width: '36px', height: '36px', objectFit: 'contain', opacity: 0.75 }} />
               </div>
             </div>
           ))}

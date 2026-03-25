@@ -45,6 +45,7 @@ export default function ContactPage() {
   const [fields, setFields]   = useState({
     name:    { value: '', error: false } as Field,
     company: { value: '', error: false } as Field,
+    cnpj:    { value: '', error: false } as Field,
     email:   { value: '', error: false } as Field,
     message: { value: '', error: false } as Field,
   })
@@ -62,6 +63,7 @@ export default function ContactPage() {
     const errors = {
       name:    !fields.name.value.trim(),
       company: kind === 'empresa' && !fields.company.value.trim(),
+      cnpj:    kind === 'empresa' && !fields.cnpj.value.trim(),
       email:   !fields.email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.value),
       message: !fields.message.value.trim(),
     }
@@ -69,6 +71,7 @@ export default function ContactPage() {
       setFields(f => ({
         name:    { ...f.name,    error: errors.name },
         company: { ...f.company, error: errors.company },
+        cnpj:    { ...f.cnpj,    error: errors.cnpj },
         email:   { ...f.email,   error: errors.email },
         message: { ...f.message, error: errors.message },
       }))
@@ -171,7 +174,7 @@ export default function ContactPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '48px' }}>
             {[
               { label: 'E-mail',    value: 'contato@newswift.com.br' },
-              { label: 'Resposta',  value: 'Menos de 2h em dias úteis' },
+              { label: 'Resposta',  value: 'Resposta em menos de 24 Horas' },
               { label: 'Serviço',   value: 'Consultoria 100% gratuita' },
             ].map(item => (
               <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -268,19 +271,35 @@ export default function ContactPage() {
 
               {/* Company name — only for empresa */}
               {kind === 'empresa' && (
-                <div>
-                  <label style={labelStyle}>Nome da empresa <span style={{ color: '#333' }}>*</span></label>
-                  <input
-                    type="text"
-                    value={fields.company.value}
-                    onChange={e => set('company', e.target.value)}
-                    onFocus={() => setFocused('company')}
-                    onBlur={() => setFocused(null)}
-                    placeholder="Razão social ou nome fantasia"
-                    style={inputBase('company')}
-                  />
-                  {fields.company.error && <span style={errorStyle}>Informe o nome da empresa.</span>}
-                </div>
+                <>
+                  <div>
+                    <label style={labelStyle}>Nome da empresa <span style={{ color: '#333' }}>*</span></label>
+                    <input
+                      type="text"
+                      value={fields.company.value}
+                      onChange={e => set('company', e.target.value)}
+                      onFocus={() => setFocused('company')}
+                      onBlur={() => setFocused(null)}
+                      placeholder="Razão social ou nome fantasia"
+                      style={inputBase('company')}
+                    />
+                    {fields.company.error && <span style={errorStyle}>Informe o nome da empresa.</span>}
+                  </div>
+
+                  <div>
+                    <label style={labelStyle}>CNPJ <span style={{ color: '#333' }}>*</span></label>
+                    <input
+                      type="text"
+                      value={fields.cnpj.value}
+                      onChange={e => set('cnpj', e.target.value)}
+                      onFocus={() => setFocused('cnpj')}
+                      onBlur={() => setFocused(null)}
+                      placeholder="00.000.000/0000-00"
+                      style={inputBase('cnpj')}
+                    />
+                    {fields.cnpj.error && <span style={errorStyle}>Informe o CNPJ da empresa.</span>}
+                  </div>
+                </>
               )}
 
               {/* Name */}
