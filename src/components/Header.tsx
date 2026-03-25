@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const links = [
   { label: 'Sobre',    href: '#sobre',    id: 'sobre'    },
@@ -53,6 +54,7 @@ export default function Header() {
   }, [])
 
   return (
+    <>
     <motion.header
       initial={{ y: -64, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -126,8 +128,8 @@ export default function Header() {
 
           {/* Desktop CTA */}
           {!isMobile && (
-            <a
-              href="#contato"
+            <Link
+              to="/contato"
               style={{
                 display: 'inline-flex', alignItems: 'center',
                 padding: '9px 20px',
@@ -157,7 +159,7 @@ export default function Header() {
               }}
             >
               Agendar Consultoria
-            </a>
+            </Link>
           )}
 
           {/* Mobile toggle */}
@@ -172,64 +174,92 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {open && isMobile && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.18 }}
-            style={{
-              backgroundColor: 'rgba(5,5,7,0.98)',
-              backdropFilter: 'blur(20px)',
-              borderBottom: '1px solid rgba(255,255,255,0.05)',
-            }}
-          >
-            <div style={{ padding: '12px 24px 20px', display: 'flex', flexDirection: 'column' }}>
-              {links.map(l => (
+    </motion.header>
+
+    {/* Mobile menu — backdrop + panel */}
+    <AnimatePresence>
+      {open && isMobile && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => setOpen(false)}
+          style={{
+            position: 'fixed', inset: 0,
+            zIndex: 48,
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            backdropFilter: 'blur(4px)',
+          }}
+        />
+      )}
+      {open && isMobile && (
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            position: 'fixed',
+            top: '68px', left: 0, right: 0,
+            zIndex: 49,
+            backgroundColor: 'rgba(9,9,11,0.98)',
+            backdropFilter: 'blur(24px) saturate(1.6)',
+            borderBottom: '1px solid rgba(255,255,255,0.07)',
+            borderRadius: '0 0 16px 16px',
+            boxShadow: '0 16px 48px rgba(0,0,0,0.6)',
+            overflow: 'hidden',
+          }}
+        >
+          <div style={{ padding: '8px 16px 16px' }}>
+            {/* Links */}
+            {links.map((l) => {
+              const isActive = activeSection === l.id
+              return (
                 <a
                   key={l.label}
                   href={l.href}
                   onClick={() => setOpen(false)}
                   style={{
-                    padding: '13px 0',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    color: activeSection === l.id ? '#fff' : '#666',
-                    textDecoration: 'none',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    transition: 'color 0.15s',
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '12px 12px',
+                    textDecoration: 'none',
+                    borderRadius: '10px',
+                    backgroundColor: isActive ? 'rgba(255,255,255,0.05)' : 'transparent',
                   }}
                 >
-                  {l.label}
-                  {activeSection === l.id && <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00C896' }} />}
+                  <span style={{ fontSize: '15px', fontWeight: 500, color: isActive ? '#fff' : '#666', letterSpacing: '-0.01em' }}>
+                    {l.label}
+                  </span>
+                  {isActive && (
+                    <span style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: '#00FF88', flexShrink: 0 }} />
+                  )}
                 </a>
-              ))}
-              <a
-                href="#contato"
-                onClick={() => setOpen(false)}
-                style={{
-                  marginTop: '16px',
-                  padding: '13px',
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  textDecoration: 'none',
-                  textAlign: 'center',
-                  color: '#000',
-                  backgroundColor: '#00FF88',
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                Agendar Consultoria
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+              )
+            })}
+
+            {/* Divider */}
+            <div style={{ height: '1px', backgroundColor: 'rgba(255,255,255,0.05)', margin: '6px 12px' }} />
+
+            {/* CTA */}
+            <Link
+              to="/contato"
+              onClick={() => setOpen(false)}
+              style={{
+                display: 'block', textAlign: 'center', margin: '6px 0 0',
+                padding: '13px', borderRadius: '10px',
+                fontSize: '12px', fontWeight: 700,
+                textDecoration: 'none', color: '#000',
+                backgroundColor: '#00FF88',
+                letterSpacing: '0.06em', textTransform: 'uppercase',
+              }}
+            >
+              Agendar Consultoria
+            </Link>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   )
 }

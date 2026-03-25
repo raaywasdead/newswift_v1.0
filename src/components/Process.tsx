@@ -1,5 +1,4 @@
 import { useRef, useEffect } from 'react'
-import { motion } from 'framer-motion'
 import { MessageSquare, Layout, ShieldCheck, Rocket, TrendingUp } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -87,7 +86,9 @@ export default function Process() {
       })
 
       tl.to(track, { x: () => -getAmount(), ease: 'power1.inOut' }, 0)
-      tl.to(wordmarkRef.current, { x: () => -getAmount() * 0.2, ease: 'power1.inOut' }, 0)
+      if (!isMobile) {
+        tl.to(wordmarkRef.current, { x: () => -getAmount() * 0.2, ease: 'power1.inOut' }, 0)
+      }
 
     }, sectionRef)
 
@@ -122,19 +123,21 @@ export default function Process() {
         justifyContent: 'center',
       }}
     >
-      {/* Background WordMark */}
-      <div
-        ref={wordmarkRef}
-        style={{
-          position: 'absolute', top: '38%', left: 0, right: 0,
-          textAlign: 'center', whiteSpace: 'nowrap',
-          zIndex: 0, opacity: 0.03, pointerEvents: 'none', userSelect: 'none',
-        }}
-      >
-        <span className="syne" style={{ fontSize: isMobile ? '30vw' : '35vh', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', display: 'inline-block', transform: 'translateX(2vw)' }}>
-          WORKFLOW
-        </span>
-      </div>
+      {/* Background WordMark — desktop only */}
+      {!isMobile && (
+        <div
+          ref={wordmarkRef}
+          style={{
+            position: 'absolute', top: '38%', left: 0, right: 0,
+            textAlign: 'center', whiteSpace: 'nowrap',
+            zIndex: 0, opacity: 0.03, pointerEvents: 'none', userSelect: 'none',
+          }}
+        >
+          <span className="syne" style={{ fontSize: '35vh', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', display: 'inline-block', transform: 'translateX(2vw)' }}>
+            WORKFLOW
+          </span>
+        </div>
+      )}
 
       <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
         {/* Header */}
@@ -198,19 +201,6 @@ export default function Process() {
         </div>
       </div>
 
-      {/* Nav Hint */}
-      <div style={{ position: 'absolute', bottom: isMobile ? '24px' : '40px', right: isMobile ? '20px' : '60px', zIndex: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <span className="mono" style={{ fontSize: '10px', color: '#444', letterSpacing: '0.1em' }}>SCROLL TO EXPLORE</span>
-          <div style={{ width: '100px', height: '1px', backgroundColor: 'rgba(255,255,255,0.1)' }}>
-            <motion.div
-              style={{ height: '100%', backgroundColor: '#00FF88', width: '30%' }}
-              animate={{ x: [0, 70, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </div>
-        </div>
-      </div>
     </section>
   )
 }

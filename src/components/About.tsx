@@ -154,6 +154,7 @@ function MemberCard({ member }: { member: typeof members[number] }) {
 
 export default function About() {
   const isMobile = useIsMobile()
+  const [activeIdx, setActiveIdx] = useState(0)
   const orderedMembers = teamOrder
     .map(id => members.find(m => m.id === id))
     .filter(Boolean) as typeof members
@@ -239,28 +240,70 @@ export default function About() {
                 Conheça quem vai construir seu projeto.
               </h3>
             </div>
-            <p style={{ fontSize: '13px', color: '#8888a0', maxWidth: '200px', lineHeight: 1.6, textAlign: 'right' }}>
-              Clique em qualquer membro para ver o perfil completo.
-            </p>
           </div>
 
-          {/* 3-column card grid */}
-          <div
-            className="reveal-stagger"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
-              gap: '20px',
-            }}>
-            {orderedMembers.map((member) => (
-              <MemberCard key={member.id} member={member} />
-            ))}
-          </div>
+          {isMobile ? (
+            /* ── Mobile peek carousel ── */
+            <div className="reveal-stagger">
+              {/* Track — break out of section padding to allow peek */}
+              <div style={{ margin: '0 -20px', overflow: 'hidden' }}>
+                <div style={{
+                  display: 'flex',
+                  gap: '12px',
+                  paddingLeft: '20px',
+                  transform: `translateX(calc(-${activeIdx} * (85vw + 12px)))`,
+                  transition: 'transform 0.38s cubic-bezier(0.22, 1, 0.36, 1)',
+                }}>
+                  {orderedMembers.map((member) => (
+                    <div key={member.id} style={{ width: '85vw', flexShrink: 0 }}>
+                      <MemberCard member={member} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Controls */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '20px' }}>
+                {/* Dots */}
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  {orderedMembers.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveIdx(i)}
+                      style={{ width: i === activeIdx ? '20px' : '6px', height: '6px', borderRadius: '3px', border: 'none', backgroundColor: i === activeIdx ? '#00FF88' : 'rgba(255,255,255,0.15)', cursor: 'pointer', transition: 'all 0.25s', padding: 0 }}
+                    />
+                  ))}
+                </div>
+                {/* Arrows */}
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button
+                    onClick={() => setActiveIdx(i => (i - 1 + orderedMembers.length) % orderedMembers.length)}
+                    style={{ width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)', backgroundColor: 'rgba(255,255,255,0.04)', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </button>
+                  <button
+                    onClick={() => setActiveIdx(i => (i + 1) % orderedMembers.length)}
+                    style={{ width: '38px', height: '38px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.1)', backgroundColor: 'rgba(255,255,255,0.04)', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* ── Desktop grid ── */
+            <div className="reveal-stagger" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+              {orderedMembers.map((member) => (
+                <MemberCard key={member.id} member={member} />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* ── DIFFERENTIALS STRIP ── */}
         <div
-          className="reveal-stagger"
+          className="reveal-up"
           style={{
             display: 'grid',
             gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',

@@ -164,7 +164,7 @@ export default function Services() {
     <section id="servicos" style={{ backgroundColor: '#09090B', padding: isMobile ? '80px 0 60px' : '140px 0 120px', position: 'relative', overflow: 'hidden' }}>
       
       {/* Ambient static background elements */}
-      <div style={{ position: 'absolute', top: '10%', left: '5%', opacity: 0.03, pointerEvents: 'none' }}>
+      <div style={{ position: 'absolute', top: '10%', left: isMobile ? '50%' : '5%', transform: isMobile ? 'translateX(-50%)' : 'none', opacity: 0.03, pointerEvents: 'none' }}>
          <Cpu size={400} color="#fff" strokeWidth={0.5} />
       </div>
 
@@ -188,7 +188,7 @@ export default function Services() {
           className="reveal-stagger"
           style={{ 
           display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)',
           gap: '12px'
         }}>
           {services.map((s, i) => (
@@ -202,7 +202,7 @@ export default function Services() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5, duration: 1 }}
-          style={{ marginTop: '100px', display: 'flex', justifyContent: 'center', gap: '48px', alignItems: 'center', flexWrap: 'wrap' }}
+          style={{ marginTop: '100px', display: 'flex', justifyContent: 'center', gap: isMobile ? '20px' : '48px', alignItems: 'center', flexWrap: 'wrap' }}
         >
           {[
             { icon: Zap, text: 'Ultra Performance' },

@@ -58,7 +58,7 @@ export default function Footer() {
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '40px 20px 0' : '64px 40px 0' }}>
 
         {/* ── 3-col grid ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.6fr 1fr 1fr', gap: isMobile ? '32px' : '48px', marginBottom: '48px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.6fr 1fr 1fr', gap: isMobile ? '28px' : '48px', marginBottom: '40px' }}>
 
           {/* Brand */}
           <div>
@@ -106,41 +106,62 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Links */}
-          <div>
-            <span style={{ fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: '18px' }}>Navegação</span>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {navLinks.map(l => (
-                <a
-                  key={l.label}
-                  href={l.href}
-                  style={linkStyle}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#5a5a70')}
-                >
-                  {l.label}
-                </a>
-              ))}
+          {/* Links + Termos — side by side on mobile */}
+          {isMobile ? (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+              <div>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: '14px' }}>Navegação</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {navLinks.map(l => (
+                    <a key={l.label} href={l.href} style={linkStyle}
+                      onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                      onMouseLeave={e => (e.currentTarget.style.color = '#5a5a70')}>
+                      {l.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: '14px' }}>Termos</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {termsLinks.map(l => (
+                    <Link key={l.label} to={l.href} style={linkStyle}
+                      onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                      onMouseLeave={e => (e.currentTarget.style.color = '#5a5a70')}>
+                      {l.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-
-          {/* Termos */}
-          <div>
-            <span style={{ fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: '18px' }}>Termos</span>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {termsLinks.map(l => (
-                <Link
-                  key={l.label}
-                  to={l.href}
-                  style={linkStyle}
-                  onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#5a5a70')}
-                >
-                  {l.label}
-                </Link>
-              ))}
-            </div>
-          </div>
+          ) : (
+            <>
+              <div>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: '18px' }}>Navegação</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {navLinks.map(l => (
+                    <a key={l.label} href={l.href} style={linkStyle}
+                      onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                      onMouseLeave={e => (e.currentTarget.style.color = '#5a5a70')}>
+                      {l.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <span style={{ fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: '18px' }}>Termos</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {termsLinks.map(l => (
+                    <Link key={l.label} to={l.href} style={linkStyle}
+                      onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+                      onMouseLeave={e => (e.currentTarget.style.color = '#5a5a70')}>
+                      {l.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         {/* ── Bottom bar ── */}

@@ -39,7 +39,7 @@ function AfterMockup({ isMobile }: { isMobile: boolean }) {
   return (
     <div style={{ width: '100%', height: '100%', backgroundColor: bg, fontFamily: 'Inter, sans-serif', overflow: 'hidden', position: 'relative' }}>
       {/* AETHER Luxe Hero */}
-      <div style={{ position: 'absolute', inset: 0, backgroundImage: `radial-gradient(circle at 70% 30%, ${ac}15 0%, transparent 60%)` }} />
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: `radial-gradient(circle at 50% 50%, ${ac}20 0%, transparent 65%)` }} />
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200")', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.15 }} />
 
       <nav style={{ padding: isMobile ? '16px 20px' : '24px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 10 }}>
@@ -109,17 +109,26 @@ export default function BeforeAfter() {
           </p>
         </div>
 
-        {/* Comparison Stage - Theatrical Container */}
+        {/* Comparison Stage */}
+        <div style={{ position: 'relative' }}>
+        {/* Corner-leak mask — same color as section bg, hides the 1-2px overflow on mobile */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          borderRadius: '24px',
+          boxShadow: '0 0 0 2px #09090B',
+          pointerEvents: 'none',
+          zIndex: 100,
+        }} />
         <div
-          className="reveal-up"
-          style={{ 
+          style={{
             position: 'relative',
-            borderRadius: '24px', 
-            overflow: 'hidden', 
-            border: '1px solid rgba(255,255,255,0.06)', 
+            borderRadius: '24px',
+            overflow: 'hidden',
+            transform: 'translateZ(0)',
+            border: '1px solid rgba(255,255,255,0.06)',
             boxShadow: '0 64px 120px -30px rgba(0,0,0,0.8)',
-            backgroundColor: '#000', // Solid black base to prevent leakage
-            height: isMobile ? '380px' : '640px'
+            backgroundColor: '#000',
+            height: isMobile ? '420px' : '640px',
           }}
         >
           {/* Interaction Area */}
@@ -138,21 +147,27 @@ export default function BeforeAfter() {
             {/* BEFORE LAYER */}
             <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
               <BeforeMockup />
+              <div style={{ position: 'absolute', top: '14px', left: '14px', pointerEvents: 'none' }}>
+                <span className="mono" style={{ fontSize: '9px', fontWeight: 800, color: 'rgba(0,0,0,0.5)', letterSpacing: '0.12em', backgroundColor: 'rgba(255,255,255,0.7)', padding: '4px 8px', borderRadius: '4px' }}>ANTES</span>
+              </div>
             </div>
 
-            {/* AFTER LAYER - This one clips the Before layer */}
-            <div style={{ 
-              position: 'absolute', 
-              inset: 0, 
-              zIndex: 2, 
-              clipPath: `polygon(${position}% 0, 100% 0, 100% 100%, ${position}% 100%)`, 
+            {/* AFTER LAYER - clips to right side */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 2,
+              clipPath: `polygon(${position}% 0, 100% 0, 100% 100%, ${position}% 100%)`,
               backgroundColor: '#000'
             }}>
               <AfterMockup isMobile={isMobile} />
+              <div style={{ position: 'absolute', top: '14px', right: '14px', pointerEvents: 'none' }}>
+                <span className="mono" style={{ fontSize: '9px', fontWeight: 800, color: '#00FF88', letterSpacing: '0.12em', backgroundColor: 'rgba(0,0,0,0.5)', padding: '4px 8px', borderRadius: '4px', backdropFilter: 'blur(8px)' }}>DEPOIS</span>
+              </div>
             </div>
 
-            {/* HUD Status Label - Bottom Right */}
-            <div style={{ position: 'absolute', bottom: '24px', right: '24px', zIndex: 30, pointerEvents: 'none' }}>
+            {/* HUD Status Label - Bottom Center */}
+            <div style={{ position: 'absolute', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 30, pointerEvents: 'none' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '8px 18px', borderRadius: '100px', backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(16px)', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00FF88', boxShadow: '0 0 10px rgba(0,255,136,0.6)' }} />
                 <span className="mono" style={{ fontSize: '10px', color: '#fff', fontWeight: 800, letterSpacing: '0.12em' }}>NSWIFT_ENGINEERING</span>
@@ -180,6 +195,7 @@ export default function BeforeAfter() {
               </div>
             </div>
           </div>
+        </div>
         </div>
 
       </div>
