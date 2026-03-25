@@ -1,4 +1,10 @@
 import { useRef, useState } from 'react'
+import { useIsMobile } from '../hooks/useIsMobile'
+import emailjs from '@emailjs/browser'
+
+const EMAILJS_SERVICE_ID  = 'service_83dbkks'
+const EMAILJS_TEMPLATE_ID = 'template_5kux9hw'
+const EMAILJS_PUBLIC_KEY  = 'FIleFRzGPuBx9IivV'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Send, CheckCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -30,23 +36,47 @@ function InstagramIcon() {
 }
 
 const socials = [
-  { label: 'GitHub',    href: 'https://github.com/newswift',           Icon: GitHubIcon },
-  { label: 'LinkedIn',  href: 'https://linkedin.com/company/newswift', Icon: LinkedInIcon },
-  { label: 'Instagram', href: 'https://instagram.com/newswift',        Icon: InstagramIcon },
+  { label: 'GitHub', href: 'https://github.com/newswift', Icon: GitHubIcon },
+  { label: 'LinkedIn', href: 'https://linkedin.com/company/newswift', Icon: LinkedInIcon },
+  { label: 'Instagram', href: 'https://instagram.com/newswift', Icon: InstagramIcon },
 ]
+
+function validarCNPJ(cnpj: string): boolean {
+  const n = cnpj.replace(/\D/g, '')
+  if (n.length !== 14 || /^(\d)\1+$/.test(n)) return false
+  const calc = (s: string, weights: number[]) => {
+    const sum = s.split('').reduce((acc, d, i) => acc + parseInt(d) * weights[i], 0)
+    const r = sum % 11
+    return r < 2 ? 0 : 11 - r
+  }
+  const d1 = calc(n.slice(0, 12), [5,4,3,2,9,8,7,6,5,4,3,2])
+  const d2 = calc(n.slice(0, 13), [6,5,4,3,2,9,8,7,6,5,4,3,2])
+  return d1 === parseInt(n[12]) && d2 === parseInt(n[13])
+}
 
 type Field = { value: string; error: boolean }
 
+const COOLDOWN_MS = 60_000
+
+function getCooldownLeft(): number {
+  const last = parseInt(localStorage.getItem('ns_last_send') ?? '0', 10)
+  return Math.max(0, COOLDOWN_MS - (Date.now() - last))
+}
+
 export default function ContactPage() {
-  const formRef  = useRef<HTMLFormElement>(null)
+  const isMobile = useIsMobile()
+  const formRef = useRef<HTMLFormElement>(null)
   const [sent, setSent]       = useState(false)
-  const [kind, setKind]       = useState<'pessoa' | 'empresa'>('pessoa')
+  const [sending, setSending] = useState(false)
+  const [cooldown, setCooldown] = useState(getCooldownLeft)
+  const [kind, setKind] = useState<'pessoa' | 'empresa'>('pessoa')
   const [focused, setFocused] = useState<string | null>(null)
-  const [fields, setFields]   = useState({
-    name:    { value: '', error: false } as Field,
+  const [honeypot, setHoneypot] = useState('')
+  const [fields, setFields] = useState({
+    name: { value: '', error: false } as Field,
     company: { value: '', error: false } as Field,
-    cnpj:    { value: '', error: false } as Field,
-    email:   { value: '', error: false } as Field,
+    cnpj: { value: '', error: false } as Field,
+    email: { value: '', error: false } as Field,
     message: { value: '', error: false } as Field,
   })
 
@@ -58,39 +88,55 @@ export default function ContactPage() {
     setFields(f => ({ ...f, company: { value: '', error: false } }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (honeypot) return // bot detectado
+    if (getCooldownLeft() > 0) return // cooldown ativo
     const errors = {
-      name:    !fields.name.value.trim(),
+      name: !fields.name.value.trim(),
       company: kind === 'empresa' && !fields.company.value.trim(),
-      cnpj:    kind === 'empresa' && !fields.cnpj.value.trim(),
-      email:   !fields.email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.value),
+      cnpj: kind === 'empresa' && (!fields.cnpj.value.trim() || !validarCNPJ(fields.cnpj.value)),
+      email: !fields.email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.value),
       message: !fields.message.value.trim(),
     }
     if (Object.values(errors).some(Boolean)) {
       setFields(f => ({
-        name:    { ...f.name,    error: errors.name },
+        name: { ...f.name, error: errors.name },
         company: { ...f.company, error: errors.company },
-        cnpj:    { ...f.cnpj,    error: errors.cnpj },
-        email:   { ...f.email,   error: errors.email },
+        cnpj: { ...f.cnpj, error: errors.cnpj },
+        email: { ...f.email, error: errors.email },
         message: { ...f.message, error: errors.message },
       }))
       return
     }
-    const who = kind === 'empresa'
-      ? `${fields.name.value} — ${fields.company.value}`
-      : fields.name.value
-    const subject = encodeURIComponent(`Novo contato — ${who}`)
-    const bodyLines = [
-      kind === 'empresa' ? `Empresa: ${fields.company.value}` : '',
-      `Nome: ${fields.name.value}`,
-      `E-mail: ${fields.email.value}`,
-      `Tipo: ${kind === 'empresa' ? 'Empresa' : 'Pessoa física'}`,
-      '',
-      fields.message.value,
-    ].filter(l => l !== undefined).join('\n')
-    window.location.href = `mailto:contato@newswift.com.br?subject=${subject}&body=${encodeURIComponent(bodyLines)}`
-    setSent(true)
+    setSending(true)
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: fields.name.value.trim().slice(0, 100),
+          from_email: fields.email.value.trim().slice(0, 200),
+          company: kind === 'empresa' ? fields.company.value.trim().slice(0, 100) : '',
+          cnpj: kind === 'empresa' ? fields.cnpj.value.trim().slice(0, 18) : '',
+          kind: kind === 'empresa' ? 'Empresa' : 'Pessoa física',
+          message: fields.message.value.trim().slice(0, 2000),
+        },
+        EMAILJS_PUBLIC_KEY,
+      )
+      localStorage.setItem('ns_last_send', String(Date.now()))
+      setCooldown(COOLDOWN_MS)
+      const timer = setInterval(() => {
+        const left = getCooldownLeft()
+        setCooldown(left)
+        if (left === 0) clearInterval(timer)
+      }, 1000)
+      setSent(true)
+    } catch {
+      alert('Erro ao enviar. Tente novamente ou mande direto para newswift.work@gmail.com')
+    } finally {
+      setSending(false)
+    }
   }
 
   const inputBase = (key: string, multiline = false): React.CSSProperties => ({
@@ -150,14 +196,14 @@ export default function ContactPage() {
       </nav>
 
       {/* Content */}
-      <div style={{ position: 'relative', zIndex: 1, maxWidth: '1100px', margin: '0 auto', padding: '80px 32px 120px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'start' }}>
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '40px 20px 80px' : '80px 32px 120px', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '40px' : '80px', alignItems: 'start' }}>
 
         {/* LEFT — copy */}
         <motion.div
           initial={{ opacity: 0, x: -24 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          style={{ position: 'sticky', top: '96px' }}
+          style={{ position: isMobile ? 'relative' : 'sticky', top: isMobile ? 'auto' : '96px' }}
         >
           <span style={{ fontSize: '11px', fontWeight: 700, color: '#00C896', letterSpacing: '0.12em', textTransform: 'uppercase' }}>Contato</span>
 
@@ -173,9 +219,9 @@ export default function ContactPage() {
           {/* Info pills */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '48px' }}>
             {[
-              { label: 'E-mail',    value: 'contato@newswift.com.br' },
-              { label: 'Resposta',  value: 'Resposta em menos de 24 Horas' },
-              { label: 'Serviço',   value: 'Consultoria 100% gratuita' },
+              { label: 'E-mail', value: 'newswift.work@gmail.com' },
+              { label: 'Resposta', value: 'Em menos de 24 Horas' },
+              { label: 'Serviço', value: 'Orçamento gratuito' },
             ].map(item => (
               <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: '#00C896', flexShrink: 0 }} />
@@ -235,7 +281,7 @@ export default function ContactPage() {
               <CheckCircle size={48} style={{ color: '#00FF88', opacity: 0.85 }} />
               <h2 style={{ fontSize: '22px', fontWeight: 800, color: '#fff', letterSpacing: '-0.025em', margin: 0 }}>Mensagem enviada!</h2>
               <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.75, maxWidth: '280px', margin: 0 }}>
-                Seu cliente de e-mail foi aberto com a mensagem pronta. Respondemos em breve.
+                Mensagem recebida. Respondemos em menos de 24 horas em dias úteis.
               </p>
               <button
                 onClick={() => setSent(false)}
@@ -269,6 +315,16 @@ export default function ContactPage() {
                 ))}
               </div>
 
+              {/* Honeypot — invisível para humanos, bots preenchem */}
+              <input
+                type="text"
+                value={honeypot}
+                onChange={e => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', height: 0 }}
+              />
+
               {/* Company name — only for empresa */}
               {kind === 'empresa' && (
                 <>
@@ -281,6 +337,7 @@ export default function ContactPage() {
                       onFocus={() => setFocused('company')}
                       onBlur={() => setFocused(null)}
                       placeholder="Razão social ou nome fantasia"
+                      maxLength={100}
                       style={inputBase('company')}
                     />
                     {fields.company.error && <span style={errorStyle}>Informe o nome da empresa.</span>}
@@ -295,9 +352,10 @@ export default function ContactPage() {
                       onFocus={() => setFocused('cnpj')}
                       onBlur={() => setFocused(null)}
                       placeholder="00.000.000/0000-00"
+                      maxLength={18}
                       style={inputBase('cnpj')}
                     />
-                    {fields.cnpj.error && <span style={errorStyle}>Informe o CNPJ da empresa.</span>}
+                    {fields.cnpj.error && <span style={errorStyle}>CNPJ inválido. Verifique os números.</span>}
                   </div>
                 </>
               )}
@@ -314,6 +372,7 @@ export default function ContactPage() {
                   onFocus={() => setFocused('name')}
                   onBlur={() => setFocused(null)}
                   placeholder={kind === 'empresa' ? 'Seu nome completo' : 'Seu nome'}
+                  maxLength={100}
                   style={inputBase('name')}
                 />
                 {fields.name.error && <span style={errorStyle}>Por favor, informe seu nome.</span>}
@@ -329,6 +388,7 @@ export default function ContactPage() {
                   onFocus={() => setFocused('email')}
                   onBlur={() => setFocused(null)}
                   placeholder="seu@email.com"
+                  maxLength={200}
                   style={inputBase('email')}
                 />
                 {fields.email.error && <span style={errorStyle}>Informe um e-mail válido.</span>}
@@ -343,6 +403,7 @@ export default function ContactPage() {
                   onFocus={() => setFocused('message')}
                   onBlur={() => setFocused(null)}
                   placeholder="Conte sobre seu projeto — tipo de site, prazo, referências visuais..."
+                  maxLength={2000}
                   style={inputBase('message', true)}
                   rows={6}
                 />
@@ -352,33 +413,27 @@ export default function ContactPage() {
               {/* Submit */}
               <button
                 type="submit"
+                disabled={sending || cooldown > 0}
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '9px',
                   width: '100%', padding: '16px',
-                  borderRadius: '10px', border: 'none', cursor: 'pointer',
-                  backgroundColor: '#00FF88', color: '#000',
+                  borderRadius: '10px', border: 'none', cursor: (sending || cooldown > 0) ? 'not-allowed' : 'pointer',
+                  backgroundColor: (sending || cooldown > 0) ? '#009e60' : '#00FF88', color: '#000',
                   fontSize: '14px', fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase',
                   boxShadow: '0 4px 24px rgba(0,255,136,0.25)',
                   transition: 'all 0.22s',
+                  opacity: (sending || cooldown > 0) ? 0.7 : 1,
                 }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.backgroundColor = '#00e07a'
-                  e.currentTarget.style.boxShadow = '0 8px 40px rgba(0,255,136,0.4)'
-                  e.currentTarget.style.transform = 'translateY(-2px)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.backgroundColor = '#00FF88'
-                  e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,255,136,0.25)'
-                  e.currentTarget.style.transform = 'translateY(0)'
-                }}
+                onMouseEnter={e => { if (!sending && cooldown === 0) { e.currentTarget.style.backgroundColor = '#00e07a'; e.currentTarget.style.boxShadow = '0 8px 40px rgba(0,255,136,0.4)'; e.currentTarget.style.transform = 'translateY(-2px)' } }}
+                onMouseLeave={e => { if (!sending && cooldown === 0) { e.currentTarget.style.backgroundColor = '#00FF88'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,255,136,0.25)'; e.currentTarget.style.transform = 'translateY(0)' } }}
               >
                 <Send size={15} />
-                Enviar mensagem
+                {sending ? 'Enviando...' : cooldown > 0 ? `Aguarde ${Math.ceil(cooldown / 1000)}s` : 'Enviar mensagem'}
               </button>
 
               <p style={{ fontSize: '11px', color: '#2a2a2a', textAlign: 'center', lineHeight: 1.6 }}>
-                Ao enviar, seu cliente de e-mail abre com a mensagem pronta para<br />
-                <span style={{ color: '#333' }}>contato@newswift.com.br</span>
+                Sua mensagem vai direto para{' '}
+                <span style={{ color: '#333' }}>newswift.work@gmail.com</span>
               </p>
             </form>
           )}

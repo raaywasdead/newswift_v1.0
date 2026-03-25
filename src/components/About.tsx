@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import {
-  GraduationCap, Globe, Cpu, Users2,
+  Globe, Cpu, Users2,
   Code2, Palette, BarChart2, ArrowRight,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { members } from './TeamModal'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const highlights = [
-  { icon: Globe,  label: 'Inglês B2',   sub: 'Ferramentas internacionais e comunicação direta com qualquer stack.' },
-  { icon: Cpu,    label: 'Full-stack',  sub: 'Do front-end ao servidor — entregamos a solução completa.' },
-  { icon: Users2, label: 'Sinergia',    sub: 'Equipe construída sobre confiança mútua e alinhamento técnico.' },
+  { icon: Globe, label: 'Inglês B2', sub: 'Ferramentas internacionais e comunicação direta com qualquer stack.' },
+  { icon: Cpu, label: 'Full-stack', sub: 'Do front-end ao servidor — entregamos a solução completa.' },
+  { icon: Users2, label: 'Sinergia', sub: 'Equipe construída sobre confiança mútua e alinhamento técnico.' },
 ]
 
 const roleIconMap: Record<string, typeof Code2> = {
@@ -37,7 +38,7 @@ function MemberCard({ member }: { member: typeof members[number] }) {
           : '1px solid rgba(255,255,255,0.07)',
         backgroundColor: hovered ? 'rgba(0,255,136,0.04)' : 'rgba(255,255,255,0.018)',
         overflow: 'hidden',
-        transition: 'all 0.3s',
+        transition: 'border-color 0.3s, background-color 0.3s, box-shadow 0.3s',
         boxShadow: hovered
           ? '0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,255,136,0.08)'
           : '0 4px 24px rgba(0,0,0,0.3)',
@@ -73,7 +74,8 @@ function MemberCard({ member }: { member: typeof members[number] }) {
             objectPosition: 'center top',
             display: 'block',
             transition: 'transform 0.5s ease',
-            transform: hovered ? 'scale(1.04)' : 'scale(1)',
+            transform: hovered ? 'translateZ(0) scale(1.04)' : 'translateZ(0) scale(1)',
+            willChange: 'transform',
             maskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
             WebkitMaskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
           }}
@@ -151,12 +153,13 @@ function MemberCard({ member }: { member: typeof members[number] }) {
 }
 
 export default function About() {
+  const isMobile = useIsMobile()
   const orderedMembers = teamOrder
     .map(id => members.find(m => m.id === id))
     .filter(Boolean) as typeof members
 
   return (
-    <section id="sobre" style={{ backgroundColor: '#09090B', padding: '140px 0 120px', position: 'relative', overflow: 'hidden' }}>
+    <section id="sobre" style={{ backgroundColor: '#09090B', padding: isMobile ? '80px 0 60px' : '140px 0 120px', position: 'relative', overflow: 'hidden' }}>
 
       {/* Subtle dot grid background */}
       <div style={{
@@ -175,43 +178,37 @@ export default function About() {
         pointerEvents: 'none', zIndex: 0,
       }} />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '0 20px' : '0 24px', position: 'relative', zIndex: 1 }}>
 
         {/* ── SECTION HEADER ── */}
         <div className="reveal-up" style={{ marginBottom: '72px' }}>
-          <span className="section-label mono">Quem Somos</span>
 
-          <h2 className="syne" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '20px', lineHeight: 0.9 }}>
-            Três devs.<br />Uma missão.
+          {/* Top bar */}
+          <div style={{ marginBottom: '48px' }}>
+            <span className="section-label mono">Quem Somos</span>
+          </div>
+
+          {/* Headline */}
+          <h2 className="syne" style={{
+            fontSize: 'clamp(4rem, 9vw, 8rem)', fontWeight: 900,
+            letterSpacing: '-0.05em', color: '#fff', lineHeight: 0.88,
+            marginBottom: '48px',
+          }}>
+            De amigos<br />
+            <span style={{ color: '#00C896' }}>a sócios.</span>
           </h2>
 
-          <div style={{ maxWidth: '720px', display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '36px' }}>
-            <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: 0 }}>
-              A gente se conheceu no{' '}
-              <span style={{ color: '#c0c0d0', fontWeight: 600 }}>IOS — um programa social dentro da PUC-RS</span>
-              , patrocinado pela Dell e TOTVS. Viramos amigos antes de virar sócios, e foi dessa amizade que nasceu a NewSwift.
+          {/* Main narrative */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '760px' }}>
+            <p style={{ fontSize: '16px', color: '#9898b0', lineHeight: 1.9, margin: 0 }}>
+              Nós nos conhecemos no IOS, um programa de formação em tecnologia dentro da PUC-RS, patrocinado pela Dell e pela TOTVS. Foi em um projeto de equipe que percebemos que trabalhávamos bem juntos. Viramos amigos e um dia decidimos transformar isso em uma empresa.
             </p>
-
-            <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: 0 }}>
-              Hoje somos{' '}
-              <span style={{ color: '#c0c0d0', fontWeight: 600 }}>João Vitor</span> no backend e arquitetura,{' '}
-              <span style={{ color: '#c0c0d0', fontWeight: 600 }}>Brayan</span> no design e frontend, e{' '}
-              <span style={{ color: '#c0c0d0', fontWeight: 600 }}>Arthur</span> na análise técnica e qualidade. Cada um no que é bom — juntos no que importa.
+            <p style={{ fontSize: '16px', color: '#9898b0', lineHeight: 1.9, margin: 0 }}>
+              Hoje cada um tem o seu papel claro: João Vitor cuida da arquitetura e do backend, Brayan constrói a interface e o visual de cada projeto, e Arthur analisa, testa e garante que nada passa sem qualidade. Três perfis diferentes que se completam sem atrito.
             </p>
-
-            <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: 0 }}>
-              Não somos uma grande agência. Somos três pessoas que se importam com o que entregam — e isso faz toda a diferença.
+            <p style={{ fontSize: '16px', color: '#9898b0', lineHeight: 1.9, margin: 0 }}>
+              A NewSwift nasceu da ideia de que dá pra entregar um trabalho de agência grande sendo uma equipe pequena e comprometida. Sem template, sem terceirização, sem enrolação. O que entra como projeto, sai como produto.
             </p>
-
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '10px 16px', borderRadius: '10px', border: '1px solid rgba(0,200,150,0.15)', backgroundColor: 'rgba(0,200,150,0.03)', alignSelf: 'flex-start', marginTop: '4px' }}>
-              <div style={{ width: '30px', height: '30px', borderRadius: '8px', backgroundColor: 'rgba(0,200,150,0.08)', border: '1px solid rgba(0,200,150,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <GraduationCap size={14} style={{ color: '#00C896' }} />
-              </div>
-              <div>
-                <div style={{ fontSize: '12px', fontWeight: 700, color: '#c0c0d0' }}>Instituto da Oportunidade Social</div>
-                <div style={{ fontSize: '10px', color: '#777788' }}>PUC-RS · Dell & TOTVS</div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -248,13 +245,13 @@ export default function About() {
           </div>
 
           {/* 3-column card grid */}
-          <div 
+          <div
             className="reveal-stagger"
             style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '20px',
-          }}>
+              display: 'grid',
+              gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+              gap: '20px',
+            }}>
             {orderedMembers.map((member) => (
               <MemberCard key={member.id} member={member} />
             ))}
@@ -266,7 +263,7 @@ export default function About() {
           className="reveal-stagger"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
             gap: '1px',
             marginTop: '40px',
             borderRadius: '16px',

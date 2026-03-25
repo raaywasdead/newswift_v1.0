@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { MessageSquare, Layout, ShieldCheck, Rocket, TrendingUp } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -55,6 +56,7 @@ const steps = [
 ]
 
 export default function Process() {
+  const isMobile = useIsMobile()
   const sectionRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const wordmarkRef = useRef<HTMLDivElement>(null)
@@ -64,134 +66,131 @@ export default function Process() {
       const track = trackRef.current
       if (!track) return
 
-      const getScrollAmount = () => {
-        const trackWidth = track.scrollWidth
-        const vw = window.innerWidth
-        return Math.max(0, trackWidth - vw)
-      }
+      // Calculate from known values to avoid timing issues with DOM measurement
+      const vw = window.innerWidth
+      const cardWidth  = isMobile ? vw * 0.82 : 450
+      const gap        = isMobile ? 14 : 40
+      const padding    = isMobile ? 20 : 60
+      const totalWidth = steps.length * cardWidth + (steps.length - 1) * gap + padding * 2
+      const getAmount  = () => Math.max(0, totalWidth - vw)
 
-      const totalScroll = getScrollAmount()
-
-      // Master Timeline for pinning and horizontal movement
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top",
-          end: () => `+=${totalScroll}`,
+          start: 'top top',
+          end: () => `+=${getAmount()}`,
           pin: true,
           scrub: 2,
           invalidateOnRefresh: true,
-          anticipatePin: 1
+          anticipatePin: 1,
         }
       })
 
-      tl.to(track, {
-        x: () => -totalScroll,
-        ease: "power1.inOut"
-      }, 0)
-
-      // Background Wordmark movement
-      tl.to(wordmarkRef.current, {
-        x: () => -totalScroll * 0.2,
-        ease: "power1.inOut"
-      }, 0)
+      tl.to(track, { x: () => -getAmount(), ease: 'power1.inOut' }, 0)
+      tl.to(wordmarkRef.current, { x: () => -getAmount() * 0.2, ease: 'power1.inOut' }, 0)
 
     }, sectionRef)
 
-    return () => ctx.revert()
-  }, [])
+    // Refresh after paint so pin/end values are correctly applied
+    const t = setTimeout(() => ScrollTrigger.refresh(), 100)
+
+    return () => { clearTimeout(t); ctx.revert() }
+  }, [isMobile])
+
+  const cardW     = isMobile ? '82vw'  : '450px'
+  const cardH     = isMobile ? '440px' : '520px'
+  const cardPad   = isMobile ? '28px 24px' : '50px'
+  const cardR     = isMobile ? '20px'  : '32px'
+  const trackPad  = isMobile ? '0 20px' : '0 60px'
+  const trackGap  = isMobile ? '14px'  : '40px'
+  const headerPad = isMobile ? '0 20px' : '0 60px'
+  const headerMb  = isMobile ? '28px'  : '60px'
+  const innerSide = isMobile ? '24px'  : '50px'
+  const innerBot  = isMobile ? '24px'  : '50px'
 
   return (
-    <section 
-      id="processo" 
-      ref={sectionRef} 
-      style={{ 
-        backgroundColor: '#09090B', 
-        height: '100vh', 
-        overflow: 'hidden', 
+    <section
+      id="processo"
+      ref={sectionRef}
+      style={{
+        backgroundColor: '#09090B',
+        height: '100vh',
+        overflow: 'hidden',
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'center',
       }}
     >
-      
       {/* Background WordMark */}
       <div
         ref={wordmarkRef}
         style={{
-          position: 'absolute',
-          top: '38%',
-          left: 0,
-          right: 0,
-          textAlign: 'center',
-          whiteSpace: 'nowrap',
-          zIndex: 0,
-          opacity: 0.03,
-          pointerEvents: 'none',
-          userSelect: 'none',
+          position: 'absolute', top: '38%', left: 0, right: 0,
+          textAlign: 'center', whiteSpace: 'nowrap',
+          zIndex: 0, opacity: 0.03, pointerEvents: 'none', userSelect: 'none',
         }}
       >
-        <span className="syne" style={{ fontSize: '35vh', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', display: 'inline-block', transform: 'translateX(2vw)' }}>
+        <span className="syne" style={{ fontSize: isMobile ? '30vw' : '35vh', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', display: 'inline-block', transform: 'translateX(2vw)' }}>
           WORKFLOW
         </span>
       </div>
 
       <div style={{ position: 'relative', zIndex: 1, width: '100%' }}>
-        {/* Header - Integrated back into the section flow */}
-        <div style={{ padding: '0 60px', marginBottom: '60px' }}>
+        {/* Header */}
+        <div style={{ padding: headerPad, marginBottom: headerMb }}>
           <div className="reveal-up">
             <span className="section-label mono">Como Trabalhamos</span>
-            <h2 className="syne" style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', lineHeight: 0.85, marginTop: '16px' }}>
+            <h2 className="syne" style={{ fontSize: isMobile ? 'clamp(2rem, 8vw, 3rem)' : 'clamp(3rem, 6vw, 5rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', lineHeight: 0.85, marginTop: '16px' }}>
               Cinco etapas.<br />Zero surpresas.
             </h2>
           </div>
         </div>
 
-        {/* Track Container - Restored to large proportions */}
-        <div ref={trackRef} style={{ display: 'flex', gap: '40px', padding: '0 60px' }}>
+        {/* Scrolling track */}
+        <div ref={trackRef} style={{ display: 'flex', gap: trackGap, padding: trackPad }}>
           {steps.map((s) => {
             const Icon = s.icon
             return (
-              <div key={s.n} style={{ width: '450px', flexShrink: 0 }}>
+              <div key={s.n} style={{ width: cardW, flexShrink: 0 }}>
                 <div style={{
-                  padding: '50px',
-                  borderRadius: '32px',
+                  padding: cardPad,
+                  borderRadius: cardR,
                   border: '1px solid rgba(255,255,255,0.06)',
                   backgroundColor: 'rgba(255,255,255,0.02)',
                   backdropFilter: 'blur(8px)',
                   position: 'relative',
-                  height: '520px',
-                  boxShadow: '0 40px 100px -20px rgba(0,0,0,0.5)'
+                  height: cardH,
+                  boxShadow: '0 40px 100px -20px rgba(0,0,0,0.5)',
                 }}>
                   <div>
                     <div style={{
-                      width: '64px', height: '64px', borderRadius: '18px',
+                      width: isMobile ? '48px' : '64px',
+                      height: isMobile ? '48px' : '64px',
+                      borderRadius: isMobile ? '14px' : '18px',
                       backgroundColor: `${s.accent}10`,
                       border: `1px solid ${s.accent}20`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      marginBottom: '32px'
+                      marginBottom: isMobile ? '20px' : '32px',
                     }}>
-                      <Icon size={28} color={s.accent} />
+                      <Icon size={isMobile ? 22 : 28} color={s.accent} />
                     </div>
-                    <span style={{ fontSize: '10px', fontWeight: 800, color: s.accent, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '12px', display: 'block' }}>{s.tag}</span>
-                    <h4 className="syne" style={{ fontSize: '32px', fontWeight: 900, color: '#fff', marginBottom: '16px', letterSpacing: '-0.03em' }}>{s.title}</h4>
-                    <p style={{ fontSize: '14px', color: '#888', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.desc}</p>
+                    <span style={{ fontSize: '10px', fontWeight: 800, color: s.accent, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: isMobile ? '8px' : '12px', display: 'block' }}>{s.tag}</span>
+                    <h4 className="syne" style={{ fontSize: isMobile ? '22px' : '32px', fontWeight: 900, color: '#fff', marginBottom: isMobile ? '10px' : '16px', letterSpacing: '-0.03em' }}>{s.title}</h4>
+                    <p style={{ fontSize: isMobile ? '13px' : '14px', color: '#888', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{s.desc}</p>
                   </div>
 
-                  <div style={{ position: 'absolute', left: '50px', right: '50px', bottom: '50px' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px', paddingBottom: '24px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                       {s.receives.map(item => (
-                         <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                           <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: s.accent }} />
-                           <span style={{ fontSize: '14px', color: '#ccc' }}>{item}</span>
-                         </div>
-                       ))}
+                  <div style={{ position: 'absolute', left: innerSide, right: innerSide, bottom: innerBot }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '8px' : '10px', marginBottom: isMobile ? '16px' : '24px', paddingBottom: isMobile ? '16px' : '24px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                      {s.receives.map(item => (
+                        <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: s.accent, flexShrink: 0 }} />
+                          <span style={{ fontSize: isMobile ? '12px' : '14px', color: '#ccc' }}>{item}</span>
+                        </div>
+                      ))}
                     </div>
                     <span className="mono" style={{ fontSize: '11px', color: '#555' }}>Duração: <strong style={{ color: '#fff' }}>{s.duration}</strong></span>
                   </div>
-
-                  {/* Removed numbering on background as per request */}
                 </div>
               </div>
             )
@@ -200,11 +199,11 @@ export default function Process() {
       </div>
 
       {/* Nav Hint */}
-      <div style={{ position: 'absolute', bottom: '40px', right: '60px', zIndex: 10 }}>
+      <div style={{ position: 'absolute', bottom: isMobile ? '24px' : '40px', right: isMobile ? '20px' : '60px', zIndex: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <span className="mono" style={{ fontSize: '10px', color: '#444', letterSpacing: '0.1em' }}>SCROLL TO EXPLORE</span>
           <div style={{ width: '100px', height: '1px', backgroundColor: 'rgba(255,255,255,0.1)' }}>
-            <motion.div 
+            <motion.div
               style={{ height: '100%', backgroundColor: '#00FF88', width: '30%' }}
               animate={{ x: [0, 70, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
@@ -212,7 +211,6 @@ export default function Process() {
           </div>
         </div>
       </div>
-
     </section>
   )
 }

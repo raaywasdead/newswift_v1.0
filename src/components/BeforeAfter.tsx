@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 function BeforeMockup() {
   return (
@@ -31,7 +32,7 @@ function BeforeMockup() {
   )
 }
 
-function AfterMockup() {
+function AfterMockup({ isMobile }: { isMobile: boolean }) {
   const ac = '#8B5CF6'
   const bg = '#060608'
 
@@ -40,39 +41,36 @@ function AfterMockup() {
       {/* AETHER Luxe Hero */}
       <div style={{ position: 'absolute', inset: 0, backgroundImage: `radial-gradient(circle at 70% 30%, ${ac}15 0%, transparent 60%)` }} />
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200")', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.15 }} />
-      
-      <nav style={{ padding: '24px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div className="syne" style={{ fontSize: '18px', fontWeight: 900, color: '#fff', letterSpacing: '0.2em' }}>AETHER</div>
-        </div>
-        <div style={{ display: 'flex', gap: '32px' }}>
-           {['STUDIO', 'EDITIONS', 'LABS'].map(l => (
-             <span key={l} style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>{l}</span>
-           ))}
-        </div>
+
+      <nav style={{ padding: isMobile ? '16px 20px' : '24px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 10 }}>
+        <div className="syne" style={{ fontSize: isMobile ? '14px' : '18px', fontWeight: 900, color: '#fff', letterSpacing: '0.2em' }}>AETHER</div>
+        {!isMobile && (
+          <div style={{ display: 'flex', gap: '32px' }}>
+            {['STUDIO', 'EDITIONS', 'LABS'].map(l => (
+              <span key={l} style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>{l}</span>
+            ))}
+          </div>
+        )}
       </nav>
 
-      <div style={{ padding: '100px 48px', position: 'relative', zIndex: 1 }}>
-
-        <h2 className="syne" style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', fontWeight: 900, color: '#fff', lineHeight: 0.85, letterSpacing: '-0.06em', marginBottom: '32px' }}>
+      <div style={{ padding: isMobile ? '24px 20px' : '60px 48px', position: 'relative', zIndex: 1 }}>
+        <h2 className="syne" style={{ fontSize: isMobile ? 'clamp(1.6rem, 7vw, 2.4rem)' : 'clamp(2.4rem, 5vw, 4rem)', fontWeight: 900, color: '#fff', lineHeight: 0.9, letterSpacing: '-0.06em', marginBottom: isMobile ? '16px' : '24px' }}>
           The Evolution of<br /><span style={{ color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.8)' }}>Atmosphere.</span>
         </h2>
-        
-        <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.4)', lineHeight: 1.7, maxWidth: '300px', marginBottom: '32px' }}>
+        <p style={{ fontSize: isMobile ? '11px' : '13px', color: 'rgba(255,255,255,0.4)', lineHeight: 1.6, maxWidth: isMobile ? '200px' : '280px', marginBottom: isMobile ? '20px' : '28px' }}>
           Crafting digital ecosystems that command attention through silence and technical superiority.
         </p>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-           <div style={{ padding: '18px 40px', borderRadius: '2px', backgroundColor: '#fff', color: '#000', fontSize: '11px', fontWeight: 900, letterSpacing: '0.2em' }}>GET ACCESS</div>
-           <div style={{ fontSize: '11px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '4px' }}>VIEW MANIFESTO</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{ padding: isMobile ? '10px 20px' : '14px 32px', borderRadius: '2px', backgroundColor: '#fff', color: '#000', fontSize: isMobile ? '9px' : '11px', fontWeight: 900, letterSpacing: '0.2em' }}>GET ACCESS</div>
+          {!isMobile && <div style={{ fontSize: '11px', fontWeight: 800, color: '#fff', letterSpacing: '0.1em', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '4px' }}>VIEW MANIFESTO</div>}
         </div>
       </div>
-
     </div>
   )
 }
 
 export default function BeforeAfter() {
+  const isMobile = useIsMobile()
   const containerRef = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState(50)
   const isDragging = useRef(false)
@@ -90,12 +88,12 @@ export default function BeforeAfter() {
   }, [])
 
   return (
-    <section id="resultados" style={{ backgroundColor: '#09090B', padding: '160px 0', position: 'relative', overflow: 'hidden' }}>
-      
+    <section id="resultados" style={{ backgroundColor: '#09090B', padding: isMobile ? '80px 0' : '160px 0', position: 'relative', overflow: 'hidden' }}>
+
       {/* Ambient background glow */}
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80%', height: '80%', background: 'radial-gradient(circle, rgba(0, 255, 136, 0.03) 0%, transparent 100%)', zIndex: 0, filter: 'blur(120px)' }} />
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '0 20px' : '0 40px', position: 'relative', zIndex: 1 }}>
 
         {/* Header - Editorial Style */}
         <div
@@ -121,7 +119,7 @@ export default function BeforeAfter() {
             border: '1px solid rgba(255,255,255,0.06)', 
             boxShadow: '0 64px 120px -30px rgba(0,0,0,0.8)',
             backgroundColor: '#000', // Solid black base to prevent leakage
-            height: '640px'
+            height: isMobile ? '380px' : '640px'
           }}
         >
           {/* Interaction Area */}
@@ -150,7 +148,7 @@ export default function BeforeAfter() {
               clipPath: `polygon(${position}% 0, 100% 0, 100% 100%, ${position}% 100%)`, 
               backgroundColor: '#000'
             }}>
-              <AfterMockup />
+              <AfterMockup isMobile={isMobile} />
             </div>
 
             {/* HUD Status Label - Bottom Right */}

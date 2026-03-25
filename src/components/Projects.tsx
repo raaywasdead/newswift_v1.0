@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const projects = [
   {
@@ -68,6 +69,7 @@ const projects = [
 export default function Projects() {
   const [current, setCurrent] = useState(0)
   const [isChanging, setIsChanging] = useState(false)
+  const isMobile = useIsMobile()
 
   const go = (next: number) => {
     if (isChanging) return
@@ -86,9 +88,9 @@ export default function Projects() {
   return (
     <section
       id="projetos"
-      style={{ backgroundColor: '#09090B', padding: '160px 0', position: 'relative', overflow: 'hidden' }}
+      style={{ backgroundColor: '#09090B', padding: isMobile ? '80px 0 60px' : '160px 0', position: 'relative', overflow: 'hidden' }}
     >
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: isMobile ? '0 20px' : '0 40px', position: 'relative', zIndex: 1 }}>
 
         {/* Header */}
         <div
@@ -107,7 +109,7 @@ export default function Projects() {
         </div>
 
         {/* Showcase */}
-        <div style={{ position: 'relative', minHeight: '520px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="reveal-up" style={{ position: 'relative', minHeight: isMobile ? 'auto' : '520px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={p.id}
@@ -119,18 +121,6 @@ export default function Projects() {
             >
               <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
-                {/* Background glow */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 0.18, scale: 1 }}
-                  transition={{ duration: 0.8 }}
-                  style={{
-                    position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-                    width: '120%', height: '120%',
-                    background: `radial-gradient(circle, ${p.accent} 0%, transparent 70%)`,
-                    zIndex: -1, pointerEvents: 'none', filter: 'blur(100px)'
-                  }}
-                />
 
                 {/* Mockup card */}
                 <a href={p.href} target="_blank" rel="noopener noreferrer" style={{
@@ -175,7 +165,7 @@ export default function Projects() {
                   </motion.div>
 
                   {/* Info block bottom-left */}
-                  <div style={{ position: 'absolute', bottom: '-15%', left: '0', maxWidth: '440px', pointerEvents: 'auto' }}>
+                  <div style={{ position: isMobile ? 'relative' : 'absolute', bottom: isMobile ? 'auto' : '-15%', left: '0', maxWidth: isMobile ? '100%' : '440px', pointerEvents: 'auto', marginTop: isMobile ? '16px' : undefined }}>
                     <motion.h3
                       initial={{ y: 30, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
@@ -212,11 +202,13 @@ export default function Projects() {
                   </div>
 
                   {/* Counter right */}
-                  <div style={{ position: 'absolute', top: '50%', right: '-10%', transform: 'translateY(-50%) rotate(90deg)', transformOrigin: 'center' }}>
-                    <span className="mono" style={{ fontSize: '100px', fontWeight: 900, color: 'rgba(255,255,255,0.02)', letterSpacing: '-0.05em' }}>
-                      {String(current + 1).padStart(2, '0')}
-                    </span>
-                  </div>
+                  {!isMobile && (
+                    <div style={{ position: 'absolute', top: '50%', right: '-10%', transform: 'translateY(-50%) rotate(90deg)', transformOrigin: 'center' }}>
+                      <span className="mono" style={{ fontSize: '100px', fontWeight: 900, color: 'rgba(255,255,255,0.02)', letterSpacing: '-0.05em' }}>
+                        {String(current + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -224,7 +216,7 @@ export default function Projects() {
         </div>
 
         {/* Navigation */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '28px', marginTop: '28px' }}>
+        <div className="reveal-up reveal-sooner" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '28px', marginTop: '28px' }}>
           <button
             onClick={prev}
             style={{ width: '44px', height: '44px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'transparent', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.25s' }}

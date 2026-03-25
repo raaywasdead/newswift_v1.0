@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import PixelBlast from './PixelBlast'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const WORDS = ['VENDEM.', 'ATRAEM.', 'MARCAM.', 'LUCRAM.']
 const TYPE_MS = 85
@@ -74,7 +75,7 @@ const stats = [
 
 export default function Hero() {
   const typed = useTypewriter()
-
+  const isMobile = useIsMobile()
 
   return (
     <section id="hero" className="hero-section" style={{ position: 'relative', minHeight: '100vh', backgroundColor: '#09090B', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -109,10 +110,10 @@ export default function Hero() {
       <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '1px', background: 'linear-gradient(to bottom, transparent, rgba(0,255,136,0.12) 30%, rgba(0,255,136,0.12) 70%, transparent)', zIndex: 1 }} />
 
       {/* ── Main two-column ── */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', maxWidth: '1280px', width: '100%', margin: '0 auto', padding: '100px 48px 40px', gap: '72px', position: 'relative', zIndex: 1 }}>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', flexWrap: 'wrap', maxWidth: '1280px', width: '100%', margin: '0 auto', padding: isMobile ? '80px 24px 40px' : '100px 48px 40px', gap: isMobile ? '40px' : '72px', position: 'relative', zIndex: 1 }}>
 
         {/* LEFT */}
-        <div style={{ flex: '1 1 520px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+        <div style={{ flex: '1 1 300px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
 
           {/* Availability badge */}
           <div
@@ -155,7 +156,7 @@ export default function Hero() {
           {/* Subline */}
           <p
             className="hero-subline"
-            style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, maxWidth: '440px', margin: 0, opacity: 0, visibility: 'hidden' }}
+            style={{ fontSize: '16px', color: '#b0b0c4', lineHeight: 1.85, maxWidth: '440px', margin: 0, opacity: 0, visibility: 'hidden' }}
           >
             Somos três desenvolvedores formados pelo IOS na PUC-RS. Transformamos ideias em presença digital com prazo real, código limpo e design que de fato converte.
           </p>
@@ -200,7 +201,7 @@ export default function Hero() {
         {/* RIGHT: photo with rotating gradient border */}
         <div
           className="hero-photo"
-          style={{ flex: '1 1 440px', position: 'relative', maxWidth: '540px', opacity: 0, visibility: 'hidden' }}
+          style={{ flex: '1 1 280px', position: 'relative', maxWidth: isMobile ? '100%' : '540px', width: isMobile ? '100%' : undefined, opacity: 0, visibility: 'hidden' }}
         >
           {/* Deep ambient glow */}
           <div style={{ position: 'absolute', inset: '-24%', background: 'radial-gradient(ellipse 70% 70% at 50% 62%, rgba(0,255,136,0.1) 0%, transparent 65%)', zIndex: 0, filter: 'blur(24px)', borderRadius: '50%' }} />

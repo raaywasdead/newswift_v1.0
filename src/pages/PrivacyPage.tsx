@@ -90,7 +90,7 @@ export default function PrivacyPage() {
 
         <Section title="9. Contato">
           Para exercer seus direitos ou tirar dúvidas sobre privacidade, entre em contato:{' '}
-          <a href="mailto:contato@newswift.com.br" style={{ color: '#00C896', textDecoration: 'none' }}>contato@newswift.com.br</a>
+          <a href="mailto:newswift.work@gmail.com" style={{ color: '#00C896', textDecoration: 'none' }}>newswift.work@gmail.com</a>
         </Section>
 
         <div style={{ marginTop: '48px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', gap: '16px' }}>

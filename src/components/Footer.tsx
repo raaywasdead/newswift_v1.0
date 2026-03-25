@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 function GitHubIcon() {
   return (
@@ -46,34 +47,68 @@ const socials = [
 ]
 
 const linkStyle: React.CSSProperties = {
-  fontSize: '13px', color: '#444', textDecoration: 'none',
+  fontSize: '13px', color: '#5a5a70', textDecoration: 'none',
   transition: 'color 0.15s', display: 'block', width: 'fit-content',
 }
 
 export default function Footer() {
+  const isMobile = useIsMobile()
   return (
     <footer style={{ backgroundColor: '#09090B', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '72px 40px 0' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '40px 20px 0' : '64px 40px 0' }}>
 
         {/* ── 3-col grid ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr', gap: '48px', marginBottom: '56px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.6fr 1fr 1fr', gap: isMobile ? '32px' : '48px', marginBottom: '48px' }}>
 
           {/* Brand */}
           <div>
-            <a href="#hero" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', textDecoration: 'none', marginBottom: '16px' }}>
-              <img src="/logo-ns.png" alt="NS" style={{ width: '34px', height: '34px', objectFit: 'contain' }} />
-              <span style={{ fontSize: '19px', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em' }}>
+            <a href="#hero" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', textDecoration: 'none', marginBottom: '14px' }}>
+              <img src="/logo-ns.png" alt="NS" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
+              <span style={{ fontSize: '18px', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em' }}>
                 New<span style={{ color: '#00FF88' }}>Swift</span>
               </span>
             </a>
-            <p style={{ fontSize: '13px', color: '#8888a0', lineHeight: 1.7, maxWidth: '220px' }}>
+            <p style={{ fontSize: '13px', color: '#8888a0', lineHeight: 1.7, maxWidth: '220px', marginBottom: '20px' }}>
               Três devs. Uma missão. Sites que de fato entregam resultado.
             </p>
+            {/* Socials inline with brand */}
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {socials.map(({ Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  title={label}
+                  style={{
+                    width: '36px', height: '36px', borderRadius: '9px',
+                    border: '1px solid rgba(255,255,255,0.07)',
+                    backgroundColor: 'rgba(255,255,255,0.03)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: '#5a5a70', textDecoration: 'none',
+                    transition: 'all 0.2s',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.backgroundColor = 'rgba(0,255,136,0.08)'
+                    e.currentTarget.style.borderColor = 'rgba(0,255,136,0.3)'
+                    e.currentTarget.style.color = '#00FF88'
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)'
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
+                    e.currentTarget.style.color = '#5a5a70'
+                  }}
+                >
+                  <Icon />
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Links */}
           <div>
-            <span style={{ fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: '18px' }}>Links</span>
+            <span style={{ fontSize: '11px', fontWeight: 700, color: '#fff', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', marginBottom: '18px' }}>Navegação</span>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {navLinks.map(l => (
                 <a
@@ -81,7 +116,7 @@ export default function Footer() {
                   href={l.href}
                   style={linkStyle}
                   onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#444')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#5a5a70')}
                 >
                   {l.label}
                 </a>
@@ -99,7 +134,7 @@ export default function Footer() {
                   to={l.href}
                   style={linkStyle}
                   onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
-                  onMouseLeave={e => (e.currentTarget.style.color = '#444')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#5a5a70')}
                 >
                   {l.label}
                 </Link>
@@ -108,43 +143,9 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ── Social icons — centered ── */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '28px 0', display: 'flex', justifyContent: 'center', gap: '10px' }}>
-          {socials.map(({ Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              title={label}
-              style={{
-                width: '40px', height: '40px', borderRadius: '10px',
-                border: '1px solid rgba(255,255,255,0.07)',
-                backgroundColor: 'rgba(255,255,255,0.03)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#444', textDecoration: 'none',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.backgroundColor = 'rgba(0,255,136,0.08)'
-                e.currentTarget.style.borderColor = 'rgba(0,255,136,0.3)'
-                e.currentTarget.style.color = '#00FF88'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)'
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
-                e.currentTarget.style.color = '#444'
-              }}
-            >
-              <Icon />
-            </a>
-          ))}
-        </div>
-
         {/* ── Bottom bar ── */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.04)', padding: '20px 0', textAlign: 'center' }}>
-          <span style={{ fontSize: '12px', color: '#666677' }}>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '20px 0', textAlign: 'center' }}>
+          <span style={{ fontSize: '12px', color: '#555566' }}>
             Todos os direitos reservados © {new Date().getFullYear()} | Desenvolvido por{' '}
             <span style={{ color: '#8888a0', fontWeight: 700 }}>NewSwift</span>.
           </span>

@@ -80,7 +80,7 @@ export default function TermsPage() {
 
         <Section title="9. Contato">
           Para dúvidas sobre estes Termos, entre em contato pelo e-mail{' '}
-          <a href="mailto:contato@newswift.com.br" style={{ color: '#00C896', textDecoration: 'none' }}>contato@newswift.com.br</a>.
+          <a href="mailto:newswift.work@gmail.com" style={{ color: '#00C896', textDecoration: 'none' }}>newswift.work@gmail.com</a>.
         </Section>
 
         <div style={{ marginTop: '48px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', gap: '16px' }}>

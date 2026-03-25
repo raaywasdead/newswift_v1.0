@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 function GitHubIcon() {
   return (
@@ -33,11 +34,12 @@ const socials = [
 ]
 
 export default function CTA() {
+  const isMobile = useIsMobile()
 
   return (
     <section
       id="contato"
-      style={{ position: 'relative', backgroundColor: '#09090B', overflow: 'hidden', padding: '140px 24px' }}
+      style={{ position: 'relative', backgroundColor: '#09090B', overflow: 'hidden', padding: isMobile ? '80px 20px' : '140px 24px' }}
     >
       {/* Dot grid */}
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '28px 28px', zIndex: 0, pointerEvents: 'none' }} />
@@ -102,7 +104,7 @@ export default function CTA() {
           >
             VAMOS NESSA
           </Link>
-          <span style={{ fontSize: '11px', color: '#8888a0', fontWeight: 600 }}>Consultoria gratuita · Sem compromisso</span>
+          <span style={{ fontSize: '11px', color: '#8888a0', fontWeight: 600 }}>Orçamento gratuito · Sem compromisso</span>
         </div>
 
         {/* Divider */}

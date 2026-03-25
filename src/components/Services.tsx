@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Globe, Palette, Gauge, CheckCircle, ArrowUpRight, LayoutTemplate, Zap, Shield, Cpu } from 'lucide-react'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const services = [
   {
@@ -157,17 +158,17 @@ function ServiceCard({ s, i }: { s: typeof services[number]; i: number }) {
 }
 
 export default function Services() {
-  
+  const isMobile = useIsMobile()
 
   return (
-    <section id="servicos" style={{ backgroundColor: '#09090B', padding: '140px 0 120px', position: 'relative', overflow: 'hidden' }}>
+    <section id="servicos" style={{ backgroundColor: '#09090B', padding: isMobile ? '80px 0 60px' : '140px 0 120px', position: 'relative', overflow: 'hidden' }}>
       
       {/* Ambient static background elements */}
       <div style={{ position: 'absolute', top: '10%', left: '5%', opacity: 0.03, pointerEvents: 'none' }}>
          <Cpu size={400} color="#fff" strokeWidth={0.5} />
       </div>
 
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: isMobile ? '0 20px' : '0 40px', position: 'relative', zIndex: 1 }}>
 
         <div
           className="reveal-up"
@@ -187,7 +188,7 @@ export default function Services() {
           className="reveal-stagger"
           style={{ 
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
           gap: '12px'
         }}>
           {services.map((s, i) => (
