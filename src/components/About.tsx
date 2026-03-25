@@ -181,38 +181,35 @@ export default function About() {
         <div className="reveal-up" style={{ marginBottom: '72px' }}>
           <span className="section-label mono">Quem Somos</span>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'start', marginTop: '20px' }}>
-            <div>
-              <h2 className="syne" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '20px', lineHeight: 0.9 }}>
-                Três devs.<br />Uma missão.
-              </h2>
-            </div>
+          <h2 className="syne" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '20px', lineHeight: 0.9 }}>
+            Três devs.<br />Uma missão.
+          </h2>
 
-            <div style={{ paddingTop: '20px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-              <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: 0 }}>
-                Somos três desenvolvedores formados pelo{' '}
-                <span style={{ color: '#c0c0d0', fontWeight: 600 }}>Instituto de Oportunidade Social na PUC-RS</span>
-                {' '}— patrocinado pela Dell e TOTVS. O que começou como uma equipe de projeto virou uma agência.
-              </p>
+          <div style={{ maxWidth: '720px', display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '36px' }}>
+            <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: 0 }}>
+              A gente se conheceu no{' '}
+              <span style={{ color: '#c0c0d0', fontWeight: 600 }}>IOS — um programa social dentro da PUC-RS</span>
+              , patrocinado pela Dell e TOTVS. Viramos amigos antes de virar sócios, e foi dessa amizade que nasceu a NewSwift.
+            </p>
 
-              <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: 0 }}>
-                <span style={{ color: '#c0c0d0', fontWeight: 600 }}>João Vitor</span> cuida da arquitetura e do stack técnico.{' '}
-                <span style={{ color: '#c0c0d0', fontWeight: 600 }}>Brayan</span> constrói a identidade visual de cada produto.{' '}
-                <span style={{ color: '#c0c0d0', fontWeight: 600 }}>Arthur</span> garante que os dados e a lógica estejam sempre no lugar certo.
-              </p>
+            <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: 0 }}>
+              Hoje somos{' '}
+              <span style={{ color: '#c0c0d0', fontWeight: 600 }}>João Vitor</span> no backend e arquitetura,{' '}
+              <span style={{ color: '#c0c0d0', fontWeight: 600 }}>Brayan</span> no design e frontend, e{' '}
+              <span style={{ color: '#c0c0d0', fontWeight: 600 }}>Arthur</span> na análise técnica e qualidade. Cada um no que é bom — juntos no que importa.
+            </p>
 
-              <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: 0 }}>
-                Não terceirizamos, não usamos templates prontos e não entregamos menos do que o combinado. Cada projeto é construído do zero — com código limpo, design pensado e prazo real.
-              </p>
+            <p style={{ fontSize: '15px', color: '#8888a0', lineHeight: 1.85, margin: 0 }}>
+              Não somos uma grande agência. Somos três pessoas que se importam com o que entregam — e isso faz toda a diferença.
+            </p>
 
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '10px 16px', borderRadius: '10px', border: '1px solid rgba(0,200,150,0.15)', backgroundColor: 'rgba(0,200,150,0.03)', alignSelf: 'flex-start' }}>
-                <div style={{ width: '30px', height: '30px', borderRadius: '8px', backgroundColor: 'rgba(0,200,150,0.08)', border: '1px solid rgba(0,200,150,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <GraduationCap size={14} style={{ color: '#00C896' }} />
-                </div>
-                <div>
-                  <div style={{ fontSize: '12px', fontWeight: 700, color: '#c0c0d0' }}>Instituto da Oportunidade Social</div>
-                  <div style={{ fontSize: '10px', color: '#777788' }}>PUC-RS · Dell & TOTVS</div>
-                </div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '10px 16px', borderRadius: '10px', border: '1px solid rgba(0,200,150,0.15)', backgroundColor: 'rgba(0,200,150,0.03)', alignSelf: 'flex-start', marginTop: '4px' }}>
+              <div style={{ width: '30px', height: '30px', borderRadius: '8px', backgroundColor: 'rgba(0,200,150,0.08)', border: '1px solid rgba(0,200,150,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <GraduationCap size={14} style={{ color: '#00C896' }} />
+              </div>
+              <div>
+                <div style={{ fontSize: '12px', fontWeight: 700, color: '#c0c0d0' }}>Instituto da Oportunidade Social</div>
+                <div style={{ fontSize: '10px', color: '#777788' }}>PUC-RS · Dell & TOTVS</div>
               </div>
             </div>
           </div>
