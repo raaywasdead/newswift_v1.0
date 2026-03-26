@@ -1,11 +1,8 @@
 import { useRef, useState } from 'react'
 import { useIsMobile } from '../hooks/useIsMobile'
-import emailjs from '@emailjs/browser'
-
-const EMAILJS_SERVICE_ID  = 'service_83dbkks'
-const EMAILJS_TEMPLATE_ID = 'template_5kux9hw'
-const EMAILJS_PUBLIC_KEY  = 'FIleFRzGPuBx9IivV'
 import { motion } from 'framer-motion'
+
+const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:3001'
 import { ArrowLeft, Send, CheckCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
@@ -56,6 +53,27 @@ function validarCNPJ(cnpj: string): boolean {
 
 type Field = { value: string; error: boolean }
 
+function maskCNPJ(raw: string): string {
+  const n = raw.replace(/\D/g, '').slice(0, 14)
+  return n
+    .replace(/^(\d{2})(\d)/, '$1.$2')
+    .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+    .replace(/\.(\d{3})(\d)/, '.$1/$2')
+    .replace(/(\d{4})(\d)/, '$1-$2')
+}
+
+async function fetchEmpresa(cnpj: string): Promise<string | null> {
+  try {
+    const raw = cnpj.replace(/\D/g, '')
+    const res = await fetch(`${API_BASE}/cnpj/${raw}`)
+    if (!res.ok) return null
+    const data = await res.json()
+    return data.razao_social ?? data.nome_fantasia ?? null
+  } catch {
+    return null
+  }
+}
+
 const COOLDOWN_MS = 60_000
 
 function getCooldownLeft(): number {
@@ -72,6 +90,7 @@ export default function ContactPage() {
   const [kind, setKind] = useState<'pessoa' | 'empresa'>('pessoa')
   const [focused, setFocused] = useState<string | null>(null)
   const [honeypot, setHoneypot] = useState('')
+  const [cnpjLoading, setCnpjLoading] = useState(false)
   const [fields, setFields] = useState({
     name: { value: '', error: false } as Field,
     company: { value: '', error: false } as Field,
@@ -111,19 +130,19 @@ export default function ContactPage() {
     }
     setSending(true)
     try {
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        {
-          from_name: fields.name.value.trim().slice(0, 100),
-          from_email: fields.email.value.trim().slice(0, 200),
+      const res = await fetch(`${API_BASE}/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: fields.name.value.trim().slice(0, 100),
+          email: fields.email.value.trim().slice(0, 200),
           company: kind === 'empresa' ? fields.company.value.trim().slice(0, 100) : '',
           cnpj: kind === 'empresa' ? fields.cnpj.value.trim().slice(0, 18) : '',
           kind: kind === 'empresa' ? 'Empresa' : 'Pessoa física',
           message: fields.message.value.trim().slice(0, 2000),
-        },
-        EMAILJS_PUBLIC_KEY,
-      )
+        }),
+      })
+      if (!res.ok) throw new Error('send failed')
       localStorage.setItem('ns_last_send', String(Date.now()))
       setCooldown(COOLDOWN_MS)
       const timer = setInterval(() => {
@@ -344,11 +363,24 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label style={labelStyle}>CNPJ <span style={{ color: '#333' }}>*</span></label>
+                    <label style={labelStyle}>
+                      CNPJ <span style={{ color: '#333' }}>*</span>
+                      {cnpjLoading && <span style={{ marginLeft: '8px', fontSize: '10px', color: '#00C896', fontWeight: 600 }}>buscando...</span>}
+                    </label>
                     <input
                       type="text"
                       value={fields.cnpj.value}
-                      onChange={e => set('cnpj', e.target.value)}
+                      onChange={async e => {
+                        const masked = maskCNPJ(e.target.value)
+                        set('cnpj', masked)
+                        const raw = masked.replace(/\D/g, '')
+                        if (raw.length === 14 && validarCNPJ(masked)) {
+                          setCnpjLoading(true)
+                          const razao = await fetchEmpresa(masked)
+                          setCnpjLoading(false)
+                          if (razao) setFields(f => ({ ...f, company: { value: razao, error: false } }))
+                        }
+                      }}
                       onFocus={() => setFocused('cnpj')}
                       onBlur={() => setFocused(null)}
                       placeholder="00.000.000/0000-00"

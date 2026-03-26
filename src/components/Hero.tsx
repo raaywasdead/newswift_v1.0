@@ -156,7 +156,7 @@ export default function Hero() {
           {/* Subline */}
           <p
             className="hero-subline"
-            style={{ fontSize: '16px', color: '#b0b0c4', lineHeight: 1.85, maxWidth: '440px', margin: 0, opacity: 0, visibility: 'hidden' }}
+            style={{ fontSize: '16px', color: '#b0b0c4', lineHeight: 1.85, maxWidth: isMobile ? '100%' : '440px', margin: 0, opacity: 0, visibility: 'hidden' }}
           >
             Somos três desenvolvedores formados pelo IOS na PUC-RS. Transformamos ideias em presença digital com prazo real, código limpo e design que de fato converte.
           </p>
