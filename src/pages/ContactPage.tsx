@@ -81,9 +81,13 @@ function getCooldownLeft(): number {
   return Math.max(0, COOLDOWN_MS - (Date.now() - last))
 }
 
+const TS_SITE_KEY = '0x4AAAAAACw7Vi1dz_kfy5dyzDOyBPyA0PM'
+
 export default function ContactPage() {
   const isMobile = useIsMobile()
   const formRef = useRef<HTMLFormElement>(null)
+  const widgetIdRef = useRef<string | null>(null)
+  const pendingDataRef = useRef<Record<string, string> | null>(null)
   const [sent, setSent]       = useState(false)
   const [sending, setSending] = useState(false)
   const [cooldown, setCooldown] = useState(getCooldownLeft)
@@ -107,10 +111,53 @@ export default function ContactPage() {
     setFields(f => ({ ...f, company: { value: '', error: false } }))
   }
 
+  const doSend = async (data: Record<string, string>) => {
+    try {
+      const res = await fetch(`${API_BASE}/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      if (!res.ok) throw new Error('send failed')
+      localStorage.setItem('ns_last_send', String(Date.now()))
+      setCooldown(COOLDOWN_MS)
+      const timer = setInterval(() => {
+        const left = getCooldownLeft()
+        setCooldown(left)
+        if (left === 0) clearInterval(timer)
+      }, 1000)
+      setSent(true)
+    } catch {
+      alert('Erro ao enviar. Tente novamente ou mande direto para newswift.work@gmail.com')
+    } finally {
+      setSending(false)
+      ;(window as any).turnstile?.reset(widgetIdRef.current)
+    }
+  }
+
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+    script.async = true
+    script.onload = () => {
+      widgetIdRef.current = (window as any).turnstile.render('#ts-widget', {
+        sitekey: TS_SITE_KEY,
+        size: 'invisible',
+        callback: (token: string) => {
+          if (!pendingDataRef.current) return
+          doSend({ ...pendingDataRef.current, 'cf-turnstile-response': token })
+          pendingDataRef.current = null
+        },
+      })
+    }
+    document.head.appendChild(script)
+    return () => { document.head.removeChild(script) }
+  }, [])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (honeypot) return // bot detectado
-    if (getCooldownLeft() > 0) return // cooldown ativo
+    if (honeypot) return
+    if (getCooldownLeft() > 0) return
     const errors = {
       name: !fields.name.value.trim(),
       company: kind === 'empresa' && !fields.company.value.trim(),
@@ -128,34 +175,16 @@ export default function ContactPage() {
       }))
       return
     }
-    setSending(true)
-    try {
-      const res = await fetch(`${API_BASE}/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: fields.name.value.trim().slice(0, 100),
-          email: fields.email.value.trim().slice(0, 200),
-          company: kind === 'empresa' ? fields.company.value.trim().slice(0, 100) : '',
-          cnpj: kind === 'empresa' ? fields.cnpj.value.trim().slice(0, 18) : '',
-          kind: kind === 'empresa' ? 'Empresa' : 'Pessoa física',
-          message: fields.message.value.trim().slice(0, 2000),
-        }),
-      })
-      if (!res.ok) throw new Error('send failed')
-      localStorage.setItem('ns_last_send', String(Date.now()))
-      setCooldown(COOLDOWN_MS)
-      const timer = setInterval(() => {
-        const left = getCooldownLeft()
-        setCooldown(left)
-        if (left === 0) clearInterval(timer)
-      }, 1000)
-      setSent(true)
-    } catch {
-      alert('Erro ao enviar. Tente novamente ou mande direto para newswift.work@gmail.com')
-    } finally {
-      setSending(false)
+    pendingDataRef.current = {
+      name: fields.name.value.trim().slice(0, 100),
+      email: fields.email.value.trim().slice(0, 200),
+      company: kind === 'empresa' ? fields.company.value.trim().slice(0, 100) : '',
+      cnpj: kind === 'empresa' ? fields.cnpj.value.trim().slice(0, 18) : '',
+      kind: kind === 'empresa' ? 'Empresa' : 'Pessoa física',
+      message: fields.message.value.trim().slice(0, 2000),
     }
+    setSending(true)
+    ;(window as any).turnstile?.execute(widgetIdRef.current)
   }
 
   const inputBase = (key: string, multiline = false): React.CSSProperties => ({
@@ -441,6 +470,9 @@ export default function ContactPage() {
                 />
                 {fields.message.error && <span style={errorStyle}>Escreva sua mensagem.</span>}
               </div>
+
+              {/* Turnstile invisible widget */}
+              <div id="ts-widget" />
 
               {/* Submit */}
               <button

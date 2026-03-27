@@ -20,6 +20,7 @@ const ALLOWED_ORIGINS = ['https://newswift.com.br', 'https://www.newswift.com.br
 export default async function handler(req, res) {
   const origin = req.headers.origin
   if (ALLOWED_ORIGINS.includes(origin)) res.setHeader('Access-Control-Allow-Origin', origin)
+  res.setHeader('Vary', 'Origin')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
   if (req.method === 'OPTIONS') return res.status(204).end()
@@ -31,6 +32,17 @@ export default async function handler(req, res) {
     return res.status(413).json({ error: 'Requisição muito grande.' })
 
   const { name, email, company, cnpj, kind, message } = body
+
+  // Verificação Turnstile
+  const tsToken = body['cf-turnstile-response']
+  if (!tsToken) return res.status(400).json({ error: 'Verificação de segurança necessária.' })
+  const tsRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ secret: process.env.TURNSTILE_SECRET, response: tsToken }),
+  })
+  const tsData = await tsRes.json()
+  if (!tsData.success) return res.status(400).json({ error: 'Verificação de segurança falhou.' })
 
   // Validação — kind whitelist
   if (!['Pessoa física', 'Empresa'].includes(kind))
@@ -46,12 +58,12 @@ export default async function handler(req, res) {
   if (kind === 'Empresa' && !validarCNPJ(cnpj ?? ''))
     return res.status(400).json({ error: 'CNPJ inválido.' })
 
-  // Sanitização — remove tags HTML e quebras de linha (previne header injection em campos de cabeçalho)
+  // Sanitização — remove tags HTML, quebras de linha e escapa aspas (previne header/attribute injection)
   const clean = (s, limit = 500) =>
-    String(s ?? '').replace(/<[^>]*>/g, '').replace(/[\r\n]/g, ' ').trim().slice(0, limit)
-  // Para mensagem: preserva \n mas remove \r e tags HTML
+    String(s ?? '').replace(/<[^>]*>/g, '').replace(/[\r\n]/g, ' ').replace(/"/g, '&quot;').replace(/'/g, '&#39;').trim().slice(0, limit)
+  // Para mensagem: preserva \n mas remove \r, tags HTML e escapa aspas
   const cleanMsg = (s, limit = 2000) =>
-    String(s ?? '').replace(/<[^>]*>/g, '').replace(/\r/g, '').trim().slice(0, limit)
+    String(s ?? '').replace(/<[^>]*>/g, '').replace(/\r/g, '').replace(/"/g, '&quot;').replace(/'/g, '&#39;').trim().slice(0, limit)
 
   const isEmpresa = kind === 'Empresa'
   const firstName = clean(name).split(' ')[0]
@@ -111,7 +123,7 @@ export default async function handler(req, res) {
   </td></tr>
 
   <tr><td style="padding:20px 0;text-align:center;font-size:11px;color:#2a2a2a;">
-    NewSwift &middot; newswift.com.br &middot; contato@newswift.com.br
+    NewSwift &middot; newswift.com.br &middot; newswift.work@gmail.com
   </td></tr>
 
 </table>
