@@ -47,7 +47,7 @@ app.post('/contact', async (req, res) => {
 
   try {
     await resend.emails.send({
-      from: 'NewSwift <onboarding@resend.dev>',
+      from: 'NewSwift <contato@newswift.com.br>',
       to: process.env.MAIL_TO,
       reply_to: email,
       subject: `[NewSwift] ${isEmpresa && company ? `${company} — ` : ''}${name}`,
