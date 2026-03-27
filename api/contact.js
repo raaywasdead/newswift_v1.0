@@ -2,6 +2,10 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
+// Rate limit simples em memória: IP → timestamp último envio
+const lastSend = new Map()
+const RATE_MS = 60_000 // 1 por minuto por IP
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://newswift.com.br')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
@@ -9,7 +13,18 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(204).end()
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido.' })
 
-  const { name, email, company, cnpj, kind, message } = req.body ?? {}
+  // Rate limit por IP
+  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() ?? 'unknown'
+  const last = lastSend.get(ip) ?? 0
+  if (Date.now() - last < RATE_MS)
+    return res.status(429).json({ error: 'Aguarde antes de enviar novamente.' })
+
+  // Tamanho máximo do body
+  const body = req.body ?? {}
+  if (JSON.stringify(body).length > 8000)
+    return res.status(413).json({ error: 'Requisição muito grande.' })
+
+  const { name, email, company, cnpj, kind, message } = body
 
   // Validação básica
   if (!name?.trim() || !email?.trim() || !message?.trim())
@@ -17,8 +32,9 @@ export default async function handler(req, res) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     return res.status(400).json({ error: 'E-mail inválido.' })
 
-  // Sanitização — remove tags HTML
-  const clean = (s) => String(s ?? '').replace(/<[^>]*>/g, '').trim().slice(0, 2000)
+  // Sanitização — remove tags HTML e quebras de linha (previne header injection)
+  const clean = (s, limit = 500) =>
+    String(s ?? '').replace(/<[^>]*>/g, '').replace(/[\r\n]/g, ' ').trim().slice(0, limit)
 
   const isEmpresa = kind === 'Empresa'
   const html = `
@@ -36,7 +52,7 @@ export default async function handler(req, res) {
         </table>
         <hr style="border:none;border-top:1px solid #222;margin:24px 0;">
         <p style="color:#888;margin:0 0 8px;font-size:13px;">MENSAGEM</p>
-        <p style="color:#e0e0e0;line-height:1.7;white-space:pre-wrap;margin:0;">${clean(message)}</p>
+        <p style="color:#e0e0e0;line-height:1.7;white-space:pre-wrap;margin:0;">${clean(message, 2000)}</p>
       </div>
     </div>
   `
@@ -49,6 +65,7 @@ export default async function handler(req, res) {
       subject: `[NewSwift] ${isEmpresa && company ? `${clean(company)} — ` : ''}${clean(name)}`,
       html,
     })
+    lastSend.set(ip, Date.now())
     res.status(200).json({ ok: true })
   } catch (err) {
     console.error('[contact]', err)
