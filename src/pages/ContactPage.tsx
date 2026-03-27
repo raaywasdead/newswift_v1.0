@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useIsMobile } from '../hooks/useIsMobile'
 import { motion } from 'framer-motion'
 
