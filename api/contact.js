@@ -1,4 +1,4 @@
-const { Resend } = require('resend')
+import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -15,7 +15,7 @@ function validarCNPJ(cnpj) {
   return d1 === parseInt(n[12]) && d2 === parseInt(n[13])
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://newswift.com.br')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
