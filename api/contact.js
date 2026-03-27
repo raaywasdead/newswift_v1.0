@@ -2,9 +2,18 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-// Rate limit simples em memória: IP → timestamp último envio
-const lastSend = new Map()
-const RATE_MS = 60_000 // 1 por minuto por IP
+function validarCNPJ(cnpj) {
+  const n = cnpj.replace(/\D/g, '')
+  if (n.length !== 14 || /^(\d)\1+$/.test(n)) return false
+  const calc = (s, w) => {
+    const sum = s.split('').reduce((a, d, i) => a + parseInt(d) * w[i], 0)
+    const r = sum % 11
+    return r < 2 ? 0 : 11 - r
+  }
+  const d1 = calc(n.slice(0, 12), [5,4,3,2,9,8,7,6,5,4,3,2])
+  const d2 = calc(n.slice(0, 13), [6,5,4,3,2,9,8,7,6,5,4,3,2])
+  return d1 === parseInt(n[12]) && d2 === parseInt(n[13])
+}
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://newswift.com.br')
@@ -13,12 +22,6 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(204).end()
   if (req.method !== 'POST') return res.status(405).json({ error: 'Método não permitido.' })
 
-  // Rate limit por IP
-  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() ?? 'unknown'
-  const last = lastSend.get(ip) ?? 0
-  if (Date.now() - last < RATE_MS)
-    return res.status(429).json({ error: 'Aguarde antes de enviar novamente.' })
-
   // Tamanho máximo do body
   const body = req.body ?? {}
   if (JSON.stringify(body).length > 8000)
@@ -26,11 +29,19 @@ export default async function handler(req, res) {
 
   const { name, email, company, cnpj, kind, message } = body
 
+  // Validação — kind whitelist
+  if (!['Pessoa física', 'Empresa'].includes(kind))
+    return res.status(400).json({ error: 'Tipo inválido.' })
+
   // Validação básica
   if (!name?.trim() || !email?.trim() || !message?.trim())
     return res.status(400).json({ error: 'Campos obrigatórios faltando.' })
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     return res.status(400).json({ error: 'E-mail inválido.' })
+
+  // Validação de CNPJ no backend
+  if (kind === 'Empresa' && !validarCNPJ(cnpj ?? ''))
+    return res.status(400).json({ error: 'CNPJ inválido.' })
 
   // Sanitização — remove tags HTML e quebras de linha (previne header injection)
   const clean = (s, limit = 500) =>
@@ -65,7 +76,6 @@ export default async function handler(req, res) {
       subject: `[NewSwift] ${isEmpresa && company ? `${clean(company)} — ` : ''}${clean(name)}`,
       html,
     })
-    lastSend.set(ip, Date.now())
     res.status(200).json({ ok: true })
   } catch (err) {
     console.error('[contact]', err)
