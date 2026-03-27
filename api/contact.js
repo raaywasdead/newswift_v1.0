@@ -15,8 +15,11 @@ function validarCNPJ(cnpj) {
   return d1 === parseInt(n[12]) && d2 === parseInt(n[13])
 }
 
+const ALLOWED_ORIGINS = ['https://newswift.com.br', 'https://www.newswift.com.br']
+
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://newswift.com.br')
+  const origin = req.headers.origin
+  if (ALLOWED_ORIGINS.includes(origin)) res.setHeader('Access-Control-Allow-Origin', origin)
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
   if (req.method === 'OPTIONS') return res.status(204).end()
@@ -43,9 +46,12 @@ export default async function handler(req, res) {
   if (kind === 'Empresa' && !validarCNPJ(cnpj ?? ''))
     return res.status(400).json({ error: 'CNPJ inválido.' })
 
-  // Sanitização — remove tags HTML e quebras de linha (previne header injection)
+  // Sanitização — remove tags HTML e quebras de linha (previne header injection em campos de cabeçalho)
   const clean = (s, limit = 500) =>
     String(s ?? '').replace(/<[^>]*>/g, '').replace(/[\r\n]/g, ' ').trim().slice(0, limit)
+  // Para mensagem: preserva \n mas remove \r e tags HTML
+  const cleanMsg = (s, limit = 2000) =>
+    String(s ?? '').replace(/<[^>]*>/g, '').replace(/\r/g, '').trim().slice(0, limit)
 
   const isEmpresa = kind === 'Empresa'
   const firstName = clean(name).split(' ')[0]
@@ -96,7 +102,7 @@ export default async function handler(req, res) {
   <tr><td style="background:#09090B;border-left:1px solid #1a1a1f;border-right:1px solid #1a1a1f;padding:0 40px 28px;">
     <div style="background:#0e0e12;border:1px solid #1a1a1f;border-radius:10px;padding:20px 24px;">
       <div style="font-size:10px;font-weight:700;color:#444;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px;">Mensagem</div>
-      <div style="font-size:14px;color:#ccc;line-height:1.8;white-space:pre-wrap;">${clean(message, 2000)}</div>
+      <div style="font-size:14px;color:#ccc;line-height:1.8;white-space:pre-wrap;">${cleanMsg(message)}</div>
     </div>
   </td></tr>
 
