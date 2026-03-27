@@ -48,25 +48,97 @@ export default async function handler(req, res) {
     String(s ?? '').replace(/<[^>]*>/g, '').replace(/[\r\n]/g, ' ').trim().slice(0, limit)
 
   const isEmpresa = kind === 'Empresa'
-  const html = `
-    <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#09090B;color:#fff;border-radius:12px;overflow:hidden;">
-      <div style="background:#00FF88;padding:24px 32px;">
-        <h1 style="margin:0;color:#000;font-size:22px;">Nova mensagem — NewSwift</h1>
-      </div>
-      <div style="padding:32px;">
-        <table style="width:100%;border-collapse:collapse;">
-          <tr><td style="padding:8px 0;color:#888;width:140px;">Tipo</td><td style="color:#fff;">${clean(kind) || 'Pessoa física'}</td></tr>
-          <tr><td style="padding:8px 0;color:#888;">Nome</td><td style="color:#fff;">${clean(name)}</td></tr>
-          ${isEmpresa ? `<tr><td style="padding:8px 0;color:#888;">Empresa</td><td style="color:#fff;">${clean(company) || '—'}</td></tr>` : ''}
-          ${isEmpresa ? `<tr><td style="padding:8px 0;color:#888;">CNPJ</td><td style="color:#fff;">${clean(cnpj) || '—'}</td></tr>` : ''}
-          <tr><td style="padding:8px 0;color:#888;">E-mail</td><td style="color:#fff;"><a href="mailto:${clean(email)}" style="color:#00FF88;">${clean(email)}</a></td></tr>
-        </table>
-        <hr style="border:none;border-top:1px solid #222;margin:24px 0;">
-        <p style="color:#888;margin:0 0 8px;font-size:13px;">MENSAGEM</p>
-        <p style="color:#e0e0e0;line-height:1.7;white-space:pre-wrap;margin:0;">${clean(message, 2000)}</p>
-      </div>
-    </div>
-  `
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#0a0a0c;font-family:Arial,Helvetica,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0c;padding:40px 16px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+        <!-- HEADER -->
+        <tr>
+          <td style="background:#09090B;border-radius:16px 16px 0 0;border:1px solid #1a1a1f;border-bottom:none;padding:32px 40px;text-align:center;">
+            <div style="font-size:22px;font-weight:900;color:#fff;letter-spacing:-0.03em;">
+              New<span style="color:#00FF88;">Swift</span>
+            </div>
+            <div style="margin-top:4px;font-size:11px;color:#333;letter-spacing:0.12em;text-transform:uppercase;">newswift.com.br</div>
+          </td>
+        </tr>
+
+        <!-- BADGE -->
+        <tr>
+          <td style="background:#09090B;border-left:1px solid #1a1a1f;border-right:1px solid #1a1a1f;padding:0 40px;">
+            <div style="border-top:1px solid #1a1a1f;padding:24px 0 0;">
+              <span style="display:inline-block;background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.2);color:#00FF88;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:5px 14px;border-radius:100px;">
+                ● Nova mensagem recebida
+              </span>
+            </div>
+          </td>
+        </tr>
+
+        <!-- HEADLINE -->
+        <tr>
+          <td style="background:#09090B;border-left:1px solid #1a1a1f;border-right:1px solid #1a1a1f;padding:16px 40px 32px;">
+            <h1 style="margin:0;font-size:28px;font-weight:900;color:#fff;letter-spacing:-0.04em;line-height:1.1;">
+              ${isEmpresa ? clean(company) || clean(name) : clean(name)}
+            </h1>
+            <p style="margin:8px 0 0;font-size:13px;color:#555;">${clean(kind)}</p>
+          </td>
+        </tr>
+
+        <!-- FIELDS -->
+        <tr>
+          <td style="background:#09090B;border-left:1px solid #1a1a1f;border-right:1px solid #1a1a1f;padding:0 40px 32px;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #1a1a1f;border-radius:12px;overflow:hidden;">
+              ${[
+                ['Nome', clean(name)],
+                ...(isEmpresa ? [['Empresa', clean(company) || '—'], ['CNPJ', clean(cnpj) || '—']] : []),
+                ['E-mail', `<a href="mailto:${clean(email)}" style="color:#00FF88;text-decoration:none;">${clean(email)}</a>`],
+              ].map(([label, value], i, arr) => `
+              <tr>
+                <td style="padding:14px 20px;background:#0e0e12;border-bottom:${i < arr.length - 1 ? '1px solid #1a1a1f' : 'none'};width:120px;">
+                  <span style="font-size:11px;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:0.08em;">${label}</span>
+                </td>
+                <td style="padding:14px 20px;background:#0e0e12;border-bottom:${i < arr.length - 1 ? '1px solid #1a1a1f' : 'none'};">
+                  <span style="font-size:13px;color:#e0e0e0;">${value}</span>
+                </td>
+              </tr>`).join('')}
+            </table>
+          </td>
+        </tr>
+
+        <!-- MESSAGE -->
+        <tr>
+          <td style="background:#09090B;border-left:1px solid #1a1a1f;border-right:1px solid #1a1a1f;padding:0 40px 40px;">
+            <div style="background:#0e0e12;border:1px solid #1a1a1f;border-radius:12px;padding:24px;">
+              <p style="margin:0 0 12px;font-size:10px;font-weight:700;color:#444;letter-spacing:0.12em;text-transform:uppercase;">Mensagem</p>
+              <p style="margin:0;font-size:14px;color:#ccc;line-height:1.8;white-space:pre-wrap;">${clean(message, 2000)}</p>
+            </div>
+          </td>
+        </tr>
+
+        <!-- REPLY CTA -->
+        <tr>
+          <td style="background:#09090B;border-left:1px solid #1a1a1f;border-right:1px solid #1a1a1f;border-bottom:1px solid #1a1a1f;border-radius:0 0 16px 16px;padding:0 40px 40px;text-align:center;">
+            <a href="mailto:${clean(email)}" style="display:inline-block;background:#00FF88;color:#000;font-size:12px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;padding:14px 32px;border-radius:100px;">
+              Responder para ${clean(name).split(' ')[0]}
+            </a>
+          </td>
+        </tr>
+
+        <!-- FOOTER -->
+        <tr>
+          <td style="padding:24px 0;text-align:center;">
+            <p style="margin:0;font-size:11px;color:#2a2a2a;">NewSwift · newswift.com.br · contato@newswift.com.br</p>
+          </td>
+        </tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
 
   try {
     await resend.emails.send({

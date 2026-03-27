@@ -296,19 +296,55 @@ export default function ContactPage() {
         >
           {sent ? (
             /* Success state */
-            <div style={{ padding: '56px 40px', borderRadius: '20px', border: '1px solid rgba(0,255,136,0.2)', backgroundColor: 'rgba(0,255,136,0.03)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '16px' }}>
-              <CheckCircle size={48} style={{ color: '#00FF88', opacity: 0.85 }} />
-              <h2 style={{ fontSize: '22px', fontWeight: 800, color: '#fff', letterSpacing: '-0.025em', margin: 0 }}>Mensagem enviada!</h2>
-              <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.75, maxWidth: '280px', margin: 0 }}>
-                Mensagem recebida. Respondemos em menos de 24 horas em dias úteis.
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+              style={{ padding: '48px 32px', borderRadius: '20px', border: '1px solid rgba(0,255,136,0.15)', backgroundColor: 'rgba(0,255,136,0.03)', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative', overflow: 'hidden' }}
+            >
+              {/* Glow */}
+              <div style={{ position: 'absolute', top: '-40px', left: '50%', transform: 'translateX(-50%)', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(0,255,136,0.12) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+              {/* Icon */}
+              <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(0,255,136,0.1)', border: '1px solid rgba(0,255,136,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
+                <CheckCircle size={28} style={{ color: '#00FF88' }} />
+              </div>
+
+              {/* Heading */}
+              <h2 className="syne" style={{ fontSize: '26px', fontWeight: 900, color: '#fff', letterSpacing: '-0.03em', margin: '0 0 8px' }}>
+                Recebemos, {fields.name.value.split(' ')[0]}!
+              </h2>
+              <p style={{ fontSize: '13px', color: '#00C896', fontWeight: 600, margin: '0 0 20px', letterSpacing: '0.04em' }}>
+                MENSAGEM ENTREGUE
               </p>
+
+              {/* Divider */}
+              <div style={{ width: '40px', height: '1px', backgroundColor: 'rgba(0,255,136,0.2)', marginBottom: '20px' }} />
+
+              {/* Body */}
+              <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.8, maxWidth: '300px', margin: '0 0 32px' }}>
+                Nossa equipe vai analisar sua mensagem e retornar em até <span style={{ color: '#888' }}>24 horas</span> em dias úteis.
+              </p>
+
+              {/* Info row */}
+              <div style={{ display: 'flex', gap: '24px', marginBottom: '32px' }}>
+                {[{ label: 'Resposta', value: '< 24h' }, { label: 'Consulta', value: 'Gratuita' }].map(item => (
+                  <div key={item.label} style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '16px', fontWeight: 800, color: '#00FF88', letterSpacing: '-0.02em' }}>{item.value}</div>
+                    <div style={{ fontSize: '10px', color: '#333', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: '2px' }}>{item.label}</div>
+                  </div>
+                ))}
+              </div>
+
               <button
                 onClick={() => setSent(false)}
-                style={{ marginTop: '8px', fontSize: '13px', color: '#00C896', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, textDecoration: 'underline' }}
+                style={{ fontSize: '12px', color: '#333', background: 'none', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '8px', padding: '10px 20px', cursor: 'pointer', fontWeight: 600, letterSpacing: '0.04em', transition: 'border-color 0.2s, color 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(0,255,136,0.3)'; e.currentTarget.style.color = '#00C896' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#333' }}
               >
                 Enviar outra mensagem
               </button>
-            </div>
+            </motion.div>
           ) : (
             <form ref={formRef} onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
