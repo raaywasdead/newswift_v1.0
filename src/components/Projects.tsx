@@ -233,9 +233,7 @@ export default function Projects() {
         <div className="reveal-up reveal-sooner" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '28px', marginTop: '28px' }}>
           <button
             onClick={prev}
-            style={{ width: '44px', height: '44px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'transparent', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.25s' }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = p.accent; e.currentTarget.style.color = p.accent }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff' }}
+            style={{ width: '44px', height: '44px', borderRadius: '50%', border: `1px solid ${p.accent}40`, backgroundColor: 'transparent', cursor: 'pointer', color: p.accent, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.4s' }}
           >
             <ChevronLeft size={20} />
           </button>
@@ -258,9 +256,7 @@ export default function Projects() {
 
           <button
             onClick={next}
-            style={{ width: '44px', height: '44px', borderRadius: '50%', border: '1px solid rgba(255,255,255,0.08)', backgroundColor: 'transparent', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.25s' }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = p.accent; e.currentTarget.style.color = p.accent }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#fff' }}
+            style={{ width: '44px', height: '44px', borderRadius: '50%', border: `1px solid ${p.accent}40`, backgroundColor: 'transparent', cursor: 'pointer', color: p.accent, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.4s' }}
           >
             <ChevronRight size={20} />
           </button>
