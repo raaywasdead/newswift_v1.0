@@ -92,11 +92,6 @@ export default function ScrollReveal() {
           { opacity: 1, y: 0, visibility: 'visible' },
           '-=1.0'
         )
-        .fromTo('.hero-stats',
-          { opacity: 0, y: 20, visibility: 'hidden' },
-          { opacity: 1, y: 0, visibility: 'visible' },
-          '-=0.9'
-        )
         .fromTo('.hero-photo',
           { opacity: 0, x: 40, scale: 0.98, filter: 'blur(20px)', visibility: 'hidden' },
           { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)', visibility: 'visible', duration: 1.8 },

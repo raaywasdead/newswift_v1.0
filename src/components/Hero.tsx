@@ -67,11 +67,6 @@ const icons = [
 
 const ticker = [...icons, ...icons, ...icons, ...icons]
 
-const stats = [
-  { value: '100%', label: 'Satisfação' },
-  { value: '<10d', label: 'Entrega média' },
-  { value: '3', label: 'Devs dedicados' },
-]
 
 export default function Hero() {
   const typed = useTypewriter()
@@ -187,18 +182,6 @@ export default function Hero() {
             </a>
           </div>
 
-          {/* Stats */}
-          <div
-            className="hero-stats"
-            style={{ display: 'flex', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.06)', width: 'fit-content', marginTop: '4px', opacity: 0, visibility: 'hidden' }}
-          >
-            {stats.map((s, i) => (
-              <div key={s.label} style={{ paddingRight: isMobile ? '20px' : '32px', marginRight: isMobile ? '20px' : '32px', borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
-                <div style={{ fontSize: 'clamp(1.5rem, 2.8vw, 2.1rem)', fontWeight: 900, color: '#00FF88', letterSpacing: '-0.03em', lineHeight: 1, textShadow: '0 0 24px rgba(0,255,136,0.35)' }}>{s.value}</div>
-                <div style={{ fontSize: '10px', color: '#777788', marginTop: '6px', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700 }}>{s.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* RIGHT: photo with rotating gradient border — desktop only */}

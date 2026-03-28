@@ -20,7 +20,7 @@ export const members: TeamMember[] = [
   {
     id: 'joaovitor',
     name: 'João Vitor',
-    role: 'Full Stack Developer · Lead · Co-fundador',
+    role: 'Full Stack Developer · Co-fundador',
     photo: '/João.webp',
     color: '#00C896',
     tagline: 'Da arquitetura ao deploy — cada camada pensada, cada detalhe entregue.',
@@ -29,14 +29,14 @@ export const members: TeamMember[] = [
       'Formado pelo IOS, curso de Desenvolvimento Web dentro da PUC-RS, patrocinado pela Dell e TOTVS, com foco em HTML, CSS e JavaScript. Foi lá que a ideia da NewSwift nasceu. Após o curso, expandiu por conta própria para React, Node.js, TypeScript e bancos de dados.',
       'Com inglês B2 (Upper-Intermediate) e domínio sólido de hardware e software, é o membro da equipe com maior abrangência técnica, atuando desde a escolha de stack até o deploy em produção, com comunicação direta com o cliente.',
     ],
-    origin: 'Estudante do Ensino Médio · IOS na PUC-RS · Dell & TOTVS · Lead Dev',
+    origin: 'Estudante do Ensino Médio · IOS na PUC-RS · Dell & TOTVS',
     skills: [
       { label: 'React / Next.js', level: 93 },
       { label: 'TypeScript', level: 90 },
-      { label: 'Node.js / REST APIs', level: 88 },
-      { label: 'Banco de Dados / SQL', level: 86 },
-      { label: 'Infraestrutura / CI', level: 82 },
       { label: 'Inglês B2', level: 80 },
+      { label: 'Node.js / REST APIs', level: 88 },
+      { label: 'Infraestrutura / CI', level: 82 },
+      { label: 'Banco de Dados / SQL', level: 86 },
       { label: 'Hardware & Redes', level: 78 },
     ],
     highlights: [
@@ -199,11 +199,6 @@ export default function TeamModal({ member, onClose }: Props) {
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                     <span className="section-label mono">Co-fundador</span>
-                    {member.id === 'joaovitor' && (
-                      <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#00C896', backgroundColor: 'rgba(0,200,150,0.1)', border: '1px solid rgba(0,200,150,0.25)', padding: '2px 7px', borderRadius: '4px' }}>
-                        LEAD DEV
-                      </span>
-                    )}
                   </div>
                   <h2 style={{ fontSize: '26px', fontWeight: 900, color: '#fff', letterSpacing: '-0.03em', marginBottom: '4px' }}>{member.name}</h2>
                   <p style={{ fontSize: '13px', color: '#00C896' }}>{member.role}</p>

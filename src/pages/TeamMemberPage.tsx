@@ -99,11 +99,11 @@ export default function TeamMemberPage() {
           {/* Skills */}
           <div style={{ padding: '28px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.06)', backgroundColor: 'rgba(255,255,255,0.02)' }}>
             <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#333', marginBottom: '20px' }}>Habilidades</p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
               {member.skills.map(skill => (
                 <span
                   key={skill.label}
-                  style={{ fontSize: '12px', color: '#777', backgroundColor: 'rgba(0,200,150,0.05)', border: '1px solid rgba(0,200,150,0.14)', padding: '5px 12px', borderRadius: '6px' }}
+                  style={{ fontSize: '12px', color: '#777', backgroundColor: 'rgba(0,200,150,0.05)', border: '1px solid rgba(0,200,150,0.14)', padding: '5px 12px', borderRadius: '6px', textAlign: 'center' }}
                 >
                   {skill.label}
                 </span>
