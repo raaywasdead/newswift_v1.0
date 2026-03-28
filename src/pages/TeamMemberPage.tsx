@@ -10,14 +10,10 @@ export default function TeamMemberPage() {
   const member = members.find(m => m.id === id)
 
   useEffect(() => {
-    window.scrollTo(0, 0)
     if (!member) navigate('/', { replace: true })
   }, [member, navigate])
 
   if (!member) return null
-
-  const isLead = member.id === 'joaovitor'
-  const others = members.filter(m => m.id !== member.id)
 
   return (
     <div style={{ backgroundColor: '#050505', minHeight: '100vh', color: '#fff' }}>
@@ -50,31 +46,21 @@ export default function TeamMemberPage() {
           transition={{ duration: 0.55 }}
           style={{ marginBottom: '64px' }}
         >
-          {/* Top line */}
-          {isLead && <div style={{ height: '2px', background: 'linear-gradient(90deg, #00C896, rgba(0,200,150,0.2))', borderRadius: '2px', marginBottom: '32px', width: '120px' }} />}
-
           <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
             {/* Avatar */}
             <div style={{ position: 'relative', flexShrink: 0 }}>
-              <div style={{ width: '120px', height: '120px', borderRadius: '50%', overflow: 'hidden', border: `2px solid ${isLead ? 'rgba(0,200,150,0.4)' : 'rgba(255,255,255,0.1)'}`, backgroundColor: 'rgba(0,200,150,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: '120px', height: '120px', borderRadius: '50%', overflow: 'hidden', border: '2px solid rgba(255,255,255,0.1)', backgroundColor: 'rgba(0,200,150,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <img src={member.photo} alt={member.name}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   onError={e => { e.currentTarget.style.display = 'none' }}
                 />
-                <span style={{ position: 'absolute', fontSize: '42px', fontWeight: 900, color: 'rgba(0,200,150,0.25)' }}>{member.name[0]}</span>
               </div>
-              {isLead && (
-                <div style={{ position: 'absolute', bottom: 4, right: 4, backgroundColor: '#00C896', borderRadius: '50%', width: '16px', height: '16px', border: '2px solid #050505' }} />
-              )}
             </div>
 
             {/* Info */}
             <div style={{ flex: 1, minWidth: '240px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px', flexWrap: 'wrap' }}>
                 <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', color: '#333', textTransform: 'uppercase' }}>Co-fundador</span>
-                {isLead && (
-                  <span style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#00C896', backgroundColor: 'rgba(0,200,150,0.1)', border: '1px solid rgba(0,200,150,0.3)', padding: '2px 8px', borderRadius: '4px' }}>LEAD DEV</span>
-                )}
               </div>
               <h1 style={{ fontSize: 'clamp(2.2rem, 5vw, 3.5rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: '8px' }}>{member.name}</h1>
               <p style={{ fontSize: '15px', color: '#00C896', marginBottom: '6px' }}>{member.role}</p>
@@ -160,54 +146,27 @@ export default function TeamMemberPage() {
           </div>
         </motion.div>
 
-        {/* ── CTA ── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.32 }}
-          style={{ padding: '40px', borderRadius: '20px', border: '1px solid rgba(0,200,150,0.15)', backgroundColor: 'rgba(0,200,150,0.03)', textAlign: 'center', marginBottom: '80px' }}
-        >
-          <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#fff', marginBottom: '8px', letterSpacing: '-0.02em' }}>Quer trabalhar com {member.name.split(' ')[0]}?</h3>
-          <p style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}>A NewSwift está disponível para novos projetos. Fale com a equipe e receba uma proposta gratuita.</p>
-          <Link
-            to="/#contato"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '13px 28px', borderRadius: '10px', backgroundColor: '#00C896', color: '#000', fontSize: '13px', fontWeight: 800, textDecoration: 'none', letterSpacing: '0.04em', textTransform: 'uppercase' }}
-          >
-            Agendar Consultoria Gratuita
-          </Link>
-        </motion.div>
-
         {/* ── Outros membros ── */}
         <div>
           <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#333', marginBottom: '20px' }}>Conheça o resto da equipe</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '14px' }}>
-            {others.map(other => {
-              const otherLead = other.id === 'joaovitor'
-              return (
-                <Link
-                  key={other.id}
-                  to={`/equipe/${other.id}`}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: '14px',
-                    padding: '16px 18px', borderRadius: '12px',
-                    border: otherLead ? '1px solid rgba(0,200,150,0.25)' : '1px solid rgba(255,255,255,0.06)',
-                    backgroundColor: 'rgba(255,255,255,0.02)',
-                    textDecoration: 'none', transition: 'border-color 0.2s, background 0.2s',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(0,200,150,0.3)'; e.currentTarget.style.backgroundColor = 'rgba(0,200,150,0.04)' }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = otherLead ? 'rgba(0,200,150,0.25)' : 'rgba(255,255,255,0.06)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.02)' }}
-                >
-                  <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '1px solid rgba(0,200,150,0.15)', backgroundColor: 'rgba(0,200,150,0.06)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img src={other.photo} alt={other.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.currentTarget.style.display = 'none' }} />
-                    <span style={{ fontSize: '18px', fontWeight: 900, color: 'rgba(0,200,150,0.4)' }}>{other.name[0]}</span>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#fff' }}>{other.name}</div>
-                    <div style={{ fontSize: '11px', color: '#555', marginTop: '2px' }}>{other.role.split('·')[0].trim()}</div>
-                  </div>
-                </Link>
-              )
-            })}
+            {members.filter(m => m.id !== member.id).map(other => (
+              <Link
+                key={other.id}
+                to={`/equipe/${other.id}`}
+                style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '16px 18px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)', backgroundColor: 'rgba(255,255,255,0.02)', textDecoration: 'none', transition: 'border-color 0.2s, background 0.2s' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(0,200,150,0.3)'; e.currentTarget.style.backgroundColor = 'rgba(0,200,150,0.04)' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.02)' }}
+              >
+                <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '1px solid rgba(0,200,150,0.15)', backgroundColor: 'rgba(0,200,150,0.06)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <img src={other.photo} alt={other.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.currentTarget.style.display = 'none' }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: 700, color: '#fff' }}>{other.name}</div>
+                  <div style={{ fontSize: '11px', color: '#555', marginTop: '2px' }}>{other.role.split('·')[0].trim()}</div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
 

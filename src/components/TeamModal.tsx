@@ -25,9 +25,9 @@ export const members: TeamMember[] = [
     color: '#00C896',
     tagline: 'Da arquitetura ao deploy — cada camada pensada, cada detalhe entregue.',
     bio: [
-      'João Vitor é o pilar técnico da NewSwift. Com domínio que vai do banco de dados ao front-end, passando por APIs, infraestrutura e estratégia de dados, ele garante que cada projeto funcione de verdade — não só pareça bonito.',
-      'Formado pelo IOS — curso de Desenvolvimento Web dentro da PUC-RS, patrocinado pela Dell e TOTVS, com foco em HTML, CSS e JavaScript. Foi lá que a ideia da NewSwift nasceu. Após o curso, expandiu por conta própria para React, Node.js, TypeScript e bancos de dados, tornando-se le lead técnico da consultoria.',
-      'Com inglês B2 (Upper-Intermediate) e domínio sólido de hardware e software, é o membro da equipe com maior abrangência técnica — atuando desde a escolha de stack até o deploy em produção, com liderança natural e comunicação direta com o cliente.',
+      'João Vitor é o pilar técnico da NewSwift. Com domínio que vai do banco de dados ao front-end, passando por APIs, infraestrutura e estratégia de dados, ele garante que cada projeto funcione de verdade, não só pareça bonito.',
+      'Formado pelo IOS, curso de Desenvolvimento Web dentro da PUC-RS, patrocinado pela Dell e TOTVS, com foco em HTML, CSS e JavaScript. Foi lá que a ideia da NewSwift nasceu. Após o curso, expandiu por conta própria para React, Node.js, TypeScript e bancos de dados.',
+      'Com inglês B2 (Upper-Intermediate) e domínio sólido de hardware e software, é o membro da equipe com maior abrangência técnica, atuando desde a escolha de stack até o deploy em produção, com comunicação direta com o cliente.',
     ],
     origin: 'Estudante do Ensino Médio · IOS na PUC-RS · Dell & TOTVS · Lead Dev',
     skills: [
@@ -56,8 +56,8 @@ export const members: TeamMember[] = [
     tagline: 'Interfaces que parecem fáceis porque foram difíceis de fazer.',
     bio: [
       'Brayan é o responsável pela identidade visual e pela experiência do usuário em cada projeto da NewSwift. Com olhar apurado para estética e usabilidade, transforma briefings em protótipos que encantam antes do código existir.',
-      'Sua especialidade está na interseção entre design e desenvolvimento: criando no Figma sistemas de design completos e implementando-os em React com a mesma fidelidade. O resultado? Interfaces bonitas que também funcionam.',
-      'Dentro da equipe, é o primeiro filtro criativo — quem garante que nenhum projeto sai feio ou confuso para o usuário final.',
+      'Sua especialidade está na interseção entre design e desenvolvimento: criando no Figma sistemas de design completos e implementando-os em React com a mesma fidelidade. O resultado são interfaces bonitas que também funcionam.',
+      'Dentro da equipe, é o primeiro filtro criativo, quem garante que nenhum projeto sai feio ou confuso para o usuário final.',
     ],
     origin: 'Estudante do Ensino Médio · IOS na PUC-RS · Dell & TOTVS',
     skills: [
@@ -86,9 +86,9 @@ export const members: TeamMember[] = [
     bio: [
       'Arthur é o pensamento crítico da NewSwift. Enquanto a equipe avança na construção, ele é quem questiona, analisa e garante que cada decisão técnica faz sentido para o projeto como um todo.',
       'Sua abordagem analítica vai além do código: antes de escrever uma linha, já mapeou os riscos, os gargalos de performance e as melhores estratégias de escalabilidade. É por isso que projetos da NewSwift têm poucos bugs e muita robustez.',
-      'Formado pelo IOS na PUC-RS — curso de Desenvolvimento Web patrocinado pela Dell e TOTVS — Arthur combina o desenvolvimento React com uma visão analítica apurada, sempre perguntando "por quê?" antes de perguntar "como?".',
+      'Formado pelo IOS na PUC-RS, curso de Desenvolvimento Web patrocinado pela Dell e TOTVS, Arthur combina o desenvolvimento React com uma visão analítica apurada, sempre perguntando "por quê?" antes de perguntar "como?".',
     ],
-    origin: 'Estudante do Ensino Médio · IOS na PUC-RS · Dell & TOTVS',
+    origin: 'IOS na PUC-RS · Dell & TOTVS',
     skills: [
       { label: 'React / TypeScript', level: 76 },
       { label: 'Análise Técnica', level: 84 },

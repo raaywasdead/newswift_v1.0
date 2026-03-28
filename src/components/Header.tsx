@@ -15,11 +15,11 @@ export default function Header() {
   const [scrolled, setScrolled]           = useState(false)
   const [open, setOpen]                   = useState(false)
   const [activeSection, setActiveSection] = useState('')
-  const [isMobile, setIsMobile]           = useState(window.innerWidth < 768)
+  const [isMobile, setIsMobile]           = useState(window.innerWidth < 1024)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
-    const onResize = () => setIsMobile(window.innerWidth < 768)
+    const onResize = () => setIsMobile(window.innerWidth < 1024)
     window.addEventListener('scroll', onScroll)
     window.addEventListener('resize', onResize)
     return () => {

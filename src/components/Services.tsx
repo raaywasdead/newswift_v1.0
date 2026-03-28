@@ -90,7 +90,6 @@ function ServiceCard({ s, i }: { s: typeof services[number]; i: number }) {
         flexDirection: 'column',
         height: '100%',
         boxShadow: hovered ? `0 32px 64px -20px rgba(0,0,0,0.6), 0 0 0 1px ${s.accent}10` : 'none',
-        transform: hovered ? 'translateY(-8px)' : 'translateY(0)',
       }}
     >
       {/* Background Ambient Glow */}
@@ -188,7 +187,7 @@ export default function Services() {
           className="reveal-stagger"
           style={{ 
           display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)',
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(280px, 1fr))',
           gap: '12px'
         }}>
           {services.map((s, i) => (

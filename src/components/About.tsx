@@ -43,7 +43,8 @@ function MemberCard({ member }: { member: typeof members[number] }) {
           ? '0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,255,136,0.08)'
           : '0 4px 24px rgba(0,0,0,0.3)',
         cursor: 'pointer',
-        display: 'block',
+        display: 'flex',
+        flexDirection: 'column',
         textDecoration: 'none'
       }}
     >
@@ -98,7 +99,7 @@ function MemberCard({ member }: { member: typeof members[number] }) {
       </div>
 
       {/* Info */}
-      <div style={{ padding: '20px 22px 24px', position: 'relative', zIndex: 1 }}>
+      <div style={{ padding: '20px 22px 24px', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div style={{ marginBottom: '10px' }}>
           <h3 style={{
             fontSize: '18px', fontWeight: 900, color: '#fff',
@@ -140,6 +141,7 @@ function MemberCard({ member }: { member: typeof members[number] }) {
         <div
           style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
+            marginTop: 'auto',
             fontSize: '11px', fontWeight: 700, color: hovered ? '#00FF88' : '#666677',
             transition: 'color 0.2s',
             letterSpacing: '0.04em',
@@ -171,13 +173,6 @@ export default function About() {
         zIndex: 0,
       }} />
 
-      {/* Ambient glow top-right */}
-      <div style={{
-        position: 'absolute', top: '-15%', right: '-8%',
-        width: '500px', height: '500px', borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(0,200,150,0.06) 0%, transparent 65%)',
-        pointerEvents: 'none', zIndex: 0,
-      }} />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '0 20px' : '0 24px', position: 'relative', zIndex: 1 }}>
 

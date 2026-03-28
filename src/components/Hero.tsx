@@ -76,26 +76,29 @@ const stats = [
 export default function Hero() {
   const typed = useTypewriter()
   const isMobile = useIsMobile()
+  const hidePixelBlast = useIsMobile(1115)
 
   return (
     <section id="hero" className="hero-section" style={{ position: 'relative', minHeight: '100vh', backgroundColor: '#09090B', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
 
-      {/* PixelBlast Background */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-        <PixelBlast
-          color="#00FF88"
-          variant="circle"
-          pixelSize={4}
-          patternScale={3}
-          patternDensity={0.6}
-          speed={0.3}
-          edgeFade={0.35}
-          enableRipples={true}
-          rippleIntensityScale={0.8}
-          liquid={false}
-          transparent={true}
-        />
-      </div>
+      {/* PixelBlast Background — desktop only */}
+      {!hidePixelBlast && (
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <PixelBlast
+            color="#00FF88"
+            variant="circle"
+            pixelSize={4}
+            patternScale={3}
+            patternDensity={0.6}
+            speed={0.3}
+            edgeFade={0.35}
+            enableRipples={true}
+            rippleIntensityScale={0.8}
+            liquid={false}
+            transparent={true}
+          />
+        </div>
+      )}
 
       {/* Dot grid */}
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '28px 28px', zIndex: 0, pointerEvents: 'none' }} />
@@ -113,7 +116,7 @@ export default function Hero() {
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', flexWrap: 'wrap', maxWidth: '1280px', width: '100%', margin: '0 auto', padding: isMobile ? '80px 24px 40px' : '100px 48px 40px', gap: isMobile ? '40px' : '72px', position: 'relative', zIndex: 1 }}>
 
         {/* LEFT */}
-        <div style={{ flex: '1 1 300px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+        <div style={{ flex: '1 1 300px', display: 'flex', flexDirection: 'column', gap: '32px', minWidth: 0 }}>
 
           {/* Availability badge */}
           <div
@@ -190,7 +193,7 @@ export default function Hero() {
             style={{ display: 'flex', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.06)', width: 'fit-content', marginTop: '4px', opacity: 0, visibility: 'hidden' }}
           >
             {stats.map((s, i) => (
-              <div key={s.label} style={{ paddingRight: '32px', marginRight: '32px', borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
+              <div key={s.label} style={{ paddingRight: isMobile ? '20px' : '32px', marginRight: isMobile ? '20px' : '32px', borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
                 <div style={{ fontSize: 'clamp(1.5rem, 2.8vw, 2.1rem)', fontWeight: 900, color: '#00FF88', letterSpacing: '-0.03em', lineHeight: 1, textShadow: '0 0 24px rgba(0,255,136,0.35)' }}>{s.value}</div>
                 <div style={{ fontSize: '10px', color: '#777788', marginTop: '6px', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700 }}>{s.label}</div>
               </div>
@@ -198,10 +201,10 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* RIGHT: photo with rotating gradient border */}
-        <div
+        {/* RIGHT: photo with rotating gradient border — desktop only */}
+        {!isMobile && <div
           className="hero-photo"
-          style={{ flex: '1 1 280px', position: 'relative', maxWidth: isMobile ? '100%' : '540px', width: isMobile ? '100%' : undefined, opacity: 0, visibility: 'hidden' }}
+          style={{ flex: '1 1 280px', position: 'relative', maxWidth: '540px', opacity: 0, visibility: 'hidden' }}
         >
           {/* Deep ambient glow */}
           <div style={{ position: 'absolute', inset: '-24%', background: 'radial-gradient(ellipse 70% 70% at 50% 62%, rgba(0,255,136,0.1) 0%, transparent 65%)', zIndex: 0, filter: 'blur(24px)', borderRadius: '50%' }} />
@@ -245,7 +248,8 @@ export default function Hero() {
             }} />
           ))}
 
-        </div>
+        </div>}
+
       </div>
 
       {/* ── Icon conveyor belt ── */}

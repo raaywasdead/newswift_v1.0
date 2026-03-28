@@ -110,7 +110,7 @@ export default function BeforeAfter() {
         </div>
 
         {/* Comparison Stage */}
-        <div style={{ position: 'relative' }}>
+        <div className="reveal-up" style={{ position: 'relative' }}>
         {/* Corner-leak mask — same color as section bg, hides the 1-2px overflow on mobile */}
         <div style={{
           position: 'absolute', inset: 0,

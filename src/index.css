@@ -327,3 +327,11 @@ html.lenis, html.lenis body {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
+/* ── Process section: mobile/desktop layout toggle ── */
+.process-mobile { display: block !important; }
+.process-desktop { display: none !important; }
+
+@media (min-width: 768px) {
+  .process-mobile { display: none !important; }
+  .process-desktop { display: flex !important; }
+}
