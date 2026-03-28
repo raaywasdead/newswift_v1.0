@@ -158,21 +158,21 @@ export default function About() {
   const isMobile = useIsMobile()
   const [activeIdx, setActiveIdx] = useState(0)
   const [dragOffset, setDragOffset] = useState(0)
+  const [blockClick, setBlockClick] = useState(false)
   const isDragging = useRef(false)
   const dragStartX = useRef(0)
-  const hasMoved = useRef(false)
+  const dragMoved = useRef(false)
 
   const onDragStart = (clientX: number) => {
     isDragging.current = true
-    hasMoved.current = false
+    dragMoved.current = false
     dragStartX.current = clientX
   }
 
   const onDragMove = (clientX: number) => {
     if (!isDragging.current) return
     const diff = clientX - dragStartX.current
-    if (Math.abs(diff) > 4) hasMoved.current = true
-    // Resistance at edges
+    if (Math.abs(diff) > 6) dragMoved.current = true
     const isAtStart = activeIdx === 0 && diff > 0
     const isAtEnd = activeIdx === orderedMembers.length - 1 && diff < 0
     const damped = (isAtStart || isAtEnd) ? diff * 0.2 : diff
@@ -189,6 +189,11 @@ export default function About() {
       setActiveIdx(i => i - 1)
     }
     setDragOffset(0)
+    if (dragMoved.current) {
+      setBlockClick(true)
+      setTimeout(() => setBlockClick(false), 100)
+    }
+    dragMoved.current = false
   }
   const orderedMembers = teamOrder
     .map(id => members.find(m => m.id === id))
@@ -292,7 +297,7 @@ export default function About() {
                   willChange: 'transform',
                 }}>
                   {orderedMembers.map((member) => (
-                    <div key={member.id} style={{ width: '85vw', flexShrink: 0, pointerEvents: hasMoved.current ? 'none' : 'auto' }}>
+                    <div key={member.id} style={{ width: '85vw', flexShrink: 0, pointerEvents: blockClick ? 'none' : 'auto' }}>
                       <MemberCard member={member} />
                     </div>
                   ))}
