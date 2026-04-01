@@ -36,9 +36,9 @@ function InstagramIcon() {
 }
 
 const socials = [
-  { label: 'GitHub',    href: 'https://github.com/NewSwift-NS',        Icon: GitHubIcon },
-  { label: 'X',         href: 'https://x.com/NewSwiftNS',              Icon: XIcon },
-  { label: 'TikTok',    href: 'https://www.tiktok.com/@newswiftns',    Icon: TikTokIcon },
+  { label: 'GitHub', href: 'https://github.com/NewSwift-NS', Icon: GitHubIcon },
+  { label: 'X', href: 'https://x.com/NewSwiftNS', Icon: XIcon },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@newswiftns', Icon: TikTokIcon },
   { label: 'Instagram', href: 'https://www.instagram.com/newswift_ns', Icon: InstagramIcon },
 ]
 

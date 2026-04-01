@@ -13,7 +13,7 @@ function BeforeMockup() {
           ))}
         </div>
       </div>
-      
+
       <div style={{ padding: '60px 40px', textAlign: 'center', backgroundColor: '#f8fafc' }}>
         <h1 style={{ fontSize: '32px', fontWeight: 900, color: '#1e3a8a', lineHeight: 1.1, marginBottom: '16px' }}>WE DELIVER<br />ANYTHING.</h1>
         <p style={{ fontSize: '13px', color: '#666', marginBottom: '24px', maxWidth: '300px', margin: '0 auto 24px' }}>Our logistics network covers 190 countries with 24/7 support.</p>
@@ -105,97 +105,97 @@ export default function BeforeAfter() {
             O antes é genérico.<br />O depois é seu.
           </h2>
           <p style={{ fontSize: '14px', color: '#666', lineHeight: 1.7, maxWidth: '440px', margin: '24px auto 0' }}>
-            Deslize o divisor para comparar a mediocridade do mercado com a engenharia de precisão da NewSwift.
+            Deixe para trás modelos pré-prontos e garanta uma presença digital única, otimizada e impecável
           </p>
         </div>
 
         {/* Comparison Stage */}
         <div className="reveal-up" style={{ position: 'relative' }}>
-        {/* Corner-leak mask — same color as section bg, hides the 1-2px overflow on mobile */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          borderRadius: '24px',
-          boxShadow: '0 0 0 2px #09090B',
-          pointerEvents: 'none',
-          zIndex: 100,
-        }} />
-        <div
-          style={{
-            position: 'relative',
+          {/* Corner-leak mask — same color as section bg, hides the 1-2px overflow on mobile */}
+          <div style={{
+            position: 'absolute', inset: 0,
             borderRadius: '24px',
-            overflow: 'hidden',
-            transform: 'translateZ(0)',
-            border: '1px solid rgba(255,255,255,0.06)',
-            boxShadow: '0 64px 120px -30px rgba(0,0,0,0.8)',
-            backgroundColor: '#000',
-            height: isMobile ? '420px' : '640px',
-          }}
-        >
-          {/* Interaction Area */}
+            boxShadow: '0 0 0 2px #09090B',
+            pointerEvents: 'none',
+            zIndex: 100,
+          }} />
           <div
-            ref={containerRef}
-            style={{ position: 'relative', width: '100%', height: '100%', cursor: 'col-resize', userSelect: 'none', overflow: 'hidden', touchAction: 'none' }}
-            onPointerDown={e => {
-              isDragging.current = true
-              ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
-              updatePosition(e.clientX)
+            style={{
+              position: 'relative',
+              borderRadius: '24px',
+              overflow: 'hidden',
+              transform: 'translateZ(0)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              boxShadow: '0 64px 120px -30px rgba(0,0,0,0.8)',
+              backgroundColor: '#000',
+              height: isMobile ? '420px' : '640px',
             }}
-            onPointerMove={e => { if (isDragging.current) updatePosition(e.clientX) }}
-            onPointerUp={() => { isDragging.current = false }}
-            onPointerCancel={() => { isDragging.current = false }}
           >
-            {/* BEFORE LAYER */}
-            <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
-              <BeforeMockup />
-              <div style={{ position: 'absolute', top: '14px', left: '14px', pointerEvents: 'none' }}>
-                <span className="mono" style={{ fontSize: '9px', fontWeight: 800, color: 'rgba(0,0,0,0.5)', letterSpacing: '0.12em', backgroundColor: 'rgba(255,255,255,0.7)', padding: '4px 8px', borderRadius: '4px' }}>ANTES</span>
-              </div>
-            </div>
-
-            {/* AFTER LAYER - clips to right side */}
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              zIndex: 2,
-              clipPath: `polygon(${position}% 0, 100% 0, 100% 100%, ${position}% 100%)`,
-              backgroundColor: '#000'
-            }}>
-              <AfterMockup isMobile={isMobile} />
-              <div style={{ position: 'absolute', top: '14px', right: '14px', pointerEvents: 'none' }}>
-                <span className="mono" style={{ fontSize: '9px', fontWeight: 800, color: '#00FF88', letterSpacing: '0.12em', backgroundColor: 'rgba(0,0,0,0.5)', padding: '4px 8px', borderRadius: '4px', backdropFilter: 'blur(8px)' }}>DEPOIS</span>
-              </div>
-            </div>
-
-            {/* HUD Status Label - Bottom Center */}
-            <div style={{ position: 'absolute', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 30, pointerEvents: 'none' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '8px 18px', borderRadius: '100px', backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(16px)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00FF88', boxShadow: '0 0 10px rgba(0,255,136,0.6)' }} />
-                <span className="mono" style={{ fontSize: '10px', color: '#fff', fontWeight: 800, letterSpacing: '0.12em' }}>NSWIFT_ENGINEERING</span>
-              </div>
-            </div>
-
-            {/* Refined Divider */}
+            {/* Interaction Area */}
             <div
-              style={{ position: 'absolute', top: 0, bottom: 0, left: `${position}%`, width: '1px', backgroundColor: 'rgba(255,255,255,0.2)', transform: 'translateX(-50%)', zIndex: 20, pointerEvents: 'none' }}
+              ref={containerRef}
+              style={{ position: 'relative', width: '100%', height: '100%', cursor: 'col-resize', userSelect: 'none', overflow: 'hidden', touchAction: 'none' }}
+              onPointerDown={e => {
+                isDragging.current = true
+                  ; (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+                updatePosition(e.clientX)
+              }}
+              onPointerMove={e => { if (isDragging.current) updatePosition(e.clientX) }}
+              onPointerUp={() => { isDragging.current = false }}
+              onPointerCancel={() => { isDragging.current = false }}
             >
-              <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: '100%', background: 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent)' }} />
-            </div>
+              {/* BEFORE LAYER */}
+              <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
+                <BeforeMockup />
+                <div style={{ position: 'absolute', top: '14px', left: '14px', pointerEvents: 'none' }}>
+                  <span className="mono" style={{ fontSize: '9px', fontWeight: 800, color: 'rgba(0,0,0,0.5)', letterSpacing: '0.12em', backgroundColor: 'rgba(255,255,255,0.7)', padding: '4px 8px', borderRadius: '4px' }}>ANTES</span>
+                </div>
+              </div>
 
-            {/* Tactile Handle */}
-            <div style={{ position: 'absolute', top: '50%', left: `${position}%`, transform: 'translate(-50%, -50%)', zIndex: 21, pointerEvents: 'none' }}>
-              <div style={{ 
-                width: '48px', height: '48px', borderRadius: '50%', 
-                backgroundColor: '#fff', 
-                display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                boxShadow: '0 12px 32px rgba(0,0,0,0.5)' 
+              {/* AFTER LAYER - clips to right side */}
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                zIndex: 2,
+                clipPath: `polygon(${position}% 0, 100% 0, 100% 100%, ${position}% 100%)`,
+                backgroundColor: '#000'
               }}>
-                <div style={{ display: 'flex', gap: '3px' }}>
-                   {[1, 2].map(i => <div key={i} style={{ width: '2px', height: '14px', backgroundColor: '#000', borderRadius: '10px' }} />)}
+                <AfterMockup isMobile={isMobile} />
+                <div style={{ position: 'absolute', top: '14px', right: '14px', pointerEvents: 'none' }}>
+                  <span className="mono" style={{ fontSize: '9px', fontWeight: 800, color: '#00FF88', letterSpacing: '0.12em', backgroundColor: 'rgba(0,0,0,0.5)', padding: '4px 8px', borderRadius: '4px', backdropFilter: 'blur(8px)' }}>DEPOIS</span>
+                </div>
+              </div>
+
+              {/* HUD Status Label - Bottom Center */}
+              <div style={{ position: 'absolute', bottom: '24px', left: '50%', transform: 'translateX(-50%)', zIndex: 30, pointerEvents: 'none' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', padding: '8px 18px', borderRadius: '100px', backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(16px)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#00FF88', boxShadow: '0 0 10px rgba(0,255,136,0.6)' }} />
+                  <span className="mono" style={{ fontSize: '10px', color: '#fff', fontWeight: 800, letterSpacing: '0.12em' }}>NSWIFT_ENGINEERING</span>
+                </div>
+              </div>
+
+              {/* Refined Divider */}
+              <div
+                style={{ position: 'absolute', top: 0, bottom: 0, left: `${position}%`, width: '1px', backgroundColor: 'rgba(255,255,255,0.2)', transform: 'translateX(-50%)', zIndex: 20, pointerEvents: 'none' }}
+              >
+                <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: '100%', background: 'linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent)' }} />
+              </div>
+
+              {/* Tactile Handle */}
+              <div style={{ position: 'absolute', top: '50%', left: `${position}%`, transform: 'translate(-50%, -50%)', zIndex: 21, pointerEvents: 'none' }}>
+                <div style={{
+                  width: '48px', height: '48px', borderRadius: '50%',
+                  backgroundColor: '#fff',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '0 12px 32px rgba(0,0,0,0.5)'
+                }}>
+                  <div style={{ display: 'flex', gap: '3px' }}>
+                    {[1, 2].map(i => <div key={i} style={{ width: '2px', height: '14px', backgroundColor: '#000', borderRadius: '10px' }} />)}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
 
       </div>

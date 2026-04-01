@@ -21,7 +21,7 @@ const steps = [
     tag: 'Identidade',
     desc: 'Transformamos a estratégia em realidade visual e funcional. Criamos um site moderno, rápido e focado em converter seus visitantes em clientes.',
     receives: ['Design exclusivo', 'Desenvolvimento otimizado', 'Site 100% responsivo'],
-    duration: '5–14 dias',
+    duration: '7–10 dias',
     accent: '#8B5CF6',
   },
   {
@@ -67,11 +67,11 @@ export default function Process() {
       if (!track) return
 
       const vw = window.innerWidth
-      const cardWidth  = 450
-      const gap        = 40
-      const padding    = 60
+      const cardWidth = 450
+      const gap = 40
+      const padding = 60
       const totalWidth = steps.length * cardWidth + (steps.length - 1) * gap + padding * 2
-      const getAmount  = () => Math.max(0, totalWidth - vw)
+      const getAmount = () => Math.max(0, totalWidth - vw)
 
       const tl = gsap.timeline({
         scrollTrigger: {

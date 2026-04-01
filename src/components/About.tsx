@@ -214,6 +214,7 @@ export default function About() {
 
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: isMobile ? '0 20px' : '0 24px', position: 'relative', zIndex: 1 }}>
 
+
         {/* ── SECTION HEADER ── */}
         <div className="reveal-up" style={{ marginBottom: '72px' }}>
 
@@ -224,21 +225,18 @@ export default function About() {
 
           {/* Headline */}
           <h2 className="syne" style={{
-            fontSize: 'clamp(4rem, 9vw, 8rem)', fontWeight: 900,
+            fontSize: 'clamp(3.5rem, 8vw, 7.5rem)', fontWeight: 900,
             letterSpacing: '-0.05em', color: '#fff', lineHeight: 0.88,
             marginBottom: '48px',
           }}>
-            De amigos<br />
-            <span style={{ color: '#00C896' }}>a sócios.</span>
+            Uma parceria focada<br />
+            <span style={{ color: '#00C896' }}>na sua excelência.</span>
           </h2>
 
           {/* Main narrative */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '760px' }}>
             <p style={{ fontSize: '16px', color: '#9898b0', lineHeight: 1.9, margin: 0 }}>
-              Nós nos conhecemos no IOS, um programa de formação em tecnologia dentro da PUC-RS, patrocinado pela Dell e pela TOTVS. Foi em um projeto de equipe que percebemos que trabalhávamos bem juntos. Viramos amigos e um dia decidimos transformar isso em uma empresa.
-            </p>
-            <p style={{ fontSize: '16px', color: '#9898b0', lineHeight: 1.9, margin: 0 }}>
-              Hoje cada um tem o seu papel claro: João Vitor cuida da arquitetura e do backend, Brayan constrói a interface e o visual de cada projeto, e Arthur analisa, testa e garante que nada passa sem qualidade. Três perfis diferentes que se completam sem atrito.
+              Somos três especialistas em desenvolvimento web que uniram forças com um único propósito: entregar código de elite com a velocidade que seu negócio precisa.
             </p>
             <p style={{ fontSize: '16px', color: '#9898b0', lineHeight: 1.9, margin: 0 }}>
               A NewSwift nasceu da ideia de que dá pra entregar um trabalho de agência grande sendo uma equipe pequena e comprometida. Sem template, sem terceirização, sem enrolação. O que entra como projeto, sai como produto.
@@ -246,34 +244,35 @@ export default function About() {
           </div>
         </div>
 
+
         {/* ── TEAM CARDS ── */}
-        <div>
-          <div
-            className="reveal-up"
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '32px',
-              paddingBottom: '20px',
-              borderBottom: '1px solid rgba(255,255,255,0.06)',
-            }}
-          >
-            <div>
-              <span style={{ fontSize: '10px', fontWeight: 700, color: '#777788', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
-                A Equipe
-              </span>
-              <h3 style={{
-                fontSize: 'clamp(1.4rem, 2vw, 1.8rem)',
-                fontWeight: 800,
-                color: '#fff',
-                letterSpacing: '-0.03em',
-                margin: '8px 0 0',
-              }}>
-                Conheça quem vai construir seu projeto.
-              </h3>
-            </div>
+        <div 
+          className="reveal-up" 
+          style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            marginBottom: '32px', 
+            paddingBottom: '20px', 
+            borderBottom: '1px solid rgba(255,255,255,0.06)',
+            marginTop: '80px'
+          }}
+        >
+          <div>
+            <span style={{ fontSize: '10px', fontWeight: 700, color: '#777788', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+              Tres Devs:
+            </span>
+            <h3 style={{
+              fontSize: 'clamp(1.4rem, 2vw, 1.8rem)',
+              fontWeight: 800,
+              color: '#fff',
+              letterSpacing: '-0.03em',
+              margin: '8px 0 0',
+            }}>
+              Confira o que de fato oferecemos, com a rapidez e agilidade do mercado
+            </h3>
           </div>
+        </div>
 
           {isMobile ? (
             /* ── Mobile drag carousel ── */
@@ -328,7 +327,7 @@ export default function About() {
               ))}
             </div>
           )}
-        </div>
+
 
         {/* ── DIFFERENTIALS STRIP ── */}
         <div
