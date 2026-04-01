@@ -85,8 +85,9 @@ export default function Process() {
         }
       })
 
-      tl.to(track, { x: () => -getAmount(), ease: 'power1.inOut' }, 0)
-      tl.to(wordmarkRef.current, { x: () => -getAmount() * 0.2, ease: 'power1.inOut' }, 0)
+      // Horizontal movement
+      tl.to(track, { x: () => -getAmount(), ease: 'none' }, 0)
+      tl.to(wordmarkRef.current, { x: () => -getAmount() * 0.2, ease: 'none' }, 0)
 
     }, sectionRef)
 
@@ -101,7 +102,7 @@ export default function Process() {
       <section className="process-mobile" style={{ backgroundColor: '#09090B', padding: '80px 0 60px', position: 'relative' }}>
         <div className="reveal-up" style={{ padding: '0 20px', marginBottom: '40px' }}>
           <span className="section-label mono">Como Trabalhamos</span>
-          <h2 className="syne" style={{ fontSize: 'clamp(2rem, 8vw, 3rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', lineHeight: 0.9, marginTop: '16px' }}>
+          <h2 className="syne" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.8rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', lineHeight: 0.9, marginTop: '16px' }}>
             Cinco etapas.<br />Zero surpresas.
           </h2>
         </div>
@@ -111,7 +112,7 @@ export default function Process() {
             const Icon = s.icon
             const isLast = i === steps.length - 1
             return (
-              <div key={s.n} style={{ display: 'flex', gap: '16px' }}>
+              <div key={s.n} className="process-card" style={{ display: 'flex', gap: '16px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
                   <div style={{
                     width: '40px', height: '40px', borderRadius: '50%',
@@ -166,7 +167,7 @@ export default function Process() {
           <div style={{ padding: '0 60px', marginBottom: 'clamp(20px, 4vh, 60px)' }}>
             <div className="reveal-up">
               <span className="section-label mono">Como Trabalhamos</span>
-              <h2 className="syne" style={{ fontSize: 'clamp(2.2rem, 4.5vw, 5rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', lineHeight: 0.85, marginTop: '16px' }}>
+              <h2 className="syne" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.8rem)', fontWeight: 900, color: '#fff', letterSpacing: '-0.05em', lineHeight: 0.85, marginTop: '16px' }}>
                 Cinco etapas.<br />Zero surpresas.
               </h2>
             </div>
@@ -176,8 +177,21 @@ export default function Process() {
             {steps.map((s) => {
               const Icon = s.icon
               return (
-                <div key={s.n} style={{ width: '450px', flexShrink: 0 }}>
-                  <div style={{ padding: 'clamp(24px, 3.2vh, 50px)', borderRadius: '32px', border: '1px solid rgba(255,255,255,0.06)', backgroundColor: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(8px)', position: 'relative', height: 'clamp(360px, calc(100vh - 240px), 520px)', boxShadow: '0 40px 100px -20px rgba(0,0,0,0.5)' }}>
+                <div key={s.n} className="process-card-wrapper" style={{ width: '450px', flexShrink: 0 }}>
+                  <div 
+                    className="process-card"
+                    style={{ 
+                      padding: 'clamp(24px, 3.2vh, 50px)', 
+                      borderRadius: '32px', 
+                      border: '1px solid rgba(255,255,255,0.06)', 
+                      backgroundColor: 'rgba(255,255,255,0.02)', 
+                      backdropFilter: 'blur(8px)', 
+                      position: 'relative', 
+                      height: 'clamp(360px, calc(100vh - 240px), 520px)', 
+                      boxShadow: '0 40px 100px -20px rgba(0,0,0,0.5)',
+                      cursor: 'default'
+                    }}
+                  >
                     <div>
                       <div style={{ width: 'clamp(48px, 6vh, 64px)', height: 'clamp(48px, 6vh, 64px)', borderRadius: '18px', backgroundColor: `${s.accent}10`, border: `1px solid ${s.accent}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'clamp(16px, 2.5vh, 32px)' }}>
                         <Icon size={28} color={s.accent} />

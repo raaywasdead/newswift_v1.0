@@ -99,7 +99,7 @@ export default function Projects() {
         >
           <div>
             <span className="section-label mono">Projetos</span>
-            <h2 className="syne" style={{ fontSize: 'clamp(2.5rem, 6vw, 4.8rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '8px', lineHeight: 0.9 }}>
+            <h2 className="syne" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.8rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '8px', lineHeight: 0.9 }}>
               O que nós já<br />construímos.
             </h2>
           </div>

@@ -36,11 +36,11 @@ function InstagramIcon() {
 }
 
 const navLinks = [
-  { label: 'Início',      href: '#hero' },
-  { label: 'Sobre Nós',   href: '#sobre' },
-  { label: 'Serviços',    href: '#servicos' },
-  { label: 'Projetos',    href: '#projetos' },
-  { label: 'Contato',     href: '#contato' },
+  { label: 'Sobre',    href: '#sobre' },
+  { label: 'Serviços', href: '#servicos' },
+  { label: 'Processo', href: '#processo' },
+  { label: 'Projetos', href: '#projetos' },
+  { label: 'Contato',  href: '#contato' },
 ]
 
 const termsLinks = [

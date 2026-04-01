@@ -225,7 +225,7 @@ export default function About() {
 
           {/* Headline */}
           <h2 className="syne" style={{
-            fontSize: 'clamp(3.5rem, 8vw, 7.5rem)', fontWeight: 900,
+            fontSize: 'clamp(2.5rem, 5.5vw, 4.8rem)', fontWeight: 900,
             letterSpacing: '-0.05em', color: '#fff', lineHeight: 0.88,
             marginBottom: '48px',
           }}>

@@ -174,7 +174,7 @@ export default function Services() {
           style={{ marginBottom: '100px', textAlign: 'center' }}
         >
           <span className="section-label mono" style={{ margin: '0 auto' }}>O Que Fazemos</span>
-          <h2 className="syne" style={{ fontSize: 'clamp(3rem, 7vw, 5.5rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '16px', lineHeight: 0.9 }}>
+          <h2 className="syne" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 4.8rem)', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', marginTop: '16px', lineHeight: 0.9 }}>
             Três devs.<br />Uma missão.
           </h2>
           <p style={{ fontSize: '15.5px', color: '#8c8c9e', fontWeight: 500, maxWidth: '480px', margin: '32px auto 0', lineHeight: 1.8 }}>

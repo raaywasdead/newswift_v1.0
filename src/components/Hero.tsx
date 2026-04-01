@@ -150,6 +150,23 @@ export default function Hero() {
               }} />
             </span>
           </h1>
+ 
+          <p
+            className="hero-subline"
+            style={{ 
+              fontSize: 'clamp(1rem, 2.2vw, 1.15rem)', 
+              color: '#888', 
+              lineHeight: 1.6, 
+              maxWidth: '480px', 
+              margin: '0', 
+              opacity: 0, 
+              visibility: 'hidden' 
+            }}
+          >
+            Desenvolvemos sites de alto padrão com a agilidade que seu negócio precisa.
+            <br />
+            Fuja do genérico com soluções exclusivas feitas por quem entende de código.
+          </p>
 
           {/* CTAs */}
           <div
@@ -193,7 +210,7 @@ export default function Hero() {
           {/* Photo container — sits inside the rotating border */}
           <div style={{ position: 'relative', zIndex: 1, borderRadius: '12px', overflow: 'hidden', backgroundColor: '#09090B', border: '1px solid rgba(255,255,255,0.05)' }}>
             <img
-              src="/equipe-ns.png"
+              src="/equipe-ns.jpeg"
               alt="Equipe NewSwift"
               fetchPriority="high"
               decoding="async"
