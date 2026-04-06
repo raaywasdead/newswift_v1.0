@@ -66,12 +66,10 @@ export default function Process() {
       const track = trackRef.current
       if (!track) return
 
-      const vw = window.innerWidth
-      const cardWidth = 450
-      const gap = 40
-      const padding = 60
-      const totalWidth = steps.length * cardWidth + (steps.length - 1) * gap + padding * 2
-      const getAmount = () => Math.max(0, totalWidth - vw)
+      const getAmount = () => {
+        const vw = window.innerWidth
+        return Math.max(0, track.scrollWidth - vw)
+      }
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -86,10 +84,18 @@ export default function Process() {
       })
 
       // Horizontal movement
-      tl.to(track, { x: () => -getAmount(), ease: 'none' }, 0)
-      tl.to(wordmarkRef.current, { x: () => -getAmount() * 0.2, ease: 'none' }, 0)
+      tl.to(track, { 
+        x: () => -getAmount(), 
+        ease: 'none' 
+      }, 0)
+
+      tl.to(wordmarkRef.current, { 
+        x: () => -getAmount() * 0.15, 
+        ease: 'none' 
+      }, 0)
 
     }, sectionRef)
+
 
     const t = setTimeout(() => ScrollTrigger.refresh(), 100)
     return () => { clearTimeout(t); ctx.revert() }

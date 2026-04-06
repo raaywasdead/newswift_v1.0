@@ -30,18 +30,6 @@ const projects = [
   },
   {
     id: 3,
-    name: 'João Vitor B.S.',
-    category: 'Portfólio Pessoal',
-    desc: 'Portfólio pessoal de João Vitor, co-fundador da NewSwift. Animações GSAP, tipografia editorial e arquitetura de código pensada para impressionar.',
-    tags: ['React', 'TypeScript', 'GSAP', 'Vite'],
-    accent: '#8A2BE2',
-    href: 'https://joaovitorbs.vercel.app/',
-    screenshot: '/portfoliojoaovbds.webp',
-    screenshotPos: 'top',
-    mockupBg: 'linear-gradient(145deg, #08050f 0%, #0e0918 60%, #070613 100%)',
-  },
-  {
-    id: 4,
     name: 'Orbyt',
     category: 'Aplicação Full-Stack',
     desc: 'Plataforma web autoral com autenticação Google, banco relacional, REST API própria e dashboard interativo. Prova técnica da capacidade full-stack da equipe.',
@@ -52,18 +40,7 @@ const projects = [
     screenshotPos: 'top',
     mockupBg: 'linear-gradient(145deg, #07050f 0%, #0e0b1e 60%, #060412 100%)',
   },
-  {
-    id: 5,
-    name: 'Deltarune Archive',
-    category: 'Projeto Pessoal',
-    desc: 'Arquivo de personagens do jogo Deltarune feito por paixão. Fichas completas, galeria de arte e navegação fluida — projeto pessoal com foco em UX.',
-    tags: ['React', 'TypeScript', 'CSS', 'Vite'],
-    accent: '#C0303A',
-    href: 'https://deltarune-archive.vercel.app/',
-    screenshot: '/deltarune-c.archive.webp',
-    screenshotPos: 'center',
-    mockupBg: 'linear-gradient(145deg, #110003 0%, #1c0006 60%, #0f0002 100%)',
-  },
+
 ]
 
 export default function Projects() {
