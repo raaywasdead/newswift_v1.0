@@ -40,7 +40,31 @@ const projects = [
     screenshotPos: 'top',
     mockupBg: 'linear-gradient(145deg, #07050f 0%, #0e0b1e 60%, #060412 100%)',
   },
-
+  {
+    id: 4,
+    name: 'Apex Academia',
+    category: 'Site Multipage',
+    desc: 'Plataforma institucional desenvolvida para academia de alta performance. Design agressivo, carregamento instantâneo e foco total na conversão de novos alunos.',
+    tags: ['React', 'TypeScript', 'Vite'],
+    accent: '#E01A2D',
+    href: 'https://apexacademia.netlify.app/',
+    screenshot: '/apexacademia.webp',
+    screenshotPos: 'top',
+    mockupBg: 'linear-gradient(145deg, #100002 0%, #1a0003 60%, #0e0002 100%)',
+  },
+  {
+    id: 5,
+    name: 'Petcove',
+    category: 'Site Multipage',
+    desc: 'Interface moderna e acolhedora para serviços pet. Design pensado na confiança e facilidade de agendamento, com tipografia clara e elementos visuais amigáveis.',
+    tags: ['React', 'TypeScript', 'Vite'],
+    accent: '#FF8C00',
+    href: 'https://petcove.netlify.app',
+    screenshot: '/petcove.webp',
+    screenshotPos: 'center',
+    objectFit: 'contain',
+    mockupBg: 'linear-gradient(145deg, #120900 0%, #1e0f00 60%, #0f0700 100%)',
+  },
 ]
 
 export default function Projects() {
@@ -114,7 +138,7 @@ export default function Projects() {
                     marginBottom: '20px', textDecoration: 'none',
                   }}>
                     <img src={p.screenshot} alt={p.name} loading="lazy" decoding="async"
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: p.screenshotPos }} />
+                      style={{ width: '100%', height: '100%', objectFit: (p as any).objectFit || 'cover', objectPosition: p.screenshotPos }} />
                   </a>
 
                   {/* Project name */}
@@ -162,7 +186,7 @@ export default function Projects() {
                   >
                     <div style={{ width: '100%', height: '100%', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 64px rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.06)' }}>
                       <img src={p.screenshot} alt={p.name} loading="lazy" decoding="async"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: p.screenshotPos }} />
+                        style={{ width: '100%', height: '100%', objectFit: (p as any).objectFit || 'cover', objectPosition: p.screenshotPos }} />
                     </div>
                   </a>
 
