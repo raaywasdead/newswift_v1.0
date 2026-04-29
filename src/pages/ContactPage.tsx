@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { useIsMobile } from '../hooks/useIsMobile'
 import { motion } from 'framer-motion'
 
@@ -90,7 +90,6 @@ function getCooldownLeft(): number {
   return Math.max(0, COOLDOWN_MS - (Date.now() - last))
 }
 
-const TS_SITE_KEY = '0x4AAAAAAAcW7Vl1dz_kfy5dyzDOy8PyA0PM'
 
 export default function ContactPage() {
   const isMobile = useIsMobile()
@@ -144,29 +143,7 @@ export default function ContactPage() {
     }
   }
 
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
-    script.async = true
-    script.onload = () => {
-      widgetIdRef.current = (window as any).turnstile.render('#ts-widget', {
-        sitekey: TS_SITE_KEY,
-        size: 'invisible',
-        retry: 'never',
-        callback: (token: string) => {
-          if (!pendingDataRef.current) return
-          doSend({ ...pendingDataRef.current, 'cf-turnstile-response': token })
-          pendingDataRef.current = null
-        },
-        'error-callback': () => {
-          alert('Erro na verificação do Cloudflare (Domínio não autorizado). O formulário não pôde ser enviado.')
-          setSending(false)
-        }
-      })
-    }
-    document.head.appendChild(script)
-    return () => { document.head.removeChild(script) }
-  }, [])
+  // Turnstile removido temporariamente
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
