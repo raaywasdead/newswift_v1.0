@@ -90,7 +90,7 @@ function getCooldownLeft(): number {
   return Math.max(0, COOLDOWN_MS - (Date.now() - last))
 }
 
-const TS_SITE_KEY = '0x4AAAAAACw7Vi1dz_kfy5dyzDOyBPyA0PM'
+const TS_SITE_KEY = '0x4AAAAAAAcW7Vl1dz_kfy5dyzDOy8PyA0PM'
 
 export default function ContactPage() {
   const isMobile = useIsMobile()
@@ -152,11 +152,16 @@ export default function ContactPage() {
       widgetIdRef.current = (window as any).turnstile.render('#ts-widget', {
         sitekey: TS_SITE_KEY,
         size: 'invisible',
+        retry: 'never',
         callback: (token: string) => {
           if (!pendingDataRef.current) return
           doSend({ ...pendingDataRef.current, 'cf-turnstile-response': token })
           pendingDataRef.current = null
         },
+        'error-callback': () => {
+          alert('Erro na verificação do Cloudflare (Domínio não autorizado). O formulário não pôde ser enviado.')
+          setSending(false)
+        }
       })
     }
     document.head.appendChild(script)
