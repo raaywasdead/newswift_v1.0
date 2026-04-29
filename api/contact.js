@@ -33,7 +33,8 @@ export default async function handler(req, res) {
 
   const { name, email, company, cnpj, kind, message } = body
 
-  // Verificação Turnstile
+  // Verificação Turnstile (Bypass temporário)
+  /*
   const tsToken = body['cf-turnstile-response']
   if (!tsToken) return res.status(400).json({ error: 'Verificação de segurança necessária.' })
   const tsRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -43,6 +44,7 @@ export default async function handler(req, res) {
   })
   const tsData = await tsRes.json()
   if (!tsData.success) return res.status(400).json({ error: 'Verificação de segurança falhou.' })
+  */
 
   // Validação — kind whitelist
   if (!['Pessoa física', 'Empresa'].includes(kind))

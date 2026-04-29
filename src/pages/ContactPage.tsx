@@ -198,7 +198,8 @@ export default function ContactPage() {
       message: fields.message.value.trim().slice(0, 2000),
     }
     setSending(true)
-    ;(window as any).turnstile?.execute(widgetIdRef.current)
+    doSend(pendingDataRef.current)
+    pendingDataRef.current = null
   }
 
   const inputBase = (key: string, multiline = false): React.CSSProperties => ({
